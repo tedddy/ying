@@ -1,12 +1,12 @@
 -- Test the proc
-CALL `hs_s_rt_EM_get_sma`('600190', 6, 5.58, @m5);
+CALL `hs_s_rt_EM_get_sma_rt`('600190', 6, 5.58, @m5);
 SELECT @m5;
 
--- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma`;
+-- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma_rt`;
 DELIMITER $$
 
 -- This procedure dynamicly updates sma by taking realtime data
-CREATE PROCEDURE `hs_s_rt_EM_get_sma`(
+CREATE PROCEDURE `hs_s_rt_EM_get_sma_rt`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
 	IN in_current_close DECIMAL(6,2), -- variable in_current_close: current close
