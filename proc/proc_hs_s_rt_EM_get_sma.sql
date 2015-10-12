@@ -5,7 +5,7 @@ SELECT @mv;
 -- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma`;
 DELIMITER $$
 
--- This procedure dynamicly updates sma by taking realtime data
+-- This procedure updates sma by taking historical data.
 CREATE PROCEDURE `hs_s_rt_EM_get_sma`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
