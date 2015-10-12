@@ -1,7 +1,8 @@
--- PROCEDURE `hs_s_rt_EM`
+-- DROP PROCEDURE `hs_s_rt_EM`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `hs_s_rt_EM`(IN code VARCHAR(18), close VARCHAR(18), amount VARCHAR(18), volume VARCHAR(18), chgrate VARCHAR(18), WeiBi VARCHAR(18), chgrate5 VARCHAR(18), LiangBi VARCHAR(18), date VARCHAR(18), time VARCHAR(18), TimeSlot datetime)
+CREATE DEFINER=`gxh`@`%` PROCEDURE `hs_s_rt_EM`(IN code VARCHAR(18), close VARCHAR(18), amount VARCHAR(18), volume VARCHAR(18), chgrate VARCHAR(18), WeiBi VARCHAR(18), chgrate5 VARCHAR(18), LiangBi VARCHAR(18), date VARCHAR(18), time VARCHAR(18))
 BEGIN
+DECLARE TimeSlot DATETIME;
 SET code = IF(code = '', NULL, code);
 SET close = IF(close = '', NULL, close);
 SET amount = IF(amount = '', NULL, amount);
