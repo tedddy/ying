@@ -1,6 +1,6 @@
 -- Test the proc
-CALL `hs_s_rt_EM_get_sma`('600190', 6, 5.58, @m5);
-SELECT @m5;
+CALL `hs_s_rt_EM_get_sma`('600190', 5, @mv);
+SELECT @mv;
 
 -- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma`;
 DELIMITER $$
@@ -9,7 +9,6 @@ DELIMITER $$
 CREATE PROCEDURE `hs_s_rt_EM_get_sma`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
-	IN in_current_close DECIMAL(6,2), -- variable in_current_close: current close
 	OUT mv DECIMAL(6,2) -- 5 periods moving average
 	)
 
@@ -32,7 +31,6 @@ BEGIN
 
 	-- initialize variables for use in procedure
 	SET period_limit = in_period;
-	SET period_limit = period_limit - 1;
 	SET loop_cnt = 0;
 	SET sum_sma = 0.00;
 
@@ -44,7 +42,7 @@ BEGIN
 			
 			SET loop_cnt = loop_cnt + 1; -- increment the loop counter
 			
-		-- set the conditional break for n-periods sma, we need the n-1 as the max
+		-- set the conditional break for n-periods sma, we need the n as the max
 			IF loop_cnt > period_limit THEN
 				LEAVE THE_LOOP;
 			END IF;
@@ -58,9 +56,9 @@ BEGIN
 		
 		END LOOP THE_LOOP;
 	  
-	  SET mv = ROUND(((sum_sma + in_current_close) / in_period),2); -- now calculate the n-period sma
+	  SET mv = ROUND((sum_sma / in_period),2); -- now calculate the n-period sma
 	  
 	CLOSE mysql_cursor;
 	-- output result
-	-- SELECT m5;
+	-- SELECT mv;
 END $$

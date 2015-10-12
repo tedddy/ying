@@ -1,6 +1,6 @@
 -- Test the proc
-CALL `hs_s_rt_EM_get_sma_rt`('600190', 6, 5.58, @m5);
-SELECT @m5;
+CALL `hs_s_rt_EM_get_sma_rt`('600190', 5, 5.58, @mv);
+SELECT @mv;
 
 -- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma_rt`;
 DELIMITER $$
@@ -62,5 +62,5 @@ BEGIN
 	  
 	CLOSE mysql_cursor;
 	-- output result
-	-- SELECT m5;
+	-- SELECT mv;
 END $$
