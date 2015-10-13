@@ -1,5 +1,7 @@
 -- Insert code TimeSlot from `ying`.`hs_s_rt_EM` to `ying`.`hs_s_rt_mv_EM`
-insert into `ying`.`hs_s_rt_mv_EM` (`code`, `TimeSlot`) select code, TimeSlot from `ying`.`hs_s_rt_EM`;
+	INSERT INTO `ying`.`hs_s_rt_mv_EM` (`code`, `TimeSlot`) SELECT `code`, TimeSlot FROM `ying`.`hs_s_rt_EM` 
+				WHERE DATE(TimeSlot) = CURDATE();
+	SELECT `code`, TimeSlot FROM `ying`.`hs_s_rt_EM` WHERE DATE(TimeSlot) = CURDATE();
 
 -- DROP TABLE `ying`.`hs_s_rt_mv_EM`;
 CREATE TABLE `hs_s_rt_mv_EM` (
