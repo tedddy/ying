@@ -1,6 +1,6 @@
 -- Test the proc
-CALL `hs_s_rt_EM_get_sma`('600190', 5, @mv);
-SELECT @mv;
+CALL `hs_s_rt_EM_get_sma`('600190', 5, @out_mv);
+SELECT @out_mv;
 
 -- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma`;
 DELIMITER $$
@@ -9,7 +9,7 @@ DELIMITER $$
 CREATE PROCEDURE `hs_s_rt_EM_get_sma`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
-	OUT mv DECIMAL(6,2) -- 5 periods moving average
+	OUT out_mv DECIMAL(6,2) -- 5 periods moving average
 	)
 
 BEGIN
@@ -56,9 +56,9 @@ BEGIN
 		
 		END LOOP THE_LOOP;
 	  
-	  SET mv = ROUND((sum_sma / in_period),2); -- now calculate the n-period sma
+	  SET out_mv = ROUND((sum_sma / in_period),2); -- now calculate the n-period sma
 	  
 	CLOSE mysql_cursor;
 	-- output result
-	-- SELECT mv;
+	-- SELECT out_mv;
 END $$
