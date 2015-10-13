@@ -1,18 +1,20 @@
 -- Test the proc
 	SELECT * FROM `ying`.`hs_s_rt_EM` WHERE `code`='601318' order by TimeSlot desc; -- Check transaction data.
     
-	CALL `hs_s_rt_EM_get_sma_rt`('601318', 5, 32.20, @mv);
+	CALL `hs_s_rt_EM_get_smaClose_rt`('601318', 5, 32.20, @mv);
 	SELECT @mv;
 
--- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma_rt`;
 
--- This procedure dynamicly updates sma by taking historical and realtime quote (close)
--- This proc is different from `hs_s_rt_EM_get_sma` in that this proc has in variable "close" 
+
+-- This procedure dynamicly updates sma by taking historical and realtime quote
+-- This proc is different from `hs_s_rt_EM_get_smaClose` in that this proc has one more "in" variable
+
+-- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_smaClose_rt`;
 DELIMITER $$
-CREATE PROCEDURE `hs_s_rt_EM_get_sma_rt`(
+CREATE PROCEDURE `hs_s_rt_EM_get_smaClose_rt`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
-	IN in_current_close DECIMAL(6,2), -- variable in_current_close: current close
+	IN in_current_value DECIMAL(6,2), -- variable in_current_value
 	OUT mv DECIMAL(6,2) -- 5 periods moving average
 	)
 
@@ -22,9 +24,9 @@ BEGIN
 
 	DECLARE loop_cnt INT; -- variable for loop counter
 
-	DECLARE sum_sma DECIMAL(6,2); -- variable for total of close of periods
+	DECLARE sum_sma DECIMAL(6,2); -- variable for total of periods
 
-	DECLARE close_tmp DECIMAL(6,2); -- variable for cursor fetch into
+	DECLARE cursor_fetch_tmp DECIMAL(6,2); -- variable for cursor fetch into
 
 	DECLARE record_not_found INTEGER DEFAULT 0; -- variable for error handler
 
@@ -42,26 +44,26 @@ BEGIN
 	-- open cursor
 	OPEN mysql_cursor;
 	  
-		THE_LOOP: LOOP
-			FETCH mysql_cursor INTO close_tmp; -- fetch result row into close_tmp tedd
+		cursor1_LOOP1: LOOP
+			FETCH mysql_cursor INTO cursor_fetch_tmp; -- fetch result row into cursor_fetch_tmp tedd
 			
 			SET loop_cnt = loop_cnt + 1; -- increment the loop counter
 			
 		-- set the conditional break for n-periods sma, we need the n-1 as the max
 			IF loop_cnt > period_limit THEN
-				LEAVE THE_LOOP;
+				LEAVE cursor1_LOOP1;
 			END IF;
 			
 		-- break from loop if reach the end
 			IF record_not_found THEN
-				LEAVE THE_LOOP;
+				LEAVE cursor1_LOOP1;
 			END IF;
 			
-			SET sum_sma = sum_sma + close_tmp; -- add the sum to sum_sma
+			SET sum_sma = sum_sma + cursor_fetch_tmp; -- add the sum to sum_sma
 		
-		END LOOP THE_LOOP;
+		END LOOP cursor1_LOOP1;
 	  
-	  SET mv = ROUND(((sum_sma + in_current_close) / in_period),2); -- now calculate the n-period sma
+	  SET mv = ROUND(((sum_sma + in_current_value) / in_period),2); -- now calculate the n-period sma
 	  
 	CLOSE mysql_cursor;
 	-- output result
