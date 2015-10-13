@@ -1,11 +1,14 @@
 -- Test the proc
-CALL `hs_s_rt_EM_get_sma_rt`('600190', 5, 5.58, @mv);
-SELECT @mv;
+	SELECT * FROM `ying`.`hs_s_rt_EM` WHERE `code`='601318' order by TimeSlot desc; -- Check transaction data.
+    
+	CALL `hs_s_rt_EM_get_sma_rt`('601318', 5, 32.20, @mv);
+	SELECT @mv;
 
 -- DROP PROCEDURE IF EXISTS `hs_s_rt_EM_get_sma_rt`;
-DELIMITER $$
 
--- This procedure dynamicly updates sma by taking historical and realtime data.
+-- This procedure dynamicly updates sma by taking historical and realtime quote (close)
+-- This proc is different from `hs_s_rt_EM_get_sma` in that this proc has in variable "close" 
+DELIMITER $$
 CREATE PROCEDURE `hs_s_rt_EM_get_sma_rt`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
 	IN in_period INT, -- variable in_period: 
