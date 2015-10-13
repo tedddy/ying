@@ -37,7 +37,7 @@ BEGIN
 -- open cursor
 		OPEN stock_cursor;
 		-- Loop	of stock_cursor  
-			THE_LOOP: LOOP
+			LOOP_close: LOOP
             
 				FETCH stock_cursor INTO close_tmp; -- fetch result row into close_tmp tedd
 				
@@ -45,17 +45,17 @@ BEGIN
 				
 			-- set the conditional break for n-periods sma, we need the n as the max
 					IF loop_cnt > in_period THEN
-						LEAVE THE_LOOP;
+						LEAVE LOOP_close;
 					END IF;
 				
 			-- break from loop if reach the end of the cursor
 					IF record_not_found THEN
-						LEAVE THE_LOOP;
+						LEAVE LOOP_close;
 					END IF;
 				
 				SET sum = sum + close_tmp; -- add the sum to sum
 		
-			END LOOP THE_LOOP;
+			END LOOP LOOP_close;
 	  
 	  SET out_mv = ROUND((sum / in_period),2); -- now calculate the n-period sma
 	  
