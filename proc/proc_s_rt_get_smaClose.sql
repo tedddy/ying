@@ -24,7 +24,8 @@ BEGIN
 									-- If "DECLARE sum DECIMAL(6,2);" and in_smaPeriods is big, get this message: 0 row(s) affected, 1 warning(s): 1264 Out of range value for column 'sum' at row 1
 		DECLARE in_limit_number INT; 
 
-		DECLARE loop_cnt MEDIUMINT(3); -- variable for loop counter
+		DECLARE loop_cnt MEDIUMINT; -- variable for loop counter
+        
 		DECLARE cursor_fetch_tmp DECIMAL(6,2); -- variable for cursor fetch into
         
 -- 	DECLARE variable for error handler
