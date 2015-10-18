@@ -1,9 +1,14 @@
 -- actions test
-CALL `s_rt_get_smaClose_multiPeriods_Loop_dt`('2015-10-15 09:25:00', '2016-10-15 13:05:00', '601318', 5, 10, 20, 30, 60, 120);
+CALL `s_rt_get_smaClose_multiPeriods_Loop_dt`('2015-10-14 09:25:00', '2016-10-15 13:05:00', '601318', 5, 10, 20, 30, 60, 120);
 
-CALL `s_rt_get_smaClose_multiPeriods_Loop_dt_ids`('2015-10-13 09:25:00', '2015-10-14 09:25:00');
+use ying;
+CALL `s_rt_get_smaClose_multiPeriods_Loop_dt_ids`('2015-09-08 09:25:00', '2015-10-14 10:25:00');
 
 call run_s_rt_get_smaClose_multiPeriods_Loop_dt_ids();
+
+
+
+drop PROCEDURE `run_s_rt_get_smaClose_multiPeriods_Loop_dt_ids`;
 
 DELIMITER $$
 
@@ -20,7 +25,7 @@ set dt_tmp = dt_max;
 if date(dt_tmp) > dt_min 
 then
 
-CALL `s_rt_get_smaClose_multiPeriods_Loop_dt_ids`(DATE_SUB(dt_tmp, interval 1 day), dt_tmp);
+CALL `s_rt_get_smaClose_multiPeriods_Loop_dt_ids`(DATE_SUB(dt_tmp, interval 1 HOUR), dt_tmp);
 set dt_tmp = DATE_SUB(dt_tmp, interval 1 day); 
 end if; 
 
@@ -56,14 +61,14 @@ BEGIN
 			
 			SET loop1_cnt = loop1_cnt + 1; -- increment the loop counter
             
-		-- actions	
-			CALL `s_rt_get_smaClose_multiPeriods_Loop_dt`(in_dt_low, in_dt_high, cursor1_fetch_tmp, 5, 10, 20, 30, 60, 120);
-			
 		-- break from loop if reach the end of the cursor
 				IF record_fetch_end THEN
 					LEAVE cursor1_LOOP;
 				END IF;
 
+		-- actions	
+			CALL `s_rt_get_smaClose_multiPeriods_Loop_dt`(in_dt_low, in_dt_high, cursor1_fetch_tmp, 5, 10, 20, 30, 60, 120);
+			
 		END LOOP cursor1_LOOP;   
     
 	CLOSE cursor1;		
