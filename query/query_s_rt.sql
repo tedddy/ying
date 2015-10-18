@@ -1,5 +1,8 @@
 SELECT * FROM ying.s_rt order by ids, dt desc;
 
+SELECT * FROM ying.s_rt where dt is null order by ids, dt desc;
+
+
 SELECT * FROM `ying`.`s_rt` WHERE `ids`='600190' order by dt desc;
 
 DELETE FROM `ying`.`s_rt` WHERE `ids`='601002' and`dt`='2015-10-12 10:30:00';
