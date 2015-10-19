@@ -1,4 +1,4 @@
--- DROP PROCEDURE IF EXISTS `sma_s_rt_volume`;
+DROP PROCEDURE IF EXISTS `sma_s_rt_volume`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
 DELIMITER $$ 
 CREATE PROCEDURE `sma_s_rt_volume`(
@@ -63,6 +63,7 @@ BEGIN
 END $$
 DELIMITER ;
 
+DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods`;
 
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_s_rt_volume_multiPeriods`
@@ -119,7 +120,7 @@ DELIMITER ;
 --     
 -- 	SELECT * FROM `ying`.`s_rt_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
 --  
--- DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods_loop_dt_ids`;
+DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods_loop_dt_ids`;
 -- 
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_s_rt_volume_multiPeriods_loop_dt_ids`(
@@ -156,7 +157,7 @@ BEGIN
 		-- 	actions	
 			CALL `sma_s_rt_volume_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`s_rt_sma` (`dt`,`ids`,`sma5v`,`sma10v`,`sma20v`,`sma30v`,`sma60v`,`sma120v`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5v` =  @out_sma_1, `sma10v` =  @out_sma_2, `sma20v` =  @out_sma_3, `sma30v` =  @out_sma_4, `sma60v` =  @out_sma_5, `sma120v` =  @out_sma_6;
+			INSERT INTO `ying`.`s_rt_sma` (`dt`,`ids`,`sma5v`,`volume10`,`volume20`,`volume30`,`volume60`,`volume120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5v` =  @out_sma_1, `volume10` =  @out_sma_2, `volume20` =  @out_sma_3, `volume30` =  @out_sma_4, `volume60` =  @out_sma_5, `volume120` =  @out_sma_6;
             
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN

@@ -181,7 +181,7 @@ BEGIN
 		-- 	actions	
 			CALL `sma_tableTMPL_fieldTMPL_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`fieldTMPL5`,`fieldTMPL10`,`fieldTMPL20`,`fieldTMPL30`,`fieldTMPL60`,`fieldTMPL120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
+			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`fieldTMPL5`,`fieldTMPL10`,`fieldTMPL20`,`fieldTMPL30`,`fieldTMPL60`,`fieldTMPL120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `fieldTMPL5` =  @out_sma_1, `fieldTMPL10` =  @out_sma_2, `fieldTMPL20` =  @out_sma_3, `fieldTMPL30` =  @out_sma_4, `fieldTMPL60` =  @out_sma_5, `fieldTMPL120` =  @out_sma_6;
 
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
