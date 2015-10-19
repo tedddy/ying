@@ -1,11 +1,14 @@
 --  test query in the proc    
-	CALL `get_sma_tableTMPL_fieldTMPL_loop_dt&ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+	CALL `sma_tableTMPL_fieldTMPL_loop_dt&ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
 	SELECT * FROM `ying`.`tableTMPL_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
- 
-DROP PROCEDURE IF EXISTS `get_sma_tableTMPL_fieldTMPL_loop_dt&ids`;
 
-DELIMITER $$ -- This proc insert sma's into a table named tableTMPL_sma
-CREATE DEFINER=`gxh`@`%` PROCEDURE `get_sma_tableTMPL_fieldTMPL_loop_dt&ids`(
+-- instructions for PROCEDURE `sma_tableTMPL_fieldTMPL_loop_dt&ids`
+	-- replace fields names accordingly, to which sma's are inserted 
+    
+DROP PROCEDURE IF EXISTS `sma_tableTMPL_fieldTMPL_loop_dt_ids`; 
+-- This proc loops through two fields to compute sma's
+DELIMITER $$
+CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_tableTMPL_fieldTMPL_loop_dt&ids`(
 
 	IN 	in_dt_low DATETIME, -- variable for the lowest datetime in the selection of the cursor. 
         in_dt_high DATETIME, -- variable for the highest datetime in the selection of the cursor.ids VARCHAR(6),
@@ -37,9 +40,9 @@ BEGIN
 			FETCH cursor1 INTO cursor_fetch_tmp_dt, cursor_fetch_tmp_ids; -- fetch result row into cursor_fetch_tmp tedd
             		
 		-- 	actions	
-			CALL `get_sma_tableTMPL_fieldTMPL_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
+			CALL `sma_tableTMPL_fieldTMPL_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`sma5c`,`sma10c`,`sma20c`,`sma30c`,`sma60c`,`sma120c`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
+			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`sma5fieldTMPL`,`sma10fieldTMPL`,`sma20fieldTMPL`,`sma30fieldTMPL`,`sma60fieldTMPL`,`sma120fieldTMPL`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
 
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
@@ -54,17 +57,17 @@ END$$
 DELIMITER ;
 
 
+
 -- Test the proc
 	SELECT * FROM `ying`.`tableTMPL` WHERE `ids`='601318' ORDER BY dt DESC;
     
-	CALL `get_sma_tableTMPL_fieldTMPL_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+	CALL `sma_tableTMPL_fieldTMPL_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 
-DROP PROCEDURE IF EXISTS `get_sma_tableTMPL_fieldTMPL_multiPeriods`;
+DROP PROCEDURE IF EXISTS `sma_tableTMPL_fieldTMPL_multiPeriods`;
 
 DELIMITER $$
-
-CREATE DEFINER=`gxh`@`%` PROCEDURE `get_sma_tableTMPL_fieldTMPL_multiPeriods`
+CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_tableTMPL_fieldTMPL_multiPeriods`
 	(
 	IN 	
 		in_dt DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table tableTMPL.  
@@ -87,34 +90,33 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `get_sma_tableTMPL_fieldTMPL_multiPeriods`
 BEGIN
 
 --  sma_1
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
 	SET out_sma_1 = @out_sma_1;
     
 --  sma_2
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
 	SET out_sma_2 = @out_sma_2;
 
 --  sma_3
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
 	SET out_sma_3 = @out_sma_3;
 
 --  sma_4
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
 	SET out_sma_4 = @out_sma_4;
 
 --  sma_5
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
 	SET out_sma_5 = @out_sma_5;
 
 --  sma_6
-	CALL `get_sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
+	CALL `sma_tableTMPL_fieldTMPL`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
 	SET out_sma_6 = @out_sma_6;          
 
 END$$
-
 DELIMITER ;
 
--- instructions for PROCEDURE `get_sma_tableTMPL_fieldTMPL`
+-- instructions for PROCEDURE `sma_tableTMPL_fieldTMPL`
 	-- replace dt and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace tableTMPL with table name;
@@ -125,14 +127,13 @@ DELIMITER ;
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 -- Test the proc
-	CALL `get_sma_tableTMPL_fieldTMPL`('2019-09-09', '601318', 10, @out_sma);
+	CALL `sma_tableTMPL_fieldTMPL`('2019-09-09', '601318', 10, @out_sma);
 	SELECT @out_sma;    
     
-DROP PROCEDURE IF EXISTS `get_sma_tableTMPL_fieldTMPL`;
+DROP PROCEDURE IF EXISTS `sma_tableTMPL_fieldTMPL`;
 
 DELIMITER $$ -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
-
-CREATE PROCEDURE `get_sma_tableTMPL_fieldTMPL`(
+CREATE PROCEDURE `sma_tableTMPL_fieldTMPL`(
 	IN 	
 		in_dt DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table tableTMPL. 
 		in_ids VARCHAR(25), -- variable: stock id
@@ -192,7 +193,6 @@ BEGIN
 	-- output result on screen
 		-- SELECT out_sma;
 END $$
-
 DELIMITER ;
 
 -- DROP TABLE `ying`.`tableTMPL_sma`;
