@@ -1,5 +1,5 @@
 -- Test the proc
-	SELECT * FROM `ying`.`s_rt` WHERE `code`='601318' order by `dt` desc; -- Check transaction data.
+	SELECT * FROM `ying`.`tableTMPL` WHERE `code`='601318' order by `dt` desc; -- Check transaction data.
     
 	CALL `sma_rt_tableTMPL_fieldTMPL`('601318', 1000, 5, @out_sma_1);
 	CALL `sma_rt_tableTMPL_fieldTMPL`('601318', 1.20, 10, @out_sma_2);
@@ -12,13 +12,13 @@
 
 
 -- This procedure dynamicly updates sma by taking historical and realtime quote
--- This proc is different from `s_rt_get_smaClose` in that this proc has one more "in" variable in_current_price and one less "in" variable dt.
+-- This proc is different from `tableTMPL_get_smaClose` in that this proc has one more "in" variable in_current_price and one less "in" variable dt.
 
 DROP PROCEDURE IF EXISTS `sma_rt_tableTMPL_fieldTMPL`;
 DELIMITER $$
 CREATE PROCEDURE `sma_rt_tableTMPL_fieldTMPL`(
 	IN in_ids VARCHAR(25), -- variable stock id; 's' after id means stock
-	IN in_current_close DECIMAL(6,2), -- variable in_current_close
+	IN in_current_fieldTMPL DECIMAL(6,2), -- variable in_current_fieldTMPL
 	IN in_smaPeriods INT, -- variable in_smaPeriods: 
 	OUT sma DECIMAL(6,2) -- 5 periods moving average
 	)
@@ -36,7 +36,7 @@ BEGIN
 	DECLARE record_not_found INTEGER DEFAULT 0; -- variable for error handler
 
 	DECLARE mysql_cursor CURSOR FOR -- variable for mysql cursor
-		SELECT `close` FROM s_rt WHERE `ids` = in_ids ORDER BY dt DESC;
+		SELECT `fieldTMPL` FROM tableTMPL WHERE `ids` = in_ids ORDER BY dt DESC;
 	  
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_not_found = 1;
 
@@ -67,7 +67,7 @@ BEGIN
 		
 		END LOOP cursor1_LOOP1;
 	  
-	  SET sma = ROUND(((sum_sma + in_current_close) / in_smaPeriods),2); -- now calculate the n-period sma
+	  SET sma = ROUND(((sum_sma + in_current_fieldTMPL) / in_smaPeriods),2); -- now calculate the n-period sma
 	  
 	CLOSE mysql_cursor;
 	-- output result
