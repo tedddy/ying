@@ -1,7 +1,7 @@
 --  test query in the proc
 	-- DECLARE cursor1 CURSOR FOR 
     
-	CALL `s_rt_get_smaClose_multiPeriods_loop_dt&ids`('2015-10-13 15:05:00', '2015-10-14 01:00:00', 5, 10, 20, 30, 60, 120); 
+	CALL `s_rt_get_smaClose_multiPeriods_loop_dt&ids`('2015-10-16 09:05:00', '2015-10-16 16:00:00', 5, 10, 20, 30, 60, 120); 
     
 	SELECT DISTINCT `dt` FROM `ying`.`s_rt_sma` WHERE dt >= '2015-10-14 15:05:00' AND dt <= '2015-10-15 13:10:00' ORDER BY `dt` DESC;
     
