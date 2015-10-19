@@ -1,53 +1,5 @@
--- current table
-
-CREATE TABLE `s_rt_sma` (
-  `dt` datetime NOT NULL,
-  `ids` varchar(6) NOT NULL COMMENT 'ids',
-  `close5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 5 periods均线',
-  `close10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 10 periods均线',
-  `close20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 20 periods均线',
-  `close30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 30 periods均线',
-  `close60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 60 periods均线',
-  `close120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 120 periods均线',
-  `volume5` int(10) unsigned DEFAULT NULL COMMENT 'volume 5 periods均线',
-  `volume10` int(10) unsigned DEFAULT NULL COMMENT 'volume 10 periods均线',
-  `volume20` int(10) unsigned DEFAULT NULL COMMENT 'volume 20 periods均线',
-  `volume30` int(10) unsigned DEFAULT NULL COMMENT 'volume 30 periods均线',
-  `volume60` int(10) unsigned DEFAULT NULL COMMENT 'volume 60 periods均线',
-  `volume120` int(10) unsigned DEFAULT NULL COMMENT 'volume 120 periods均线',
-  `amount5` int(10) unsigned DEFAULT NULL COMMENT 'amount 5 periods均线',
-  `amount10` int(10) unsigned DEFAULT NULL COMMENT 'amount 10 periods均线',
-  `amount20` int(10) unsigned DEFAULT NULL COMMENT 'amount 20 periods均线',
-  `amount30` int(10) unsigned DEFAULT NULL COMMENT 'amount 30 periods均线',
-  `amount60` int(10) unsigned DEFAULT NULL COMMENT 'amount 60 periods均线',
-  `amount120` int(10) unsigned DEFAULT NULL COMMENT 'amount 120 periods均线',
-  `WeiBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 5 periods均线',
-  `WeiBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 10 periods均线',
-  `WeiBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 20 periods均线',
-  `WeiBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 30 periods均线',
-  `WeiBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 60 periods均线',
-  `WeiBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 120 periods均线',
-  `LiangBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 5 periods均线',
-  `LiangBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 10 periods均线',
-  `LiangBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 20 periods均线',
-  `LiangBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 30 periods均线',
-  `LiangBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 60 periods均线',
-  `LiangBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 120 periods均线',
-  PRIMARY KEY (`ids`,`dt`),
-  KEY `dt` (`dt`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
-
-
-
--- logging
-
--- Insert ids dt from `ying`.`hs_s_rt_EM` to `ying`.`s_rt_sma`
-	INSERT INTO `ying`.`s_rt_sma` (`ids`, `dt`) SELECT `ids`, dt FROM `ying`.`s_rt` 
-				WHERE DATE(dt) = CURDATE();
-	SELECT `ids`, dt FROM `ying`.`s_rt` WHERE DATE(dt) = CURDATE();
-
--- DROP TABLE `ying`.`s_rt_sma`;
-CREATE TABLE `s_rt_sma` (
+-- DROP TABLE `ying`.`tableTMPL_sma`;
+CREATE TABLE `tableTMPL_sma` (
   `dt` DATETIME NOT NULL,
   `ids` VARCHAR(6) NOT NULL COMMENT 'ids',
   `sma5c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 5 periods均线',
@@ -84,7 +36,7 @@ CREATE TABLE `s_rt_sma` (
   INDEX `dt` (`dt` DESC)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
-ALTER TABLE `ying`.`s_rt_sma` 
+ALTER TABLE `ying`.`tableTMPL_sma` 
 CHANGE COLUMN `sma5c` `close5` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'close 5 periods均线' ,
 CHANGE COLUMN `sma10c` `close10` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'close 10 periods均线' ,
 CHANGE COLUMN `sma20c` `close20` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'close 20 periods均线' ,

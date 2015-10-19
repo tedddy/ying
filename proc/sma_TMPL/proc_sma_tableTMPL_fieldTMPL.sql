@@ -1,3 +1,18 @@
+-- instructions for PROCEDURE `sma_tableTMPL_fieldTMPL`
+	-- replace dt and ids with acorrding fields names
+		-- NOTE: remember to change data types accordingly.
+	-- replace tableTMPL with table name;
+    -- replace fieldTMPL wiht the field name of the sma calc;
+    -- replace the date type of out_sma, cursor_fetch_tmp, and sum with the according data types;
+		-- NOTE: out_sma and cursor_fetch_tmp are usually the same data type.
+        -- NOTE: sum is better to be big, especially when loop_cnt is large.
+        -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
+
+		
+-- Test the proc
+-- 	CALL `sma_tableTMPL_fieldTMPL`('2019-09-09', '601318', 10, @out_sma);
+-- 	SELECT @out_sma;    
+		
 -- DROP PROCEDURE IF EXISTS `sma_tableTMPL_fieldTMPL`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
 DELIMITER $$ 
@@ -166,7 +181,7 @@ BEGIN
 		-- 	actions	
 			CALL `sma_tableTMPL_fieldTMPL_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`sma5fieldTMPL`,`sma10fieldTMPL`,`sma20fieldTMPL`,`sma30fieldTMPL`,`sma60fieldTMPL`,`sma120fieldTMPL`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
+			INSERT INTO `ying`.`tableTMPL_sma` (`dt`,`ids`,`fieldTMPL5`,`fieldTMPL10`,`fieldTMPL20`,`fieldTMPL30`,`fieldTMPL60`,`fieldTMPL120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
 
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
@@ -179,87 +194,3 @@ BEGIN
     
 END$$
 DELIMITER ;
-
-
-
--- instructions for PROCEDURE `sma_tableTMPL_fieldTMPL`
-	-- replace dt and ids with acorrding fields names
-		-- NOTE: remember to change data types accordingly.
-	-- replace tableTMPL with table name;
-    -- replace fieldTMPL wiht the field name of the sma calc;
-    -- replace the date type of out_sma, cursor_fetch_tmp, and sum with the according data types;
-		-- NOTE: out_sma and cursor_fetch_tmp are usually the same data type.
-        -- NOTE: sum is better to be big, especially when loop_cnt is large.
-        -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
-
--- Test the proc
--- 	CALL `sma_tableTMPL_fieldTMPL`('2019-09-09', '601318', 10, @out_sma);
--- 	SELECT @out_sma;    
-    
-
--- DROP TABLE `ying`.`tableTMPL_sma`;
--- CREATE TABLE `tableTMPL_sma` (
---   `dt` DATETIME NOT NULL,
---   `ids` VARCHAR(6) NOT NULL COMMENT 'ids',
---   `sma5c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 5 periods均线',
---   `sma10c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 10 periods均线',
---   `sma20c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 20 periods均线',
---   `sma30c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 30 periods均线',
---   `sma60c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 60 periods均线',
---   `sma120c` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 120 periods均线',
---   `sma5v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 5 periods均线',
---   `sma10v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 10 periods均线',
---   `sma20v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 20 periods均线',
---   `sma30v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 30 periods均线',
---   `sma60v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 60 periods均线',
---   `sma120v` INT(10) UNSIGNED DEFAULT NULL COMMENT 'volume 120 periods均线',
---   `sma5a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 5 periods均线',
---   `sma10a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 10 periods均线',
---   `sma20a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 20 periods均线',
---   `sma30a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 30 periods均线',
---   `sma60a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 60 periods均线',
---   `sma120a` INT(10) UNSIGNED DEFAULT NULL COMMENT 'amount 120 periods均线',
---   `sma5wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 5 periods均线',
---   `sma10wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 10 periods均线',
---   `sma20wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 20 periods均线',
---   `sma30wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 30 periods均线',
---   `sma60wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 60 periods均线',
---   `sma120wb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'WeiBi 120 periods均线',
---   `sma5lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 5 periods均线',
---   `sma10lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 10 periods均线',
---   `sma20lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 20 periods均线',
---   `sma30lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 30 periods均线',
---   `sma60lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 60 periods均线',
---   `sma120lb` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'LiangBi 120 periods均线',
---   PRIMARY KEY (`ids`,`dt`),
---   INDEX `dt` (`dt` DESC)
--- ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
-
--- SELECT * FROM `ying`.`tableTMPL` order by ids desc, dt;
--- SELECT count(*) FROM `ying`.`tableTMPL` order by ids desc, dt;
--- 
--- -- import data from `s_rt` to `tableTMPL`, where field name `close` is changed to fieldTMPL.
--- INSERT INTO `tableTMPL` 
--- 	( 	
--- 		`tableTMPL`.`ids`,
--- 		`tableTMPL`.`fieldTMPL`,
--- 		`tableTMPL`.`volume`,
--- 		`tableTMPL`.`amount`,
--- 		`tableTMPL`.`chgrate`,
--- 		`tableTMPL`.`WeiBi`,
--- 		`tableTMPL`.`chgrate5`,
--- 		`tableTMPL`.`LiangBi`,
--- 		`tableTMPL`.`dt`
---     )
--- SELECT 
--- 		`s_rt`.`ids`,
--- 		`s_rt`.`close`,
--- 		`s_rt`.`volume`,
--- 		`s_rt`.`amount`,
--- 		`s_rt`.`chgrate`,
--- 		`s_rt`.`WeiBi`,
--- 		`s_rt`.`chgrate5`,
--- 		`s_rt`.`LiangBi`,
--- 		`s_rt`.`dt`        
--- FROM `ying`.`s_rt`
--- WHERE `ids` in ('601318', '000001') order by `dt` desc;
