@@ -1,3 +1,70 @@
+SELECT * FROM `ying`.`s_rt` order by dt desc, ids;
+SELECT * FROM `ying`.`s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+SELECT * FROM `ying`.`s_rt` where time(dt) = '15:00:00' order by volume;
+
+-- DELETE FROM `ying`.`s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+-- DELETE FROM `ying`.`s_rt` where dt = '0000-00-00 00:00:00'; 
+-- DELETE FROM `ying`.`hs_s_rt_EM` where TimeSlot = '0000-00-00 00:00:00'; 
+
+
+-- DROP TABLE IF EXISTS `ying`.`s_rt`;
+
+CREATE TABLE `ying`.`s_rt` (
+  `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
+  `close` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '收盘价或当前价',
+  `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
+  `amount` INT(10) UNSIGNED NOT NULL COMMENT '成交额',
+  `chgrate` DECIMAL(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '委比',
+  `chgrate5` DECIMAL(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '量比',
+  `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`ids`,`dt`)
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+DROP TABLE `tableTMPL`;
+CREATE TABLE `tableTMPL` (
+  `ids` varchar(6) NOT NULL COMMENT 'stock id',
+  `fieldTMPL` decimal(6,2) unsigned NOT NULL COMMENT 'close',
+  `volume` int(10) unsigned NOT NULL COMMENT '成交量',
+  `amount` int(10) unsigned NOT NULL COMMENT '成交额',
+  `chgrate` decimal(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
+  `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
+  `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`ids`,`dt`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+SELECT * FROM `ying`.`tableTMPL` order by ids desc, dt;
+SELECT count(*) FROM `ying`.`tableTMPL` order by ids desc, dt;
+
+-- import data from `s_rt` to `tableTMPL`, where field name `close` is changed to fieldTMPL.
+INSERT INTO `tableTMPL` 
+	( 	
+		`tableTMPL`.`ids`,
+		`tableTMPL`.`fieldTMPL`,
+		`tableTMPL`.`volume`,
+		`tableTMPL`.`amount`,
+		`tableTMPL`.`chgrate`,
+		`tableTMPL`.`WeiBi`,
+		`tableTMPL`.`chgrate5`,
+		`tableTMPL`.`LiangBi`,
+		`tableTMPL`.`dt`
+    )
+SELECT 
+		`s_rt`.`ids`,
+		`s_rt`.`close`,
+		`s_rt`.`volume`,
+		`s_rt`.`amount`,
+		`s_rt`.`chgrate`,
+		`s_rt`.`WeiBi`,
+		`s_rt`.`chgrate5`,
+		`s_rt`.`LiangBi`,
+		`s_rt`.`dt`        
+FROM `ying`.`s_rt`
+WHERE `ids` in ('601318', '000001') order by `dt` desc;
+
 DROP PROCEDURE `ying`.`s_rt_locoy`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_locoy`(IN code VARCHAR(18), close VARCHAR(18), amount VARCHAR(18), volume VARCHAR(18), chgrate VARCHAR(18), WeiBi VARCHAR(18), chgrate5 VARCHAR(18), LiangBi VARCHAR(18), date VARCHAR(18), time VARCHAR(18))
@@ -26,5 +93,10 @@ ON DUPLICATE KEY UPDate
 `chgrate5` = chgrate5,
 `LiangBi` = LiangBi,
 `dt` = dt; 
+
+CALL `s_rt_get_smaClose_rt_multiPeriods_rt`(code, close, 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+insert into `ying`.`s_rt_sma` (`dt`,`ids`,`sma5c`,`sma10c`,`sma20c`,`sma30c`,`sma60c`,`sma120c`) values (TimeSlot,code,@out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5c` =  @out_sma_1, `sma10c` =  @out_sma_2, `sma20c` =  @out_sma_3, `sma30c` =  @out_sma_4, `sma60c` =  @out_sma_5, `sma120c` =  @out_sma_6;
 END$$
 DELIMITER ;
+
+CALL hs_s_rt_EM('[标签:code]','[标签:close]','[标签:amount]','[标签:volume]','[标签:chgrate]','[标签:WeiBi]','[标签:chgrate5]','[标签:LiangBi]','[标签:date]','[标签:time]');
