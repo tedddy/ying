@@ -14,15 +14,16 @@ CREATE TABLE `fund_m_info` (
   `dt_maturity` date DEFAULT NULL COMMENT '到期日 "maturity_dt":"[参数]" ',
   `coupon` decimal(5,2) DEFAULT NULL COMMENT '本期利率 "coupon":"[参数]" ',
   `coupon_next` decimal(5,2) DEFAULT NULL COMMENT '下期利率 "coupon_next":"[参数]" ',
-  `MKT` tinyint DEFAULT NULL COMMENT '"market":"[参数]" sz: 2; sh: 1',
+  `fMKT` tinyint DEFAULT NULL COMMENT '"market":"[参数]" sz: 2; sh: 1',
   PRIMARY KEY (`idf_m`),
   UNIQUE KEY `idf_a` (`idf_a`),
   UNIQUE KEY `idf_b` (`idf_b`)
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
--- DROP PROCEDURE `ying`.`fund_m_info`;
+
+DROP PROCEDURE `ying`.`fund_m_info`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `fund_m_info`(IN idf_m VARCHAR(18), idf_a VARCHAR(18), idf_b VARCHAR(18), idi VARCHAR(18), cs_a VARCHAR(18), cs_b VARCHAR(18), recalc_u VARCHAR(18), recalc_l VARCHAR(18), dt_issue VARCHAR(18), dt_maturity VARCHAR(18), coupon VARCHAR(18), coupon_next VARCHAR(18), MKT VARCHAR(18))
+CREATE DEFINER=`gxh`@`%` PROCEDURE `fund_m_info`(IN idf_m VARCHAR(18), idf_a VARCHAR(18), idf_b VARCHAR(18), idi VARCHAR(18), cs_a VARCHAR(18), cs_b VARCHAR(18), recalc_u VARCHAR(18), recalc_l VARCHAR(18), dt_issue VARCHAR(18), dt_maturity VARCHAR(18), coupon VARCHAR(18), coupon_next VARCHAR(18), fMKT VARCHAR(18))
 BEGIN
 	SET idf_m = IF(idf_m = '', NULL, idf_m);
 	SET idf_a = IF(idf_a = '', NULL, idf_a);
@@ -36,9 +37,9 @@ BEGIN
 	SET dt_maturity = IF(dt_maturity = '', NULL, dt_maturity);
 	SET coupon = IF(coupon = '', NULL, coupon);
 	SET coupon_next = IF(coupon_next = '', NULL, coupon_next);
-	SET MKT = IF(MKT = '', NULL, MKT);
+	SET fMKT = IF(fMKT = '', NULL, fMKT);
 
-	INSERT INTO `fund_m_info` (`idf_m`, `idf_a`, `idf_b`, `idi`, `cs_a`, `cs_b`, `recalc_u`, `recalc_l`, `dt_issue`, `dt_maturity`, `coupon`, `coupon_next`, `MKT`) VALUES (idf_m, idf_a, idf_b, idi, cs_a, cs_b, recalc_u, recalc_l, dt_issue, dt_maturity, coupon, coupon_next, MKT) 
+	INSERT INTO `fund_m_info` (`idf_m`, `idf_a`, `idf_b`, `idi`, `cs_a`, `cs_b`, `recalc_u`, `recalc_l`, `dt_issue`, `dt_maturity`, `coupon`, `coupon_next`, `fMKT`) VALUES (idf_m, idf_a, idf_b, idi, cs_a, cs_b, recalc_u, recalc_l, dt_issue, dt_maturity, coupon, coupon_next, fMKT) 
 	ON DUPLICATE KEY UPDate 
 		`idf_m` = idf_m,
 		`idf_a` = idf_a,
@@ -52,11 +53,11 @@ BEGIN
 		`dt_maturity` = dt_maturity,
 		`coupon` = coupon,
 		`coupon_next` = coupon_next,
-		`MKT` = MKT;
+		`fMKT` = fMKT;
 END$$
 DELIMITER ;
 
-CALL fund_m_info('[标签:idf_m]','[标签:idf_a]','[标签:idf_b]','[标签:idi]','[标签:cs_a]','[标签:cs_b]','[标签:recalc_u]','[标签:recalc_l]','[标签:dt_issue]','[标签:dt_maturity]','[标签:coupon]','[标签:coupon_next]','[标签:MKT]')
+CALL fund_m_info('[标签:idf_m]','[标签:idf_a]','[标签:idf_b]','[标签:idi]','[标签:cs_a]','[标签:cs_b]','[标签:recalc_u]','[标签:recalc_l]','[标签:dt_issue]','[标签:dt_maturity]','[标签:coupon]','[标签:coupon_next]','[标签:fMKT]')
 
 /*
 ying locoy project fund_m_info
