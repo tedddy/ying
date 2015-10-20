@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS `sma_s_rt_volume`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
 DELIMITER $$ 
-CREATE PROCEDURE `sma_s_rt_volume`(
+CREATE PROCEDURE `s_rt_sma_ids_dt_volume`(
 	IN 	
 		in_dt DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt. 
 		in_ids VARCHAR(25), -- variable: stock id
@@ -63,10 +63,10 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_s_rt_volume_multiPeriods`
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_volume_multiPeriods`
 	(
 	IN 	
 		in_dt DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt.  
@@ -89,41 +89,41 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_s_rt_volume_multiPeriods`
 BEGIN
 
 --  sma_1
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
 	SET out_sma_1 = @out_sma_1;
     
 --  sma_2
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
 	SET out_sma_2 = @out_sma_2;
 
 --  sma_3
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
 	SET out_sma_3 = @out_sma_3;
 
 --  sma_4
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
 	SET out_sma_4 = @out_sma_4;
 
 --  sma_5
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
 	SET out_sma_5 = @out_sma_5;
 
 --  sma_6
-	CALL `sma_s_rt_volume`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
+	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
 	SET out_sma_6 = @out_sma_6;          
 
 END$$
 DELIMITER ;
 
 --  test query in the proc    
--- 	CALL `sma_s_rt_volume_multiPeriods_loop_dt_ids`('2015-09-20 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+-- 	CALL `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`('2015-09-20 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
 --     
 -- 	SELECT * FROM `ying`.`s_rt_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
 --  
-DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods_loop_dt_ids`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`;
 -- 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `sma_s_rt_volume_multiPeriods_loop_dt_ids`(
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`(
 
 	IN 	in_dt_low DATETIME, -- variable for the lowest datetime in the selection of the cursor. 
         in_dt_high DATETIME, -- variable for the highest datetime in the selection of the cursor.ids VARCHAR(6),
@@ -155,7 +155,7 @@ BEGIN
 			FETCH cursor1 INTO cursor_fetch_tmp_dt, cursor_fetch_tmp_ids; -- fetch result row into cursor_fetch_tmp tedd
             		
 		-- 	actions	
-			CALL `sma_s_rt_volume_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
+			CALL `s_rt_sma_ids_dt_volume_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
 			INSERT INTO `ying`.`s_rt_sma` (`dt`,`ids`,`sma5v`,`volume10`,`volume20`,`volume30`,`volume60`,`volume120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `sma5v` =  @out_sma_1, `volume10` =  @out_sma_2, `volume20` =  @out_sma_3, `volume30` =  @out_sma_4, `volume60` =  @out_sma_5, `volume120` =  @out_sma_6;
             
@@ -175,14 +175,14 @@ DELIMITER ;
 -- Test the proc
 -- 	SELECT * FROM `ying`.`s_rt` WHERE `ids`='601318' ORDER BY dt DESC;
 --     
--- 	CALL `sma_s_rt_volume_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+-- 	CALL `s_rt_sma_ids_dt_volume_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 -- 
--- DROP PROCEDURE IF EXISTS `sma_s_rt_volume_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods`;
 -- 
 
 
--- instructions for PROCEDURE `sma_s_rt_volume`
+-- instructions for PROCEDURE `s_rt_sma_ids_dt_volume`
 	-- replace dt and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace s_rt with table name;
@@ -193,6 +193,6 @@ DELIMITER ;
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 -- Test the proc
--- 	CALL `sma_s_rt_volume`('2019-09-09', '601318', 10, @out_sma);
+-- 	CALL `s_rt_sma_ids_dt_volume`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
     
