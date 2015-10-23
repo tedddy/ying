@@ -9,8 +9,7 @@ CREATE TABLE `tableTMPL_sma` (
   `fieldTMPL30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线',
   `fieldTMPL60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线',
   `fieldTMPL120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线',
-  PRIMARY KEY (`idTMPL`,`dtTMPL`),
-  KEY `dt` (`dtTMPL`)
+  PRIMARY KEY (`idTMPL`,`dtTMPL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 

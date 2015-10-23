@@ -8,6 +8,19 @@
         -- NOTE: sum is better to be big, especially when loop_cnt is large.
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
+DROP TABLE IF EXISTS `ying`.`s_xts_sma`;
+
+CREATE TABLE `s_xts_sma` (
+  `d` datetime NOT NULL,
+  `ids` varchar(6) NOT NULL COMMENT 'ids',
+  `clo5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 5 periods均线',
+  `clo10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 10 periods均线',
+  `clo20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 20 periods均线',
+  `clo30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 30 periods均线',
+  `clo60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 60 periods均线',
+  `clo120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'clo 120 periods均线',
+  PRIMARY KEY (`ids`,`d`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 		
 -- Test the proc
 	CALL `s_xts_ids_d_clo_sma`('2019-09-09', '601318', 10, @out_sma);
