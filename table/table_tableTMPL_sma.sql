@@ -1,4 +1,133 @@
 -- DROP TABLE `ying`.`tableTMPL_sma`;
+
+CREATE TABLE `tableTMPL_sma` (
+  `dtTMPL` datetime NOT NULL,
+  `idTMPL` varchar(6) NOT NULL COMMENT 'ids',
+  `fieldTMPL5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 5 periods均线',
+  `fieldTMPL10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 10 periods均线',
+  `fieldTMPL20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 20 periods均线',
+  `fieldTMPL30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线',
+  `fieldTMPL60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线',
+  `fieldTMPL120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`),
+  KEY `dt` (`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- history 13:15 2015-10-23
+
+ALTER TABLE `ying`.`tableTMPL_sma` 
+DROP COLUMN `LiangBi120`,
+DROP COLUMN `LiangBi60`,
+DROP COLUMN `LiangBi30`,
+DROP COLUMN `LiangBi20`,
+DROP COLUMN `LiangBi10`,
+DROP COLUMN `LiangBi5`,
+DROP COLUMN `WeiBi120`,
+DROP COLUMN `WeiBi60`,
+DROP COLUMN `WeiBi30`,
+DROP COLUMN `WeiBi20`,
+DROP COLUMN `WeiBi10`,
+DROP COLUMN `WeiBi5`,
+DROP COLUMN `amount120`,
+DROP COLUMN `amount60`,
+DROP COLUMN `amount30`,
+DROP COLUMN `amount20`,
+DROP COLUMN `amount10`,
+DROP COLUMN `amount5`,
+DROP COLUMN `volume120`,
+DROP COLUMN `volume60`,
+DROP COLUMN `volume30`,
+DROP COLUMN `volume20`,
+DROP COLUMN `volume10`,
+DROP COLUMN `volume5`;
+
+
+CREATE TABLE `tableTMPL_sma` (
+  `dtTMPL` datetime NOT NULL,
+  `idTMPL` varchar(6) NOT NULL COMMENT 'ids',
+  `fieldTMPL5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 5 periods均线',
+  `fieldTMPL10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 10 periods均线',
+  `fieldTMPL20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 20 periods均线',
+  `fieldTMPL30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线',
+  `fieldTMPL60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线',
+  `fieldTMPL120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线',
+  `volume5` int(10) unsigned DEFAULT NULL COMMENT 'volume 5 periods均线',
+  `volume10` int(10) unsigned DEFAULT NULL COMMENT 'volume 10 periods均线',
+  `volume20` int(10) unsigned DEFAULT NULL COMMENT 'volume 20 periods均线',
+  `volume30` int(10) unsigned DEFAULT NULL COMMENT 'volume 30 periods均线',
+  `volume60` int(10) unsigned DEFAULT NULL COMMENT 'volume 60 periods均线',
+  `volume120` int(10) unsigned DEFAULT NULL COMMENT 'volume 120 periods均线',
+  `amount5` int(10) unsigned DEFAULT NULL COMMENT 'amount 5 periods均线',
+  `amount10` int(10) unsigned DEFAULT NULL COMMENT 'amount 10 periods均线',
+  `amount20` int(10) unsigned DEFAULT NULL COMMENT 'amount 20 periods均线',
+  `amount30` int(10) unsigned DEFAULT NULL COMMENT 'amount 30 periods均线',
+  `amount60` int(10) unsigned DEFAULT NULL COMMENT 'amount 60 periods均线',
+  `amount120` int(10) unsigned DEFAULT NULL COMMENT 'amount 120 periods均线',
+  `WeiBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 5 periods均线',
+  `WeiBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 10 periods均线',
+  `WeiBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 20 periods均线',
+  `WeiBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 30 periods均线',
+  `WeiBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 60 periods均线',
+  `WeiBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 120 periods均线',
+  `LiangBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 5 periods均线',
+  `LiangBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 10 periods均线',
+  `LiangBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 20 periods均线',
+  `LiangBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 30 periods均线',
+  `LiangBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 60 periods均线',
+  `LiangBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 120 periods均线',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`),
+  KEY `dt` (`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+CREATE TABLE `tableTMPL_sma` (
+  `dtTMPL` datetime NOT NULL,
+  `idTMPL` varchar(6) NOT NULL COMMENT 'ids',
+  `close5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 5 periods均线',
+  `close10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 10 periods均线',
+  `close20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 20 periods均线',
+  `close30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 30 periods均线',
+  `close60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 60 periods均线',
+  `close120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 120 periods均线',
+  `volume5` int(10) unsigned DEFAULT NULL COMMENT 'volume 5 periods均线',
+  `volume10` int(10) unsigned DEFAULT NULL COMMENT 'volume 10 periods均线',
+  `volume20` int(10) unsigned DEFAULT NULL COMMENT 'volume 20 periods均线',
+  `volume30` int(10) unsigned DEFAULT NULL COMMENT 'volume 30 periods均线',
+  `volume60` int(10) unsigned DEFAULT NULL COMMENT 'volume 60 periods均线',
+  `volume120` int(10) unsigned DEFAULT NULL COMMENT 'volume 120 periods均线',
+  `amount5` int(10) unsigned DEFAULT NULL COMMENT 'amount 5 periods均线',
+  `amount10` int(10) unsigned DEFAULT NULL COMMENT 'amount 10 periods均线',
+  `amount20` int(10) unsigned DEFAULT NULL COMMENT 'amount 20 periods均线',
+  `amount30` int(10) unsigned DEFAULT NULL COMMENT 'amount 30 periods均线',
+  `amount60` int(10) unsigned DEFAULT NULL COMMENT 'amount 60 periods均线',
+  `amount120` int(10) unsigned DEFAULT NULL COMMENT 'amount 120 periods均线',
+  `WeiBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 5 periods均线',
+  `WeiBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 10 periods均线',
+  `WeiBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 20 periods均线',
+  `WeiBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 30 periods均线',
+  `WeiBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 60 periods均线',
+  `WeiBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'WeiBi 120 periods均线',
+  `LiangBi5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 5 periods均线',
+  `LiangBi10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 10 periods均线',
+  `LiangBi20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 20 periods均线',
+  `LiangBi30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 30 periods均线',
+  `LiangBi60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 60 periods均线',
+  `LiangBi120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'LiangBi 120 periods均线',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`),
+  KEY `dt` (`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- 12:27 2015-10-23
+
+ALTER TABLE `ying`.`tableTMPL_sma` 
+CHANGE COLUMN `close5` `fieldTMPL5` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 5 periods均线' ,
+CHANGE COLUMN `close10` `fieldTMPL10` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 10 periods均线' ,
+CHANGE COLUMN `close20` `fieldTMPL20` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 20 periods均线' ,
+CHANGE COLUMN `close30` `fieldTMPL30` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线' ,
+CHANGE COLUMN `close60` `fieldTMPL60` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线' ,
+CHANGE COLUMN `close120` `fieldTMPL120` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线';
+
 CREATE TABLE `tableTMPL_sma` (
   `dt` DATETIME NOT NULL,
   `ids` VARCHAR(6) NOT NULL COMMENT 'ids',
@@ -67,3 +196,10 @@ CHANGE COLUMN `sma20lb` `LiangBi20` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMM
 CHANGE COLUMN `sma30lb` `LiangBi30` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'LiangBi 30 periods均线' ,
 CHANGE COLUMN `sma60lb` `LiangBi60` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'LiangBi 60 periods均线' ,
 CHANGE COLUMN `sma120lb` `LiangBi120` DECIMAL(6,2) UNSIGNED NULL DEFAULT NULL COMMENT 'LiangBi 120 periods均线' ;
+
+
+
+ALTER TABLE `ying`.`tableTMPL_sma` 
+CHANGE COLUMN `dt` `dtTMPL` DATETIME NOT NULL COMMENT '' ,
+CHANGE COLUMN `ids` `idTMPL` VARCHAR(6) NOT NULL COMMENT 'ids' ;
+

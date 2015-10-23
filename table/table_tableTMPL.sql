@@ -1,5 +1,38 @@
 -- DROP TABLE `tableTMPL`;
 -- 
+
+CREATE TABLE `tableTMPL` (
+  `idTMPL` varchar(6) NOT NULL COMMENT 'stock id',
+  `dtTMPL` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `fieldTMPL` decimal(6,2) unsigned NOT NULL COMMENT 'close',
+  `fieldTMPL_d1` decimal(6,2) DEFAULT NULL,
+  `volume` int(10) unsigned NOT NULL COMMENT '成交量',
+  `amount` int(10) unsigned NOT NULL COMMENT '成交额',
+  `chgrate` decimal(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
+  `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- history
+
+CREATE TABLE `tableTMPL` (
+  `idTMPL` varchar(6) NOT NULL COMMENT 'stock id',
+  `dtTMPL` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `fieldTMPL` decimal(6,2) unsigned NOT NULL COMMENT 'close',
+  `fieldTMPL_lag` decimal(6,2) DEFAULT NULL,
+  `volume` int(10) unsigned NOT NULL COMMENT '成交量',
+  `amount` int(10) unsigned NOT NULL COMMENT '成交额',
+  `chgrate` decimal(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
+  `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
 CREATE TABLE `tableTMPL` (
   `idTMPL` varchar(6) NOT NULL COMMENT 'stock id',
   `dtTMPL` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
@@ -13,7 +46,19 @@ CREATE TABLE `tableTMPL` (
   PRIMARY KEY (`idTMPL`,`dtTMPL`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- history
+
+CREATE TABLE `tableTMPL` (
+  `idTMPL` varchar(6) NOT NULL COMMENT 'stock id',
+  `dtTMPL` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  `fieldTMPL` decimal(6,2) unsigned NOT NULL COMMENT 'close',
+  `volume` int(10) unsigned NOT NULL COMMENT '成交量',
+  `amount` int(10) unsigned NOT NULL COMMENT '成交额',
+  `chgrate` decimal(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
+  `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
+  PRIMARY KEY (`idTMPL`,`dtTMPL`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 CREATE TABLE `tableTMPL` (
   `ids` varchar(6) NOT NULL COMMENT 'stock id',
@@ -27,6 +72,17 @@ CREATE TABLE `tableTMPL` (
   `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- 19:30 2015-10-20
+ALTER TABLE `ying`.`tableTMPL` 
+CHANGE COLUMN `dtTMPL` `dtTMPL` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '' AFTER `idTMPL`;
+
+ALTER TABLE `ying`.`tableTMPL` 
+ADD COLUMN `fieldTMPL_lag` DECIMAL(6,2) NULL COMMENT '' AFTER `fieldTMPL`;
+
+ALTER TABLE `ying`.`tableTMPL` 
+CHANGE COLUMN `fieldTMPL_lag` `fieldTMPL_d1` DECIMAL(6,2) NULL DEFAULT NULL COMMENT '' ;
+
 
 -- 23:43 2015-10-19
 ALTER TABLE `ying`.`tableTMPL` 
