@@ -8,7 +8,7 @@
         -- NOTE: sum is better to be big, especially when loop_cnt is large.
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
-DROP TABLE IF EXISTS `ying`.`s_xts_sma`;
+-- DROP TABLE IF EXISTS `ying`.`s_xts_sma`;
 
 CREATE TABLE `s_xts_sma` (
   `d` datetime NOT NULL,
