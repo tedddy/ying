@@ -138,9 +138,9 @@ END$$
 DELIMITER ;
 
 --  test query in the proc    
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
-	SELECT * FROM `ying`.`tableTMPL_sma` WHERE `dtTMPL` >= '2005-10-13 13:05:00' AND `dtTMPL` <= '2019-10-15 15:05:00' ORDER BY `dtTMPL` DESC;
-	select `dtTMPL` FROM `ying`.`tableTMPL`;
+-- 	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+-- 	SELECT * FROM `ying`.`tableTMPL_sma` WHERE `dtTMPL` >= '2005-10-13 13:05:00' AND `dtTMPL` <= '2019-10-15 15:05:00' ORDER BY `dtTMPL` DESC;
+-- 	select `dtTMPL` FROM `ying`.`tableTMPL`;
 -- instructions for PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`
 	-- create table `tableTMPL_sma` according to E:\bYun\securities\ying\table\table_tableTMPL_sma.sql
 	-- replace fields names accordingly, to which sma's are inserted 
