@@ -92,7 +92,7 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiP
 	(
 	IN 	
 		in_dtTMPL DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table tableTMPL.  
-		idTMPL VARCHAR(6),
+		in_idTMPL VARCHAR(6),
         in_smaPeriods_1 MEDIUMINT, 
 		in_smaPeriods_2 MEDIUMINT, 
 		in_smaPeriods_3 MEDIUMINT, 
@@ -111,27 +111,27 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiP
 BEGIN
 
 --  sma_1
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_1, @out_sma_1);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_1, @out_sma_1);		
 	SET out_sma_1 = @out_sma_1;
     
 --  sma_2
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_2, @out_sma_2);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_2, @out_sma_2);		
 	SET out_sma_2 = @out_sma_2;
 
 --  sma_3
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_3, @out_sma_3);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_3, @out_sma_3);		
 	SET out_sma_3 = @out_sma_3;
 
 --  sma_4
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_4, @out_sma_4);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_4, @out_sma_4);		
 	SET out_sma_4 = @out_sma_4;
 
 --  sma_5
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_5, @out_sma_5);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_5, @out_sma_5);		
 	SET out_sma_5 = @out_sma_5;
 
 --  sma_6
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, idTMPL, in_smaPeriods_6, @out_sma_6);		
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`(in_dtTMPL, in_idTMPL, in_smaPeriods_6, @out_sma_6);		
 	SET out_sma_6 = @out_sma_6;          
 
 END$$
