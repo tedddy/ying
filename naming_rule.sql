@@ -1,5 +1,9 @@
 naming rule 
 
+-- to do list
+
+	order by d  to order by `d`
+
 hs_s_rt_EM_get_sma to hs_s_rt_EM_get_smaClose 2015-10-14 9:19
 
 in proc hs_s_rt_EM_get_smaClose
