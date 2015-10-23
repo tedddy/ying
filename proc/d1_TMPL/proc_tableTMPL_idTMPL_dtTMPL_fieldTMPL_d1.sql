@@ -23,9 +23,12 @@ SET
 END$$
 DELIMITER ;
 
--- learning and researching
+-- Reference: file E:\bYun\securities\ying\learning\learning.sql; search key words: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
+
+-- start: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
 
 -- select lag
+
 SELECT 
     @fieldTMPL_lag AS fieldTMPL_lag,
     @fieldTMPL_lag:=fieldTMPL AS fieldTMPL_current,
@@ -50,15 +53,15 @@ FROM
 ORDER BY `idTMPL` , `dtTMPL`;
 
 
--- Find the lasted different (差分).
+-- Find the lastest different (差分).
 -- reference: sql - Simulate lag function in MySQL - Stack Overflow 
-SET @quot=0,@latest=0; -- This query is necessary for running the following query
+-- SET @quot=0,@latest=0; -- This query is necessary for running the following query
 SELECT 
     B.*
 FROM
     (SELECT 
         A.dtTMPL,
-            A.chg_close,
+            A.fieldTMPL_d1,
             IF(@comp <> A.idTMPL, 1, 0) AS LATEST,
             @comp:=A.idTMPL AS idTMPL
     FROM
@@ -68,7 +71,7 @@ FROM
             fieldTMPL - @quot AS fieldTMPL_d1,
             @quot:=fieldTMPL curr_quote
     FROM
-        `ying`.`tableTMPL`
+        `ying`.`tableTMPL`, (SELECT @quot = 0, @latest = 0) r
     ORDER BY idTMPL , dtTMPL) A
     ORDER BY idTMPL , dtTMPL DESC) B
 WHERE
@@ -155,3 +158,5 @@ FROM
         LEFT JOIN
     tableTMPL AS l1 ON l1.idTMPL = c.idTMPL
         AND l1.dtTMPL = c.l_dtTMPL;
+
+-- start: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
