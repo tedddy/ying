@@ -27,16 +27,16 @@ REM PAUSE
 
 ECHO.
 
-move "Y:\url_ying\hs_s_xts_history_sina_current_*.txt" "Y:\url_ying\_archive"
-del "Y:\url_ying\hs_s_xts_history_sina_current.txt"
+move "Y:\url_ying\url_hs_s_xts_history_sina_2015_*.txt" "Y:\url_ying\_archive"
+del "Y:\url_ying\url_hs_s_xts_history_sina_2015.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', s.code, '.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'hs_s_xts_history_sina_current' FROM hs_s as s join year_quarter as dt  where s.fW > 0 AND dt.year = year(curdate()) and dt.quarter = quarter(curdate());" > "Y:\url_ying\hs_s_xts_history_sina_current_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', s.code, '.phtml?year=', date.year,'&jidu=', date.quarter) AS 'hs_s_xts_history_sina_2015' FROM hs_s as s join year_quarter as date  where s.fW > 0 AND year = 2015 and concat(year(s.pDate), quarter(s.pDate)) <= concat(date.year, date.quarter);" > "Y:\url_ying\url_hs_s_xts_history_sina_2015_%today%.txt"
 
 REM PAUSE
 
-MORE /E +1 "Y:\url_ying\hs_s_xts_history_sina_current_%today%.txt" > "Y:\url_ying\hs_s_xts_history_sina_current.txt"
+MORE /E +1 "Y:\url_ying\url_hs_s_xts_history_sina_2015_%today%.txt" > "Y:\url_ying\url_hs_s_xts_history_sina_2015.txt"
 
 REM PAUSE
 

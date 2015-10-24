@@ -1,3 +1,4 @@
+hs_s_xts_history_sina_current
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/000001.phtml?year=2015&jidu=4
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/000002.phtml?year=2015&jidu=4
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/000004.phtml?year=2015&jidu=4
