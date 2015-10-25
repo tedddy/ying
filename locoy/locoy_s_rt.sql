@@ -1,15 +1,15 @@
-SELECT * FROM `ying`.`s_rt` order by dt desc, ids;
-SELECT * FROM `ying`.`s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
-SELECT * FROM `ying`.`s_rt` where time(dt) = '15:00:00' order by volume;
+SELECT * FROM `s_rt` order by dt desc, ids;
+SELECT * FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+SELECT * FROM `s_rt` where time(dt) = '15:00:00' order by volume;
 
--- DELETE FROM `ying`.`s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
--- DELETE FROM `ying`.`s_rt` where dt = '0000-00-00 00:00:00'; 
--- DELETE FROM `ying`.`hs_s_rt_EM` where TimeSlot = '0000-00-00 00:00:00'; 
+-- DELETE FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+-- DELETE FROM `s_rt` where dt = '0000-00-00 00:00:00'; 
+-- DELETE FROM `hs_s_rt_EM` where TimeSlot = '0000-00-00 00:00:00'; 
 
 
--- DROP TABLE IF EXISTS `ying`.`s_rt`;
+-- DROP TABLE IF EXISTS `s_rt`;
 
-CREATE TABLE `ying`.`s_rt` (
+CREATE TABLE `s_rt` (
   `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
   `close` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '收盘价或当前价',
   `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
@@ -22,7 +22,7 @@ CREATE TABLE `ying`.`s_rt` (
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
-DROP PROCEDURE `ying`.`s_rt_locoy`;
+DROP PROCEDURE `s_rt_locoy`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_locoy`(IN code VARCHAR(18), close VARCHAR(18), amount VARCHAR(18), volume VARCHAR(18), chgrate VARCHAR(18), WeiBi VARCHAR(18), chgrate5 VARCHAR(18), LiangBi VARCHAR(18), date VARCHAR(18), time VARCHAR(18))
 BEGIN
@@ -52,7 +52,7 @@ ON DUPLICATE KEY UPDate
 `dt` = dt; 
 
 CALL `s_rt_get_smaClose_rt_multiPeriods_rt`(code, close, 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
-insert into `ying`.`s_rt_sma` (`dt`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) values (TimeSlot,code,@out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
+insert into `s_rt_sma` (`dt`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) values (TimeSlot,code,@out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
 END$$
 DELIMITER ;
 

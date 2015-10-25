@@ -1,6 +1,6 @@
 
-SELECT * FROM `ying`.`fund_a_info`;		
--- DROP TABLE `ying`.`fund_a_info`;
+SELECT * FROM `fund_a_info`;		
+-- DROP TABLE `fund_a_info`;
 CREATE TABLE `fund_a_info` (
     `idf` CHAR(6) NOT NULL COMMENT 'fund id',
     `idf_m` CHAR(6) NOT NULL COMMENT 'base (mother) fund id',
@@ -8,7 +8,7 @@ CREATE TABLE `fund_a_info` (
     PRIMARY KEY (`idf`)
 )  ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
--- DROP PROCEDURE `ying`.`fund_a_info`;
+-- DROP PROCEDURE `fund_a_info`;
 DELIMITER $$
 
 CREATE DEFINER=`gxh`@`%` PROCEDURE `fund_a_info`(IN idf VARCHAR(18), idf_m VARCHAR(18), idi VARCHAR(18))

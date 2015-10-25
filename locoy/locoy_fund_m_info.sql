@@ -1,6 +1,6 @@
 
-SELECT * FROM `ying`.`fund_m_info`;		
--- DROP TABLE `ying`.`fund_m_info`;
+SELECT * FROM `fund_m_info`;		
+-- DROP TABLE `fund_m_info`;
 CREATE TABLE `fund_m_info` (
   `idf_m` CHAR(6) DEFAULT NULL COMMENT '母基代码 "base_fund_id":"[参数]" ',
   `idf_a` CHAR(6) DEFAULT NULL COMMENT 'A基代码 "fundA_id":"[参数]" ',
@@ -21,7 +21,7 @@ CREATE TABLE `fund_m_info` (
 ) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 
-DROP PROCEDURE `ying`.`fund_m_info`;
+DROP PROCEDURE `fund_m_info`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `fund_m_info`(IN idf_m VARCHAR(18), idf_a VARCHAR(18), idf_b VARCHAR(18), idi VARCHAR(18), cs_a VARCHAR(18), cs_b VARCHAR(18), recalc_u VARCHAR(18), recalc_l VARCHAR(18), dt_issue VARCHAR(18), dt_maturity VARCHAR(18), coupon VARCHAR(18), coupon_next VARCHAR(18), fMKT VARCHAR(18))
 BEGIN

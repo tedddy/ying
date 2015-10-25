@@ -1,5 +1,5 @@
-SELECT * from `ying`.`fund_b`;
--- DROP TABLE `ying`.`fund_b`;
+SELECT * from `fund_b`;
+-- DROP TABLE `fund_b`;
 CREATE TABLE `fund_b` (
 	`idf` VARCHAR(6) DEFAULT NULL COMMENT '[参数2]: b基金代码 old_field_name: idf',
 	`close` decimal(6,3) unsigned NOT NULL COMMENT '[参数3]: b基金价格 old_field_name: close',
@@ -20,7 +20,7 @@ CREATE TABLE `fund_b` (
 	PRIMARY KEY (`idf`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP PROCEDURE `ying`.`fund_b`;
+DROP PROCEDURE `fund_b`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `fund_b`(IN idf VARCHAR(18), close VARCHAR(18), chgrate VARCHAR(18), chgrate_i VARCHAR(18), amount VARCHAR(18), jjjz VARCHAR(18), jjjz_est VARCHAR(18), yjl VARCHAR(18), jjjz_m VARCHAR(18), yjl_m_est VARCHAR(18), l_p VARCHAR(18), l_j VARCHAR(18), cost_c VARCHAR(18), recal_l VARCHAR(18), recal_u VARCHAR(18), d VARCHAR(18), t VARCHAR(18))
 BEGIN

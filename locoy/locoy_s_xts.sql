@@ -28,7 +28,7 @@ CREATE TABLE `s_xts` (
 	10:58 2015-10-21 
     5. import date from table `hs_s_xts` to table `s_xts` */
 
-INSERT INTO `ying`.`s_xts`
+INSERT INTO `s_xts`
 	(`ids`,
 	`d`,
 	`open`,
@@ -48,9 +48,9 @@ SELECT
     `hs_s_xts`.`volume`,
     `hs_s_xts`.`amount`,
     `hs_s_xts`.`clo`
-FROM `ying`.`hs_s_xts`;
+FROM `hs_s_xts`;
 
-INSERT INTO `ying`.`s_xts`
+INSERT INTO `s_xts`
 	(`ids`,
 	`d`,
 	`open`,
@@ -70,20 +70,20 @@ SELECT
     `hs_s_xts`.`volume`,
     `hs_s_xts`.`amount`,
     `hs_s_xts`.`clo`
-FROM `ying`.`hs_s_xts` where date = '2015-10-21' ;
+FROM `hs_s_xts` where date = '2015-10-21' ;
 -- 
-SELECT COUNT(*) FROM `ying`.`hs_s_xts`;
-SELECT COUNT(*) FROM `ying`.`s_xts`;
-SELECT * FROM `ying`.`hs_s_xts_fast` ORDER BY date DESC;
-SELECT * FROM `ying`.`s_xts` where d = '2015-10-22' ORDER BY d DESC;
+SELECT COUNT(*) FROM `hs_s_xts`;
+SELECT COUNT(*) FROM `s_xts`;
+SELECT * FROM `hs_s_xts_fast` ORDER BY date DESC;
+SELECT * FROM `s_xts` where d = '2015-10-22' ORDER BY d DESC;
 
 -- clean data
-SELECT COUNT(*) FROM `ying`.`s_xts` WHERE `amount` = 0 OR volume = 0;
-SELECT * FROM `ying`.`s_xts` WHERE `amount` = 0 OR volume = 0;
-DELETE FROM `ying`.`s_xts` WHERE `amount` = 0 OR volume = 0;
+SELECT COUNT(*) FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
+SELECT * FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
+DELETE FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
 
 -- update field clo 
-update `ying`.`s_xts` set `clo` = close;
+update `s_xts` set `clo` = close;
 
 /* Migrate locoy project `hs_s_xts` to `s_xts` step 2: migrate procedure
 	10:16 2015-10-21 
