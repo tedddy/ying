@@ -5,9 +5,20 @@ start: 13:34 2015-10-23	s_xts clo sma	end: 16:17 2015-10-23
 	going to replace `tableTMPL` with `s_xts`, `idTMPL` with `ids`, `dtTMPL` with `d`, `fieldTMPL` with `clo`
 	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma.sql as proc_s_xts_ids_d_clo_sma.sql
 	replace
-		tableTMPL	to	s_xts	29 replaced
-		idTMPL		to	ids		37 replaced
-		dtTMPL		to	d		42 replaced
-		fieldTMPL	to	clo		32 replaced
+		tableTMPL	with	s_xts	29 replaced
+		idTMPL		with	ids		37 replaced
+		dtTMPL		with	d		42 replaced
+		fieldTMPL	with	clo		32 replaced
+	execute file proc_s_xts_ids_d_clo_sma.sql & test all procedures
+	
+start: 12:43 2015-10-24	s_xts_sma clo5 d1	end: 17:52 2015-10-23	update d1 of field clo5 for table s_xts_sma
+
+	going to replace `tableTMPL` with `s_xts_sma`, `idTMPL` with `ids`, `dtTMPL` with `d`, `fieldTMPL` with `clo5`
+	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql as proc_s_xts_sma_ids_d_clo5_d1.sql
+	replace
+		tableTMPL	with	s_xts_sma	7 replaced
+		idTMPL		with	ids		7 replaced
+		dtTMPL		with	d		7 replaced
+		fieldTMPL	with	clo5		13 replaced
 	execute file proc_s_xts_ids_d_clo_sma.sql & test all procedures
 	

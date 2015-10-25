@@ -2,7 +2,8 @@
 ALTER TABLE `ying`.`tableTMPL` ADD COLUMN `fieldTMPL_d1` DECIMAL(6,2) NULL COMMENT '' AFTER `fieldTMPL`;
 
 -- UPDATE value of d1 into tableTMPL
-SELECT * from tableTMPL order by idTMPL, dtTMPL desc;
+
+DROP PROCEDURE IF EXISTS `tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`;
 
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`()
@@ -12,7 +13,7 @@ UPDATE tableTMPL t
     (SELECT 
         `dtTMPL`,
             `idTMPL`,
-            fieldTMPL - @fieldTMPL_lag AS `fieldTMPL_d1`,
+            round((fieldTMPL - @fieldTMPL_lag), 2) AS `fieldTMPL_d1`,
             @fieldTMPL_lag:=fieldTMPL `curr_fieldTMPL`
     FROM
         `ying`.`tableTMPL` t, (SELECT @fieldTMPL_lag:=0) r
@@ -22,6 +23,10 @@ SET
     t.fieldTMPL_d1 = d1.fieldTMPL_d1;
 END$$
 DELIMITER ;
+
+CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`;
+
+SELECT * FROM tableTMPL ORDER BY idTMPL, dtTMPL DESC;
 
 -- Reference: file E:\bYun\securities\ying\learning\learning.sql; search key words: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
 
