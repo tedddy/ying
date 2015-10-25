@@ -1,3 +1,5 @@
+SELECT * FROM ying.s_xts where ids in ('000001') order by `ids`, `d` desc;
+
 -- import data from hs_s_xts_history_sina to s_xts;
 
 INSERT INTO `ying`.`s_xts`
