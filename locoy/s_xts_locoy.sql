@@ -98,7 +98,7 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), d DATE, open DECIM
 
 BEGIN
 	DECLARE clo DECIMAL(6,2);
-	SET `ids` = IF(ids = '', NULL, ids); -- change first code to ids
+	SET `ids` = IF(ids = '', NULL, ids);
 	SET `d` = IF(d = '', NULL, d);
 	SET `open` = IF(open = '', NULL, open);
 	SET `high` = IF(high = '', NULL, high);

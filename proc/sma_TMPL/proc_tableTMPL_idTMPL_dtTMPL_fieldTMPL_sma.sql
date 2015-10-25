@@ -13,7 +13,7 @@
 -- 	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
 
-DROP TABLE IF EXISTS `ying`.`tableTMPL_sma`;
+-- DROP TABLE IF EXISTS `ying`.`tableTMPL_sma`;
 
 CREATE TABLE `tableTMPL_sma` (
   `dtTMPL` datetime NOT NULL,
