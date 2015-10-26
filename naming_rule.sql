@@ -80,6 +80,13 @@ r0x_ratio				ratioXL			主力罗盘度
 						mBuy 			融资买入额
 						bMargin 		融资余额
 						BVPS			每股净资产 book value of equity per share
+						
+Calculate
+
+英文简称 : CALC
+中文全称 : vi. 计算, 预测, 依赖
+所属分类 : 无
+词条简介 : 无						
 	
 The following standard word abbreviations should be used in naming records, fields, and SQRs:
 	

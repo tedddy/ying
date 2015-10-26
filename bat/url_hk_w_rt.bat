@@ -32,7 +32,7 @@ del "Y:\url_ying\url_hk_w_rt.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT CONCAT('http://hq.sinajs.cn/list=hk', code) as url_hk_w_rt FROM hk_w;" > "Y:\url_ying\url_hk_w_rt_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT CONCAT('http://hq.sinajs.cn/list=hk', code) as url_hk_w_rt FROM hk_w where eDate > curdate();" > "Y:\url_ying\url_hk_w_rt_%today%.txt"
 
 REM PAUSE
 

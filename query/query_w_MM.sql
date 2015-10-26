@@ -1,4 +1,4 @@
-SELECT * FROM ying.w_MM ORDER BY id DESC;
+SELECT * FROM ying.w_MM ORDER BY d DESC;
 
 SELECT COUNT(*) FROM ying.w_MM;
 
