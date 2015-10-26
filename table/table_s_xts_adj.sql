@@ -14,24 +14,36 @@ CREATE TABLE `s_xts_adj` (
   PRIMARY KEY (`ids`,`d`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
--- insert
+-- insert data into `s_xts_adj` from `s_xts_adj_hst_sina`
 
 INSERT INTO `s_xts_adj`
-	(`ids`,
-	`d`,
-	`open`,
-	`high`,
-	`low`,
-	`close`,
-	`volume`,
-	`amount`)
+	(
+	    `ids`,
+	    `d`,
+	    `open`,
+	    `high`,
+	    `low`,
+	    `close`,
+	    `volume`,
+	    `amount`
+        )
 SELECT 
     `s_xts_adj_hst_sina`.`ids`,
     `s_xts_adj_hst_sina`.`d`,
-    ROUND(`s_xts_adj_hst_sina`.`open`/faL.fa,2),
-    ROUND(`s_xts_adj_hst_sina`.`high`/faL.fa,2),
-    ROUND(`s_xts_adj_hst_sina`.`low`/faL.fa,2),
-    ROUND(`s_xts_adj_hst_sina`.`close`/faL.fa,2),
-    ROUND(`s_xts_adj_hst_sina`.`volume`,2),
-    ROUND(`s_xts_adj_hst_sina`.`amount`,2)
-FROM `s_xts_adj_hst_sina` JOIN s_xts_adj_hst_sina_faL faL ON `s_xts_adj_hst_sina`.`ids`=faL.ids;
+    ROUND(`s_xts_adj_hst_sina`.`open` / faL.fa, 2),
+    ROUND(`s_xts_adj_hst_sina`.`high` / faL.fa, 2),
+    ROUND(`s_xts_adj_hst_sina`.`low` / faL.fa, 2),
+    ROUND(`s_xts_adj_hst_sina`.`close` / faL.fa, 2),
+    ROUND(`s_xts_adj_hst_sina`.`volume`, 2),
+    ROUND(`s_xts_adj_hst_sina`.`amount`, 2)
+FROM
+    `s_xts_adj_hst_sina` 
+        JOIN
+    s_xts_adj_hst_sina_faL faL ON `s_xts_adj_hst_sina`.`ids` = faL.ids
+ON DUPLICATE KEY UPDATE 
+    `open` = ROUND(`s_xts_adj_hst_sina`.`open`/faL.fa,2),
+    `high` = ROUND(`s_xts_adj_hst_sina`.`high`/faL.fa,2),
+    `low`  = ROUND(`s_xts_adj_hst_sina`.`low`/faL.fa,2),
+    `close` = ROUND(`s_xts_adj_hst_sina`.`close`/faL.fa,2),
+    `volume` = ROUND(`s_xts_adj_hst_sina`.`volume`,2),
+    `amount` = ROUND(`s_xts_adj_hst_sina`.`amount`,2);

@@ -95,55 +95,33 @@ SELECT count(*) FROM `ying`.`tableTMPL` order by ids desc, dt;
 -- import data from `s_rt` to `tableTMPL`, where field name `close` is changed to fieldTMPL.
 INSERT INTO `tableTMPL` 
 	( 	
-		`tableTMPL`.`ids`,
+		`tableTMPL`.`idTMPL`,
+		`tableTMPL`.`dtTMPL`,
 		`tableTMPL`.`fieldTMPL`,
 		`tableTMPL`.`volume`,
 		`tableTMPL`.`amount`,
 		`tableTMPL`.`chgrate`,
 		`tableTMPL`.`WeiBi`,
 		`tableTMPL`.`chgrate5`,
-		`tableTMPL`.`LiangBi`,
-		`tableTMPL`.`dt`
+		`tableTMPL`.`LiangBi`
     )
 SELECT 
 		`s_rt`.`ids`,
+		`s_rt`.`dt`,
 		`s_rt`.`close`,
 		`s_rt`.`volume`,
 		`s_rt`.`amount`,
 		`s_rt`.`chgrate`,
 		`s_rt`.`WeiBi`,
 		`s_rt`.`chgrate5`,
-		`s_rt`.`LiangBi`,
-		`s_rt`.`dt`        
+		`s_rt`.`LiangBi`  
 FROM `ying`.`s_rt`
-WHERE `ids` in ('601318', '000001') order by `dt` desc;
-
--- SELECT * FROM `ying`.`tableTMPL` order by ids desc, dt;
--- SELECT count(*) FROM `ying`.`tableTMPL` order by ids desc, dt;
--- 
--- -- import data from `s_rt` to `tableTMPL`, where field name `close` is changed to fieldTMPL.
--- INSERT INTO `tableTMPL` 
--- 	( 	
--- 		`tableTMPL`.`ids`,
--- 		`tableTMPL`.`fieldTMPL`,
--- 		`tableTMPL`.`volume`,
--- 		`tableTMPL`.`amount`,
--- 		`tableTMPL`.`chgrate`,
--- 		`tableTMPL`.`WeiBi`,
--- 		`tableTMPL`.`chgrate5`,
--- 		`tableTMPL`.`LiangBi`,
--- 		`tableTMPL`.`dt`
---     )
--- SELECT 
--- 		`s_rt`.`ids`,
--- 		`s_rt`.`close`,
--- 		`s_rt`.`volume`,
--- 		`s_rt`.`amount`,
--- 		`s_rt`.`chgrate`,
--- 		`s_rt`.`WeiBi`,
--- 		`s_rt`.`chgrate5`,
--- 		`s_rt`.`LiangBi`,
--- 		`s_rt`.`dt`        
--- FROM `ying`.`s_rt`
--- WHERE `ids` in ('601318', '000001') order by `dt` desc;
-
+WHERE `ids` in ('601318', '000001') order by `dt` desc
+ON DUPLICATE KEY UPDATE
+		`tableTMPL`.`fieldTMPL` = `s_rt`.`close`,
+		`tableTMPL`.`volume` = `s_rt`.`volume`,
+		`tableTMPL`.`amount` = `s_rt`.`amount`,
+		`tableTMPL`.`chgrate` = `s_rt`.`chgrate`,
+		`tableTMPL`.`WeiBi` = `s_rt`.`WeiBi`,
+		`tableTMPL`.`chgrate5` = `s_rt`.`chgrate5`,
+		`tableTMPL`.`LiangBi` = `s_rt`.`LiangBi`;

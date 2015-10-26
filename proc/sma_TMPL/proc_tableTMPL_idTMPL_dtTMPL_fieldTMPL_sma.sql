@@ -1,3 +1,17 @@
+/* 	
+	replace `tableTMPL` with ``, `idTMPL` with ``, `dtTMPL` with ``, `fieldTMPL` with ``
+	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma.sql as another file accordingly
+	delete `ying`.
+	replace
+		tableTMPL	with			 replaced
+		idTMPL		with			 replaced
+		dtTMPL		with			 replaced
+		fieldTMPL	with			 replaced	
+	check data type of the table created
+	execute file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma.sql & test all procedures
+*/
+-- file name: E:\user_tony\Documents\GitHub\ying\proc\sma_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma
+
 -- instructions for PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`
 	-- replace `dtTMPL` and idTMPL with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
@@ -9,25 +23,21 @@
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 		
--- Test the proc
--- 	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`('2019-09-09', '601318', 10, @out_sma);
--- 	SELECT @out_sma;    
-
--- DROP TABLE IF EXISTS `ying`.`tableTMPL_sma`;
+-- DROP TABLE IF EXISTS `tableTMPL_sma`;
 
 CREATE TABLE `tableTMPL_sma` (
-  `dtTMPL` datetime NOT NULL,
-  `idTMPL` varchar(6) NOT NULL COMMENT 'ids',
+  `dtTMPL` DATETIME NOT NULL,
+  `idTMPL` VARCHAR(6) NOT NULL COMMENT 'ids',
   PRIMARY KEY (`idTMPL`,`dtTMPL`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 ALTER TABLE `tableTMPL_sma`
-ADD COLUMN `fieldTMPL5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 5 periods均线',
-ADD COLUMN `fieldTMPL10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 10 periods均线',
-ADD COLUMN  `fieldTMPL20` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 20 periods均线',
-ADD COLUMN  `fieldTMPL30` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线',
-ADD COLUMN  `fieldTMPL60` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线',
-ADD COLUMN  `fieldTMPL120` decimal(6,2) unsigned DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线';
+ADD COLUMN `fieldTMPL5` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 5 periods均线',
+ADD COLUMN `fieldTMPL10` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 10 periods均线',
+ADD COLUMN  `fieldTMPL20` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 20 periods均线',
+ADD COLUMN  `fieldTMPL30` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 30 periods均线',
+ADD COLUMN  `fieldTMPL60` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 60 periods均线',
+ADD COLUMN  `fieldTMPL120` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'fieldTMPL 120 periods均线';
 
 DROP PROCEDURE IF EXISTS `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`;
 -- This procedure compute sma (simple moving average) for stock (idTMPL) at given datetime (`dtTMPL`).
@@ -53,7 +63,7 @@ BEGIN
    
 -- 	DECLARE coursors 
 		DECLARE cursor1 CURSOR FOR -- variable for the first cursor. 
-			SELECT `fieldTMPL` FROM `tableTMPL` WHERE `idTMPL` = in_idTMPL and `dtTMPL` <= in_dtTMPL ORDER BY `dtTMPL` DESC limit limit_number_for_cursor;
+			SELECT `fieldTMPL` FROM `tableTMPL` WHERE `idTMPL` = in_idTMPL AND `dtTMPL` <= in_dtTMPL ORDER BY `dtTMPL` DESC LIMIT LIMIT_NUMBER_FOR_CURSOR;
 
 -- 	DECLARE error handler for "NOT FOUND"
 		DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1;
@@ -66,7 +76,7 @@ BEGIN
 -- 	open cursor
 		OPEN cursor1;
 		-- Loop	of cursor1  
-			cursor1_LOOP1: LOOP
+			CURSOR1_LOOP1: LOOP
             
 				FETCH cursor1 INTO cursor_fetch_tmp; -- fetch result row into cursor_fetch_tmp tedd
 				
@@ -74,32 +84,30 @@ BEGIN
 				
 			-- set the conditional break for n-periods sma, we need the n as the max
 					IF loop_cnt > in_smaPeriods THEN
-						LEAVE cursor1_LOOP1;
+						LEAVE CURSOR1_LOOP1;
 					END IF;
 				
 			-- break from loop if reach the end of the cursor
 					IF record_fetch_end THEN
-						LEAVE cursor1_LOOP1;
+						LEAVE CURSOR1_LOOP1;
 					END IF;
 				
 				SET sum = sum + cursor_fetch_tmp; -- add the sum to sum
 		
-			END LOOP cursor1_LOOP1;
+			END LOOP CURSOR1_LOOP1;
 	  
 	  SET out_sma = ROUND((sum / in_smaPeriods),2); -- now calculate the n-period sma
 	  
-	close cursor1;
+	CLOSE cursor1;
 	-- output result on screen
 		-- SELECT out_sma;
 END $$
 DELIMITER ;
 
-
 -- Test the proc
--- 	SELECT * FROM `ying`.`tableTMPL` WHERE `idTMPL`='601318' ORDER BY dtTMPL DESC;
---     
--- 	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
--- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`('2019-09-09', '601318', 10, @out_sma);
+	SELECT @out_sma;    
+
 
 DROP PROCEDURE IF EXISTS `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods`;
 
@@ -153,13 +161,12 @@ BEGIN
 END$$
 DELIMITER ;
 
---  test query in the proc    
--- 	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
--- 	SELECT * FROM `ying`.`tableTMPL_sma` WHERE `dtTMPL` >= '2005-10-13 13:05:00' AND `dtTMPL` <= '2019-10-15 15:05:00' ORDER BY `dtTMPL` DESC;
--- 	select `dtTMPL` FROM `ying`.`tableTMPL`;
--- instructions for PROCEDURE `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`
-	-- create table `tableTMPL_sma` according to E:\bYun\securities\ying\table\table_tableTMPL_sma.sql
-	-- replace fields names accordingly, to which sma's are inserted 
+-- Test the proc
+	SELECT * FROM `tableTMPL` WHERE `idTMPL`='601318' ORDER BY dtTMPL DESC;
+--     
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
+
     
 DROP PROCEDURE IF EXISTS `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`; 
 -- This proc loops through two fields to compute sma's
@@ -184,7 +191,7 @@ BEGIN
 
 	DECLARE record_fetch_end TINYINT DEFAULT 0; -- DECLARE variable for error handler
         
-	DECLARE cursor1 CURSOR FOR SELECT DISTINCT `dtTMPL`, `idTMPL` FROM `ying`.`tableTMPL` WHERE `dtTMPL` >= in_dt_low AND `dtTMPL` <= in_dt_high ORDER BY `dtTMPL` DESC, `idTMPL`; -- DECLARE coursors  
+	DECLARE cursor1 CURSOR FOR SELECT DISTINCT `dtTMPL`, `idTMPL` FROM `tableTMPL` WHERE `dtTMPL` >= in_dt_low AND `dtTMPL` <= in_dt_high ORDER BY `dtTMPL` DESC, `idTMPL`; -- DECLARE coursors  
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1; -- DECLARE error handler for "NOT FOUND"	
     
@@ -198,7 +205,7 @@ BEGIN
 		-- 	actions	
 			CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`tableTMPL_sma` (`dtTMPL`,`idTMPL`,`fieldTMPL5`,`fieldTMPL10`,`fieldTMPL20`,`fieldTMPL30`,`fieldTMPL60`,`fieldTMPL120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `fieldTMPL5` =  @out_sma_1, `fieldTMPL10` =  @out_sma_2, `fieldTMPL20` =  @out_sma_3, `fieldTMPL30` =  @out_sma_4, `fieldTMPL60` =  @out_sma_5, `fieldTMPL120` =  @out_sma_6;
+			INSERT INTO `tableTMPL_sma` (`dtTMPL`,`idTMPL`,`fieldTMPL5`,`fieldTMPL10`,`fieldTMPL20`,`fieldTMPL30`,`fieldTMPL60`,`fieldTMPL120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `fieldTMPL5` =  @out_sma_1, `fieldTMPL10` =  @out_sma_2, `fieldTMPL20` =  @out_sma_3, `fieldTMPL30` =  @out_sma_4, `fieldTMPL60` =  @out_sma_5, `fieldTMPL120` =  @out_sma_6;
 
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
@@ -211,3 +218,9 @@ BEGIN
     
 END$$
 DELIMITER ;
+
+--  test query in the proc    
+	CALL tableTMPL_import_data_from_s_rt;
+        CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL 3 DAY) , '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+-- 	SELECT * FROM `tableTMPL_sma` WHERE `dtTMPL` >= '2005-10-13 13:05:00' AND `dtTMPL` <= '2019-10-15 15:05:00' ORDER BY `dtTMPL` DESC;
+-- 	select `dtTMPL` FROM `tableTMPL`;
