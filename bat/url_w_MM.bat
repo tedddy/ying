@@ -27,16 +27,16 @@ REM PAUSE
 
 ECHO.
 
-move "Y:\url_ying\url_hk_w_MarketMaker_*.txt" "Y:\url_ying\_archive"
-del "Y:\url_ying\url_hk_w_MarketMaker.txt"
+move "Y:\url_ying\url_w_MM_*.txt" "Y:\url_ying\_archive"
+del "Y:\url_ying\url_w_MM.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT concat('http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=', code,'&b=00000000&max=', 1) AS 'url_hk_w_MarketMaker' FROM `hk_w` where eDate > curdate() and eDate > '0000-00-00' and (`uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI', '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from hk_s_hgt_info));" > "Y:\url_ying\url_hk_w_MarketMaker_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT concat('http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=', code,'&b=00000000&max=', 1) AS 'url_w_MM' FROM `hk_w` where eDate > curdate() and eDate > '0000-00-00' and (`uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI', '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from hk_s_hgt_info));" > "Y:\url_ying\url_w_MM_%today%.txt"
 
 REM PAUSE
 
-MORE /E +1 "Y:\url_ying\url_hk_w_MarketMaker_%today%.txt" > "Y:\url_ying\url_hk_w_MarketMaker.txt"
+MORE /E +1 "Y:\url_ying\url_w_MM_%today%.txt" > "Y:\url_ying\url_w_MM.txt"
 
 REM PAUSE
 
