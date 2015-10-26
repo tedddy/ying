@@ -22,4 +22,41 @@ start: 12:43 2015-10-24	s_xts_sma clo5 d1	end: 17:52 2015-10-23	update d1 of fie
 		fieldTMPL	with	clo5		13 replaced
 	execute file proc_s_xts_ids_d_clo_sma.sql & test all procedures
 	
-start: 12:43 2015-10-24	create view for latest fa in s_xts_adj_hst_sina	end: 13:06 2015-10-25	
+start: 12:43 2015-10-24	create view for latest fa in s_xts_adj_hst_sina	end: 13:06 2015-10-25
+
+
+start: 10:00 2015-10-26		task: migrate project hk_w_MarketMaker  		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+start: 10:00 2015-10-26		task: 		end: 
+
+
+
+	
