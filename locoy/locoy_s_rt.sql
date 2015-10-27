@@ -1,32 +1,21 @@
 SELECT * FROM `s_rt` order by dt desc, ids;
-SELECT * FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
-SELECT * FROM `s_rt` where time(dt) = '15:00:00' order by volume;
-
--- DELETE FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
--- DELETE FROM `s_rt` where dt = '0000-00-00 00:00:00'; 
--- DELETE FROM `hs_s_rt_EM` where dt = '0000-00-00 00:00:00'; 
-
 
 -- DROP TABLE IF EXISTS `s_rt`;
 
 CREATE TABLE `s_rt` (
-  `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
-  `close` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '收盘价或当前价',
-  `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
-  `amount` INT(10) UNSIGNED NOT NULL COMMENT '成交额',
-  `chgrate` DECIMAL(5,2) NOT NULL COMMENT '涨跌幅',
-  `WeiBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '委比',
-  `chgrate5` DECIMAL(5,2) NOT NULL COMMENT '五分钟涨幅',
-  `LiangBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '量比',
-  `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-  PRIMARY KEY (`ids`,`dt`)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8;
-
-ALTER TABLE `ying`.`s_rt` 
-ADD COLUMN `id` MEDIUMINT(9) NOT NULL AUTO_INCREMENT COMMENT '' AFTER `dt`,
-DROP PRIMARY KEY,
-ADD PRIMARY KEY (`id`)  COMMENT 'PRIMARY AUTO_INCREMENT',
-ADD UNIQUE INDEX `unique_ids_dt` (`ids` ASC, `dt` ASC)  COMMENT 'unique ids_dt';
+    `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
+    `close` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT 'close',
+    `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
+    `amount` INT(10) UNSIGNED NOT NULL COMMENT '成交额',
+    `chgrate` DECIMAL(5 , 2 ) NOT NULL COMMENT '涨跌幅',
+    `WeiBi` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT '委比',
+    `chgrate5` DECIMAL(5 , 2 ) NOT NULL COMMENT '五分钟涨幅',
+    `LiangBi` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT '量比',
+    `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+    `id` MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
+    PRIMARY KEY (`id`) COMMENT 'PRIMARY AUTO_INCREMENT',
+    UNIQUE KEY `unique_ids_dt` (`ids` , `dt`) COMMENT 'unique ids_dt'
+)  ENGINE=INNODB AUTO_INCREMENT=3460024 DEFAULT CHARSET=UTF8;
 
 
 -- DROP PROCEDURE `s_rt`;
@@ -64,3 +53,35 @@ END$$
 DELIMITER ;
 
 CALL s_rt('[标签:code]','[标签:close]','[标签:amount]','[标签:volume]','[标签:chgrate]','[标签:WeiBi]','[标签:chgrate5]','[标签:LiangBi]','[标签:date]','[标签:time]');
+
+
+-- history
+-- CREATE TABLE `s_rt` (
+--   `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
+--   `close` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '收盘价或当前价',
+--   `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
+--   `amount` INT(10) UNSIGNED NOT NULL COMMENT '成交额',
+--   `chgrate` DECIMAL(5,2) NOT NULL COMMENT '涨跌幅',
+--   `WeiBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '委比',
+--   `chgrate5` DECIMAL(5,2) NOT NULL COMMENT '五分钟涨幅',
+--   `LiangBi` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '量比',
+--   `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
+--   PRIMARY KEY (`ids`,`dt`)
+-- ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+-- 
+-- ALTER TABLE `ying`.`s_rt` 
+-- ADD COLUMN `id` MEDIUMINT(9) NOT NULL AUTO_INCREMENT COMMENT '' AFTER `dt`,
+-- DROP PRIMARY KEY,
+-- ADD PRIMARY KEY (`id`)  COMMENT 'PRIMARY AUTO_INCREMENT',
+-- ADD UNIQUE INDEX `unique_ids_dt` (`ids` ASC, `dt` ASC)  COMMENT 'unique ids_dt';
+-- 
+-- 
+
+-- SELECT * FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+-- SELECT * FROM `s_rt` where time(dt) = '15:00:00' order by volume;
+-- 
+-- DELETE FROM `s_rt` where close <=0 and volume <= 0 and amount <=0 and weibi<=0;
+-- DELETE FROM `s_rt` where dt = '0000-00-00 00:00:00'; 
+-- DELETE FROM `hs_s_rt_EM` where dt = '0000-00-00 00:00:00'; 
+
+
