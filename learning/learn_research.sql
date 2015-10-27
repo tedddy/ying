@@ -132,7 +132,7 @@ FROM
     tableTMPL AS l1 ON l1.idTMPL = c.idTMPL
         AND l1.dtTMPL = c.l_dtTMPL;
 
--- start: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
+-- end: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
 
 
 SHOW COLUMNS FROM `hs_index_000001` LIKE 'm%';
