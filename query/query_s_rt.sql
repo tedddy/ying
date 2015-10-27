@@ -16,9 +16,15 @@ SELECT * from hs_s where code not in (SELECT DISTINCT ids FROM ying.s_rt);
 -- 
 select DISTINCT code from hs_s_xts_fast;
 
-SELECT * from hs_s;
+SELECT count(*) from hs_s;
+
+SELECT count(*) from s_rt;
+
+SELECT count(*) from hs_s_rt_EM;
 
 SELECT * FROM ying.s_rt where dt = '2015-10-22 09:30:00' order by ids, dt desc;
+
+SELECT * FROM ying.s_rt order by dt;
 
 SELECT * FROM ying.s_rt where dt is null order by ids, dt desc;
 
