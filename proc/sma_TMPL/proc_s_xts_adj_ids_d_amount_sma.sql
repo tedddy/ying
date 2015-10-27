@@ -12,7 +12,7 @@
 
 -- instructions for PROCEDURE `s_xts_adj_ids_d_amount_sma`
 	-- replace `d` and ids with acorrding fields names
-		-- NOTE: remember to change data types accordingly.
+		-- NOTE: remember to change data types accordingly. tedd!!!
 	-- replace s_xts_adj with table name;
     -- replace amount wiht the field name of the sma calc;
     -- replace the date type of out_sma, cursor_fetch_tmp, and sum with the according data types;
@@ -34,12 +34,12 @@ CREATE TABLE IF NOT EXISTS `s_xts_adj_sma` (
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 ALTER TABLE `s_xts_adj_sma`
-ADD COLUMN `amount5` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 5 periods均线',
-ADD COLUMN `amount10` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 10 periods均线',
-ADD COLUMN  `amount20` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 20 periods均线',
-ADD COLUMN  `amount30` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 30 periods均线',
-ADD COLUMN  `amount60` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 60 periods均线',
-ADD COLUMN  `amount120` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'amount 120 periods均线';
+ADD COLUMN `amount5` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 5 periods均线',
+ADD COLUMN `amount10` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 10 periods均线',
+ADD COLUMN  `amount20` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 20 periods均线',
+ADD COLUMN  `amount30` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 30 periods均线',
+ADD COLUMN  `amount60` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 60 periods均线',
+ADD COLUMN  `amount120` MEDIUMINT(8) UNSIGNED DEFAULT NULL COMMENT 'amount 120 periods均线';
 
 DROP PROCEDURE IF EXISTS `s_xts_adj_ids_d_amount_sma`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`d`).
@@ -51,13 +51,13 @@ CREATE PROCEDURE `s_xts_adj_ids_d_amount_sma`(
 		in_smaPeriods MEDIUMINT, -- variable: Periods of the sma 
     
 	OUT 
-		out_sma DECIMAL(6,2) -- sma output
+		out_sma MEDIUMINT(8) -- sma output
 	)
 
 BEGIN
 -- 	DECLARE variables
-        DECLARE cursor_fetch_tmp DECIMAL(6,2); -- variable for cursor fetch into
-		DECLARE sum DECIMAL(12,2); 	-- variable for total of periods
+        DECLARE cursor_fetch_tmp MEDIUMINT(8); -- variable for cursor fetch into
+		DECLARE sum INT(12); 	-- variable for total of periods
 									-- If "DECLARE sum DECIMAL(6,2);" and in_smaPeriods is big, get this message: 0 row(s) affected, 1 warning(s): 1264 Out of range value for column 'sum' at row 1
 		DECLARE loop_cnt SMALLINT; -- variable for loop counter
 		DECLARE limit_number_for_cursor SMALLINT;         
@@ -98,7 +98,7 @@ BEGIN
 		
 			END LOOP CURSOR1_LOOP1;
 	  
-	  SET out_sma = ROUND((sum / in_smaPeriods),2); -- now calculate the n-period sma
+	  SET out_sma = ROUND((sum / in_smaPeriods)); -- now calculate the n-period sma
 	  
 	CLOSE cursor1;
 	-- output result on screen
@@ -128,12 +128,12 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts_adj_ids_d_amount_sma_multiPeriods`
 		in_smaPeriods_5 MEDIUMINT, 
 		in_smaPeriods_6 MEDIUMINT, 
     
-		OUT out_sma_1 DECIMAL(6,2), 
-		OUT out_sma_2 DECIMAL(6,2), 
-		OUT out_sma_3 DECIMAL(6,2), 
-		OUT out_sma_4 DECIMAL(6,2), 
-		OUT out_sma_5 DECIMAL(6,2), 
-		OUT out_sma_6 DECIMAL(6,2)
+		OUT out_sma_1 MEDIUMINT(8), 
+		OUT out_sma_2 MEDIUMINT(8), 
+		OUT out_sma_3 MEDIUMINT(8), 
+		OUT out_sma_4 MEDIUMINT(8), 
+		OUT out_sma_5 MEDIUMINT(8), 
+		OUT out_sma_6 MEDIUMINT(8)
     )
     
 BEGIN
@@ -223,3 +223,20 @@ BEGIN
     
 END$$
 DELIMITER ;
+
+-- 5:39 2015-10-28 revise data type of amount
+/* 	replace DECIMAL(6,2) with MEDIUMINT(8) 
+	run file E:\user_tony\Documents\GitHub\ying\proc\sma_TMPL\proc_s_xts_adj_ids_d_amount_sma.sql
+        
+	ALTER TABLE `ying_calc`.`s_xts_adj_sma` 
+	CHANGE COLUMN `amount5` `amount5` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 5 periods均线', 
+        CHANGE COLUMN `amount10` `amount10` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 10 periods均线' ,
+	CHANGE COLUMN `amount20` `amount20` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 20 periods均线' ,
+	CHANGE COLUMN `amount30` `amount30` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 30 periods均线' ,
+	CHANGE COLUMN `amount60` `amount60` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 60 periods均线' ,
+	CHANGE COLUMN `amount120` `amount120` MEDIUMINT(8) UNSIGNED NULL DEFAULT NULL COMMENT 'amount 120 periods均线' ;
+        
+        ALTER TABLE `ying_calc`.`s_xts_adj_sma` 
+	CHANGE COLUMN `d` `d` DATE NOT NULL COMMENT '' ;
+
+*/
