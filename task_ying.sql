@@ -25,10 +25,13 @@ start: 12:43 2015-10-24	s_xts_sma clo5 d1	end: 17:52 2015-10-23	update d1 of fie
 start: 12:43 2015-10-24	create view for latest fa in s_xts_adj_hst_sina	end: 11:51 2015-10-26		E:\user_tony\Documents\GitHub\ying\locoy\locoy_w_MM.sql
 
 
-start: 12:03 2015-10-26	task: sma for s_xts_adj		end: 
+start: 12:03 2015-10-26	task: sma for s_xts_adj		end: 2015-10-26
 
 
-start: 10:00 2015-10-26		task: 		end: 
+start: 10:00 2015-10-26		task: migrate project hk_w_MarketMaker		end: 
+
+
+start: 9:23 2015-10-27		task: migrate project hs_index_xts_EM		end: 
 
 
 start: 10:00 2015-10-26		task: 		end: 
