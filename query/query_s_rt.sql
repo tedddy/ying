@@ -24,7 +24,7 @@ SELECT count(*) from hs_s_rt_EM;
 
 SELECT * FROM ying.s_rt where dt = '2015-10-22 09:30:00' order by ids, dt desc;
 
-SELECT * FROM ying.s_rt order by dt;
+SELECT * FROM ying.s_rt order by id desc;
 
 SELECT * FROM ying.s_rt where dt is null order by ids, dt desc;
 
