@@ -47,3 +47,8 @@ ON DUPLICATE KEY UPDATE
     `close` = ROUND(`s_xts_adj_hst_sina`.`close`/faL.fa,2),
     `volume` = ROUND(`s_xts_adj_hst_sina`.`volume`,2),
     `amount` = ROUND(`s_xts_adj_hst_sina`.`amount`,2);
+
+-- 5:39 2015-10-28 revise data type of volume and amount    
+ALTER TABLE `ying_calc`.`s_xts_adj` 
+CHANGE COLUMN `volume` `volume` MEDIUMINT(9) UNSIGNED NOT NULL COMMENT 'volume 成交量 手' ,
+CHANGE COLUMN `amount` `amount` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT 'amount 股票成交额 万' ;
