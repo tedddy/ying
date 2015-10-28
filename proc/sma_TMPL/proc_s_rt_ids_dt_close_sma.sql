@@ -1,7 +1,7 @@
-DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_close`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
 DELIMITER $$ 
-CREATE PROCEDURE `s_rt_sma_ids_dt_volume`(
+CREATE PROCEDURE `s_rt_sma_ids_dt_close`(
 	IN 	
 		in_dt DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt. 
 		in_ids VARCHAR(25), -- variable: stock id
@@ -22,7 +22,7 @@ BEGIN
    
 -- 	DECLARE coursors 
 		DECLARE cursor1 CURSOR FOR -- variable for the first cursor. 
-			SELECT `volume` FROM `s_rt` WHERE `ids` = in_ids and `dt` <= in_dt ORDER BY `dt` DESC limit limit_number_for_cursor;
+			SELECT `close` FROM `s_rt` WHERE `ids` = in_ids and `dt` <= in_dt ORDER BY `dt` DESC limit limit_number_for_cursor;
 
 -- 	DECLARE error handler for "NOT FOUND"
 		DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1;
@@ -63,10 +63,10 @@ BEGIN
 END $$
 DELIMITER ;
 
-DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_close_multiPeriods`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_volume_multiPeriods`
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_close_multiPeriods`
 	(
 	IN 	
 		in_dt DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt.  
@@ -89,41 +89,41 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_volume_multiPeriods`
 BEGIN
 
 --  sma_1
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
 	SET out_sma_1 = @out_sma_1;
     
 --  sma_2
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
 	SET out_sma_2 = @out_sma_2;
 
 --  sma_3
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
 	SET out_sma_3 = @out_sma_3;
 
 --  sma_4
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
 	SET out_sma_4 = @out_sma_4;
 
 --  sma_5
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
 	SET out_sma_5 = @out_sma_5;
 
 --  sma_6
-	CALL `s_rt_sma_ids_dt_volume`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
+	CALL `s_rt_sma_ids_dt_close`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
 	SET out_sma_6 = @out_sma_6;          
 
 END$$
 DELIMITER ;
 
 --  test query in the proc    
--- 	CALL `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`('2015-09-20 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+-- 	CALL `s_rt_sma_ids_dt_close_multiPeriods_loop_dt_ids`('2015-09-20 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
 --     
 -- 	SELECT * FROM `ying`.`s_rt_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
 --  
-DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`;
+DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_close_multiPeriods_loop_dt_ids`;
 -- 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_volume_multiPeriods_loop_dt_ids`(
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_sma_ids_dt_close_multiPeriods_loop_dt_ids`(
 
 	IN 	in_dt_low DATETIME, -- variable for the lowest datetime in the selection of the cursor. 
         in_dt_high DATETIME, -- variable for the highest datetime in the selection of the cursor.ids VARCHAR(6),
@@ -155,9 +155,9 @@ BEGIN
 			FETCH cursor1 INTO cursor_fetch_tmp_dt, cursor_fetch_tmp_ids; -- fetch result row into cursor_fetch_tmp tedd
             		
 		-- 	actions	
-			CALL `s_rt_sma_ids_dt_volume_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
+			CALL `s_rt_sma_ids_dt_close_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
 			
-			INSERT INTO `ying`.`s_rt_sma` (`dt`,`ids`,`volume5`,`volume10`,`volume20`,`volume30`,`volume60`,`volume120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `volume5` =  @out_sma_1, `volume10` =  @out_sma_2, `volume20` =  @out_sma_3, `volume30` =  @out_sma_4, `volume60` =  @out_sma_5, `volume120` =  @out_sma_6;
+			INSERT INTO `ying`.`s_rt_sma` (`dt`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
             
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
@@ -175,24 +175,24 @@ DELIMITER ;
 -- Test the proc
 -- 	SELECT * FROM `ying`.`s_rt` WHERE `ids`='601318' ORDER BY dt DESC;
 --     
--- 	CALL `s_rt_sma_ids_dt_volume_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+-- 	CALL `s_rt_sma_ids_dt_close_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 -- 
--- DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_volume_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_rt_sma_ids_dt_close_multiPeriods`;
 -- 
 
 
--- instructions for PROCEDURE `s_rt_sma_ids_dt_volume`
+-- instructions for PROCEDURE `s_rt_sma_ids_dt_close`
 	-- replace dt and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace s_rt with table name;
-    -- replace volume wiht the field name of the sma calc;
+    -- replace close wiht the field name of the sma calc;
     -- replace the date type of out_sma, cursor_fetch_tmp, and sum with the according data types;
 		-- NOTE: out_sma and cursor_fetch_tmp are usually the same data type.
         -- NOTE: sum is better to be big, especially when loop_cnt is large.
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 -- Test the proc
--- 	CALL `s_rt_sma_ids_dt_volume`('2019-09-09', '601318', 10, @out_sma);
+-- 	CALL `s_rt_sma_ids_dt_close`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
     
