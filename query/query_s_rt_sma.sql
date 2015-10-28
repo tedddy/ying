@@ -2,6 +2,9 @@ SELECT * FROM ying.s_rt_sma ;
 
 SELECT * FROM ying.s_rt_sma order by ids, dt desc, volume5 desc;
 
+SELECT * FROM ying.s_rt_sma order by dt desc, ids;
+
+
 SELECT * FROM ying.s_rt_sma where volume5 > 300 order by ids, dt desc;
 
 SELECT * FROM ying.s_rt_sma where dt > '2015-10-01' order by dt;
