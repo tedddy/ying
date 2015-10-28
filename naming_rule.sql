@@ -325,7 +325,7 @@ Cross Listed 	XLST
 Cross Reference 	XREF 	
 Cumulative 	CUM 	
 Currency* 	CURR* 	
-Current* 	CUR* 	
+Current* 	CUR* 	tedd
 Cursor 	CRSR 	
 Custodian 	CSTN 	
 Customer* 	CUST* 	

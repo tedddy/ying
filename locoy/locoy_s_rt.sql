@@ -17,6 +17,7 @@ CREATE TABLE `s_rt` (
     UNIQUE KEY `unique_ids_dt` (`ids` , `dt`) COMMENT 'unique ids_dt'
 )  ENGINE=INNODB AUTO_INCREMENT=3460024 DEFAULT CHARSET=UTF8;
 
+CALL s_rt('002229','26.00','76755','313656','9.01','28.66','2.77','9.21','2015-10-28','09:53:06');
 
 DROP PROCEDURE `s_rt`;
 DELIMITER $$
@@ -47,7 +48,7 @@ SET dt =  CAST(CONCAT(date, ' ', CASE WHEN time <= '09:27:00' THEN '09:25:00' WH
 -- `LiangBi` = LiangBi,
 -- `TimeSlot` = dt; 
 
-
+IF `close` > 0 AND `close` IS NOT NULL THEN
 INSERT INTO `s_rt` (`ids`, `close`, `amount`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`, `dt`) VALUES (ids, close, amount, volume, chgrate, WeiBi, chgrate5, LiangBi, dt) 
 ON DUPLICATE KEY UPDATE  
 `id` = id,
@@ -58,7 +59,7 @@ ON DUPLICATE KEY UPDATE
 `WeiBi` = WeiBi,
 `chgrate5` = chgrate5,
 `LiangBi` = LiangBi; 
-
+END IF;
 -- CALL `s_rt_get_smaClose_rt_multiPeriods_rt`(ids, close, 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- INSERT INTO `s_rt_sma` (`dt`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) VALUES (dt,ids,@out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
 END$$
