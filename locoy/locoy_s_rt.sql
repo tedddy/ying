@@ -3,19 +3,25 @@ SELECT * FROM `s_rt` ORDER BY dt DESC, ids;
 -- DROP TABLE IF EXISTS `s_rt`;
 
 CREATE TABLE `s_rt` (
-    `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
-    `close` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT 'close',
-    `volume` INT(10) UNSIGNED NOT NULL COMMENT '成交量',
-    `amount` INT(10) UNSIGNED NOT NULL COMMENT '成交额',
-    `chgrate` DECIMAL(5 , 2 ) NOT NULL COMMENT '涨跌幅',
-    `WeiBi` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT '委比',
-    `chgrate5` DECIMAL(5 , 2 ) NOT NULL COMMENT '五分钟涨幅',
-    `LiangBi` DECIMAL(6 , 2 ) UNSIGNED NOT NULL COMMENT '量比',
-    `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00',
-    `id` MEDIUMINT(9) NOT NULL AUTO_INCREMENT,
-    PRIMARY KEY (`id`) COMMENT 'PRIMARY AUTO_INCREMENT',
-    UNIQUE KEY `unique_ids_dt` (`ids` , `dt`) COMMENT 'unique ids_dt'
-)  ENGINE=INNODB AUTO_INCREMENT=3460024 DEFAULT CHARSET=UTF8;
+  `ids` varchar(6) NOT NULL COMMENT 'stock id',
+  `close` decimal(6,2) unsigned NOT NULL COMMENT 'close',
+  `volume` int(10) unsigned NOT NULL COMMENT '成交量',
+  `amount` int(10) unsigned NOT NULL COMMENT '成交额',
+  `chgrate` decimal(5,2) NOT NULL COMMENT '涨跌幅',
+  `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
+  `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
+  `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
+  `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
+  PRIMARY KEY (`dt`,`ids`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+-- assign keys 
+ALTER TABLE `ying`.`s_rt` 
+ADD PRIMARY KEY (`dt`, `ids`),
+DROP INDEX `unique_ids_dt` ;
+-- change order of fields
+ALTER TABLE `ying`.`s_rt` 
+CHANGE COLUMN `dt` `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '' FIRST;
 
 CALL s_rt('002229','26.00','76755','313656','9.01','28.66','2.77','9.21','2015-10-28','09:53:06');
 
@@ -51,7 +57,6 @@ SET dt =  CAST(CONCAT(date, ' ', CASE WHEN time <= '09:27:00' THEN '09:25:00' WH
 IF `close` > 0 AND `close` IS NOT NULL THEN
 INSERT INTO `s_rt` (`ids`, `close`, `amount`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`, `dt`) VALUES (ids, close, amount, volume, chgrate, WeiBi, chgrate5, LiangBi, dt) 
 ON DUPLICATE KEY UPDATE  
-`id` = id,
 `close` = close,
 `amount` = amount,
 `volume` = volume,
