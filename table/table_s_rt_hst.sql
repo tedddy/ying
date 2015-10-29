@@ -1,7 +1,10 @@
 SELECT DISTINCT dt FROM `s_rt_hst` ORDER BY dt DESC LIMIT 200;
 
-CREATE TABLE `s_rt_hst` (
+-- DROP TABLE `ying_calc`.`s_rt_hst`;
+
+CREATE TABLE `ying_calc`.`s_rt_hst` (
   `ids` varchar(6) NOT NULL COMMENT 'stock id',
+  `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   `close` decimal(6,2) unsigned NOT NULL COMMENT 'close',
   `volume` int(10) unsigned NOT NULL COMMENT '成交量',
   `amount` int(10) unsigned NOT NULL COMMENT '成交额',
@@ -9,17 +12,12 @@ CREATE TABLE `s_rt_hst` (
   `WeiBi` decimal(6,2) unsigned NOT NULL COMMENT '委比',
   `chgrate5` decimal(5,2) NOT NULL COMMENT '五分钟涨幅',
   `LiangBi` decimal(6,2) unsigned NOT NULL COMMENT '量比',
-  `dt` datetime NOT NULL DEFAULT '0000-00-00 00:00:00',
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- change order of fields
-ALTER TABLE `ying`.`s_rt_hst` 
-CHANGE COLUMN `dt` `dt` DATETIME NOT NULL DEFAULT '0000-00-00 00:00:00' COMMENT '' FIRST;
-
 -- Archive s_rt: move data from s_rt to s_rt_hst
 
-INSERT INTO `ying`.`s_rt_hst`
+INSERT INTO `ying_calc`.`s_rt_hst`
 (`ids`,
 `close`,
 `volume`,
@@ -42,6 +40,6 @@ FROM `ying`.`s_rt` WHERE DATEDIFF(CURDATE(), DATE(dt)) <= 1
 ON DUPLICATE KEY UPDATE
 `ids` = `s_rt`.`ids`;
 
-DELETE FROM `ying`.`s_rt` WHERE DATEDIFF(CURDATE(), DATE(dt)) > 7;
+DELETE FROM `ying`.`s_rt` WHERE DATEDIFF(CURDATE(), DATE(dt)) > 3;
 
 SELECT * FROM ying.s_rt;
