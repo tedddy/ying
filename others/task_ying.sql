@@ -34,10 +34,10 @@ start: 10:00 2015-10-26		task: migrate project hk_w_MarketMaker		end:
 start: 9:23 2015-10-27		task: migrate project hs_index_xts_EM		end: 
 
 
-start: 10:00 2015-10-26		task: 		end: 
-
-
-start: 10:00 2015-10-26		task: 		end: 
+start: 9:51 2015-10-30		task: `ying_calc`.`index_cons_stat_zd` 	end: 
+	
+	
+start: 10:25 2015-10-30		task: locoy_s_rt, revise proc to insert records into two tables 		end: 
 
 
 start: 10:00 2015-10-26		task: 		end: 

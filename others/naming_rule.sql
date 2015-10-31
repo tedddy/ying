@@ -2,7 +2,11 @@ naming rule
 
 -- to do list
 
-	order by d  to order by `d`
+	order by d	to	order by `d`
+	name_index	to	name_i
+		E:\user_tony\Documents\GitHub\ying\locoy\locoy_index_info.sql
+		ALTER TABLE `ying`.`index_info` CHANGE COLUMN `name_index` `name_i` VARCHAR(18) NULL DEFAULT NULL COMMENT 'index name' ;
+		ALTER TABLE `ying_calc`.`index_cons_stat_zd` CHANGE COLUMN `name_index` `name_i` VARCHAR(12) NOT NULL COMMENT '' ;
 
 hs_s_rt_EM_get_sma to hs_s_rt_EM_get_smaClose 2015-10-14 9:19
 
