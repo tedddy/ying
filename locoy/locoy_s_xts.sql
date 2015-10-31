@@ -48,34 +48,12 @@ SELECT
     `hs_s_xts`.`volume`,
     `hs_s_xts`.`amount`,
     `hs_s_xts`.`clo`
-FROM `hs_s_xts`;
-
-INSERT INTO `s_xts`
-	(`ids`,
-	`d`,
-	`open`,
-	`high`,
-	`low`,
-	`close`,
-	`volume`,
-	`amount`,
-	`clo`)
-SELECT 
-    `hs_s_xts`.`code`,
-    `hs_s_xts`.`date`,
-    `hs_s_xts`.`open`,
-    `hs_s_xts`.`high`,
-    `hs_s_xts`.`low`,
-    `hs_s_xts`.`close`,
-    `hs_s_xts`.`volume`,
-    `hs_s_xts`.`amount`,
-    `hs_s_xts`.`clo`
-FROM `hs_s_xts` where date = '2015-10-21' ;
+FROM `hs_s_xts` WHERE date = '2015-10-21' ;
 -- 
 SELECT COUNT(*) FROM `hs_s_xts`;
 SELECT COUNT(*) FROM `s_xts`;
 SELECT * FROM `hs_s_xts_fast` ORDER BY date DESC;
-SELECT * FROM `s_xts` where d = '2015-10-22' ORDER BY d DESC;
+SELECT * FROM `s_xts` WHERE d = '2015-10-22' ORDER BY d DESC;
 
 -- clean data
 SELECT COUNT(*) FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
@@ -83,7 +61,7 @@ SELECT * FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
 DELETE FROM `s_xts` WHERE `amount` = 0 OR volume = 0;
 
 -- update field clo 
-update `s_xts` set `clo` = close;
+UPDATE `s_xts` SET `clo` = close;
 
 /* Migrate locoy project `hs_s_xts` to `s_xts` step 2: migrate procedure
 	10:16 2015-10-21 
@@ -94,7 +72,7 @@ update `s_xts` set `clo` = close;
 
 DROP PROCEDURE `s_xts`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), d DATE, open DECIMAL(7,3), high DECIMAL(7,3), low DECIMAL(7,3), close DECIMAL(7,3), volume BIGINT(11) UNSIGNED, amount BIGINT(12) UNSIGNED)
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), d DATE, open DECIMAL(7,3), high DECIMAL(7,3), low DECIMAL(7,3), close DECIMAL(7,3), volume INT(9) UNSIGNED, amount MEDIUMINT(12) UNSIGNED)
 
 BEGIN
 	DECLARE clo DECIMAL(6,2);

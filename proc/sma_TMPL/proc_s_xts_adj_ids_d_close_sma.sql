@@ -2,7 +2,7 @@
 	replace `s_xts_adj` with `s_xts_adj`, `ids` with `ids`, `d` with `d`, `close` with `close`
 	save file proc_s_xts_adj_ids_d_close_sma.sql as another file accordingly
 	replace
-		s_xts_adj	with		37 replaced
+		`s_xts_adj`	with		37 replaced
 		ids		with			 replaced
 		d		with			49 replaced
 		close	with			49 replaced
@@ -13,7 +13,7 @@
 -- instructions for PROCEDURE `s_xts_adj_ids_d_close_sma`
 	-- replace `d` and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
-	-- replace s_xts_adj with table name;
+	-- replace `s_xts_adj` with table name;
     -- replace close wiht the field name of the sma calc;
     -- replace the date type of out_sma, cursor_fetch_tmp, and sum with the according data types;
 		-- NOTE: out_sma and cursor_fetch_tmp are usually the same data type.
@@ -46,7 +46,7 @@ DROP PROCEDURE IF EXISTS `s_xts_adj_ids_d_close_sma`;
 DELIMITER $$ 
 CREATE PROCEDURE `s_xts_adj_ids_d_close_sma`(
 	IN 	
-		in_d DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_xts_adj. 
+		in_d DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table `s_xts_adj`. 
 		in_ids VARCHAR(25), -- variable: stock id
 		in_smaPeriods MEDIUMINT, -- variable: Periods of the sma 
     
@@ -119,7 +119,7 @@ DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts_adj_ids_d_close_sma_multiPeriods`
 	(
 	IN 	
-		in_d DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_xts_adj.  
+		in_d DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table `s_xts_adj`.  
 		in_ids VARCHAR(6),
         in_smaPeriods_1 MEDIUMINT, 
 		in_smaPeriods_2 MEDIUMINT, 
