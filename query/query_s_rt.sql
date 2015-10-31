@@ -1,3 +1,9 @@
+
+SELECT * FROM ying.s_rt order by dt desc, ids;
+
+SELECT * FROM ying_calc.s_rt_hst order by dt desc, ids;
+
+
 -- insert into hs_s (code, DateSys) select DISTINCT ids, '2015-10-23' from s_rt where ids not in (SELECT DISTINCT code FROM ying.hs_s_xts_history_sina);
 
 SELECT distinct code from hs_s where code in (select DISTINCT ids from s_rt where ids not in (SELECT DISTINCT code FROM ying.hs_s_xts_history_sina));
@@ -25,6 +31,8 @@ SELECT count(*) from hs_s_rt_EM;
 SELECT * FROM ying.s_rt where dt = '2015-10-22 09:30:00' order by ids, dt desc;
 
 SELECT * FROM ying.s_rt order by id desc;
+
+SELECT count(*) FROM ying_calc.s_rt_hst;
 
 SELECT * FROM ying.s_rt where dt is null order by ids, dt desc;
 

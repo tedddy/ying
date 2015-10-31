@@ -1,4 +1,7 @@
-SELECT DISTINCT dt FROM `s_rt_hst` ORDER BY dt DESC LIMIT 200;
+SELECT DISTINCT dt FROM `ying_calc`.`s_rt_hst` ORDER BY dt DESC LIMIT 200;
+
+SELECT DISTINCT dt FROM `s_rt` ORDER BY dt DESC LIMIT 200;
+
 
 -- DROP TABLE `ying_calc`.`s_rt_hst`;
 
@@ -40,6 +43,8 @@ FROM `ying`.`s_rt` WHERE DATEDIFF(CURDATE(), DATE(dt)) <= 1
 ON DUPLICATE KEY UPDATE
 `ids` = `s_rt`.`ids`;
 
-DELETE FROM `ying`.`s_rt` WHERE DATEDIFF(CURDATE(), DATE(dt)) > 3;
+-- TRUNCATE `ying_calc`.`index_cons_stat_zd`;
+
+DELETE FROM `ying`.`s_rt` WHERE dt < '2015-10-29 15:05:00';
 
 SELECT * FROM ying.s_rt;

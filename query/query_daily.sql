@@ -1,3 +1,5 @@
+SELECT * FROM `ying_calc`.`index_cons_stat_zd` order by dt desc;
+
 SELECT * FROM ying.hs_s_loan_EM where code is NULL and fMKT = 1 order by id desc;
 SELECT * FROM ying.hs_s_loan_EM where code is NULL and fMKT = 2 order by id desc;
 SELECT * FROM ying.hs_s_loan_EM order by id desc;
