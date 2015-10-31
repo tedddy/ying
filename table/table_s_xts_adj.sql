@@ -18,6 +18,31 @@ ALTER TABLE `ying`.`s_xts_adj`
 CHANGE COLUMN `volume` `volume` INT(9) UNSIGNED NOT NULL COMMENT 'volume 成交量' ,
 CHANGE COLUMN `amount` `amount` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT 'amount 股票成交额' ;
 
+-- insert data into `s_xts_adj` from `s_xts`
+
+INSERT IGNORE INTO `ying_calc`.`s_xts_adj`
+	(
+	    `ids`,
+	    `d`,
+	    `open`,
+	    `high`,
+	    `low`,
+	    `close`,
+	    `volume`,
+	    `amount`
+        )
+SELECT 
+	    `s_xts`.`ids`,
+	    `s_xts`.`d`,
+	    `s_xts`.`open`,
+	    `s_xts`.`high`,
+	    `s_xts`.`low`,
+	    `s_xts`.`close`,
+	    `s_xts`.`volume`,
+	    `s_xts`.`amount`
+FROM
+    `s_xts` WHERE `s_xts`.`d` = '2015-10-29'; 
+
 -- insert data into `s_xts_adj` from `s_xts_adj_hst_sina`
 
 INSERT INTO `s_xts_adj`
@@ -86,7 +111,7 @@ ON DUPLICATE KEY UPDATE
     `volume` = ROUND(`s_xts_adj_hst_sina`.`volume`,2),
     `amount` = ROUND(`s_xts_adj_hst_sina`.`amount`,2) ;
 
-SELECT group_concat(DISTINCT ids) FROM ying.s_xts_adj where volume = 16777215 order by volume desc limit 10000;
+SELECT GROUP_CONCAT(DISTINCT ids) FROM ying.s_xts_adj WHERE volume = 16777215 ORDER BY volume DESC LIMIT 10000;
 
 
 -- 5:39 2015-10-28 revise data type of volume and amount    
@@ -128,7 +153,7 @@ ON DUPLICATE KEY UPDATE
     `volume` = ROUND(`s_xts_adj_hst_sina`.`volume`,2),
     `amount` = ROUND(`s_xts_adj_hst_sina`.`amount`,2) ;
     
--- insert data into `ying_calc`.`s_xts_adj` from `s_xts_adj_hst_sina` where date_diff(curdate(), `s_xts_adj_hst_sina`.`d`)<=7 
+-- insert data into `ying_calc`.`s_xts_adj` from `s_xts_adj_hst_sina` where date_diff(curdate(), `s_xts_adj_hst_sina`.`d`)<=3 
 
 INSERT INTO `ying_calc`.`s_xts_adj`
 	(
