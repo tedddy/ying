@@ -1,10 +1,13 @@
 
-SELECT * FROM index_rt where date(dt) = curdate();
+SELECT * FROM index_rt WHERE DATE(dt) = CURDATE();
 
 -- DELETE FROM index_rt where date(dt) = curdate();
 
 SELECT * FROM index_rt;
 
-SELECT * FROM index_rt ORDER BY dt desc, idi;
+SELECT * FROM ying.index_xts ORDER BY d DESC, idi;
 
-SELECT DISTINCT dt FROM index_rt ORDER BY dt desc, idi;
+
+SELECT * FROM index_rt ORDER BY dt DESC, amount desc, idi;
+
+SELECT DISTINCT dt FROM index_rt ORDER BY dt DESC, idi;
