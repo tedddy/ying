@@ -2,12 +2,14 @@ DROP PROCEDURE `calc_index_cons_stat_zd`;
 
 CALL `calc_index_cons_stat_zd`;
 
+drop PROCEDURE `calc_index_cons_stat_zd`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `calc_index_cons_stat_zd`()
 BEGIN
 INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
 (`idi`,
 `name_i`,
+`n`,
 `rate5`,
 `zd`,
 `zdW`,
@@ -22,6 +24,7 @@ INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
 	SELECT 
     `index_stock_info`.`idi` AS `idi`,
     `index_info`.`name_i`,
+    SUM(IF((`s_rt`.`volume` > 0), 1, 0)) AS `n`,
     ROUND(SUM((`s_rt`.`chgrate5` * `index_stock_info`.`weight`)),2) AS `rate5`,
     SUM(IF((`s_rt`.`chgrate` > 0), 1, - 1)) AS `zd`,
     ROUND(SUM(IF((`s_rt`.`chgrate` > 0),
