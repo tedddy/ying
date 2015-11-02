@@ -1,16 +1,16 @@
 SELECT * FROM `index_xts` ORDER BY d DESC, idi;
 -- DROP TABLE `index_xts`;	
 CREATE TABLE `index_xts` (
-  `idi` VARCHAR(6) NOT NULL COMMENT 'index id',
-  `d` DATE NOT NULL COMMENT '交易日期 trade date',
-  `open` DECIMAL(9,2) UNSIGNED DEFAULT NULL COMMENT '开盘价',
-  `high` DECIMAL(9,2) UNSIGNED DEFAULT NULL COMMENT '最高',
-  `low` DECIMAL(9,2) UNSIGNED DEFAULT NULL COMMENT '最低价',
-  `close` DECIMAL(9,2) UNSIGNED DEFAULT NULL COMMENT '收盘价',
-  `volume` INT(9) UNSIGNED DEFAULT NULL COMMENT '股票成交额',
-  `amount` INT(9) UNSIGNED DEFAULT NULL COMMENT '成交量',
+  `idi` varchar(6) NOT NULL COMMENT 'index id',
+  `d` date NOT NULL COMMENT '交易日期 trade date',
+  `open` decimal(7,2) unsigned DEFAULT NULL COMMENT '开盘价',
+  `high` decimal(7,2) unsigned DEFAULT NULL COMMENT '最高',
+  `low` decimal(7,2) unsigned DEFAULT NULL COMMENT '最低价',
+  `close` decimal(7,2) unsigned DEFAULT NULL COMMENT '收盘价',
+  `volume` int(9) unsigned DEFAULT NULL COMMENT '股票成交额',
+  `amount` int(9) unsigned DEFAULT NULL COMMENT '成交量',
   PRIMARY KEY (`idi`,`d`)
-) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 SELECT idi, DATE(dt), amount, volume FROM index_rt WHERE TIME(dt) = '15:05:00' ORDER BY dt DESC;
@@ -18,7 +18,8 @@ SELECT idi, DATE(dt), close FROM index_rt WHERE DATE(dt) = '2015-10-30' AND TIME
 SELECT * FROM index_rt WHERE amount IS NULL;
 SELECT idi, DATE(dt), MIN(close), MAX(close) FROM index_rt GROUP BY idi, DATE(dt) ORDER BY DATE(dt) DESC, idi;
 
-SELECT 
+-- extract data from index_rt
+SELECT
     t1505.idi,
     t1505.d,
     t0935.close AS open,
@@ -51,8 +52,8 @@ FROM
         AND t1505.d = tMinMax.d)
 ORDER BY t1505.d DESC;  
 
--- in `hs_index_xts_EM`, volume and amount are mis-named
-INSERT IGNORE INTO `ying`.`index_xts`
+-- insert into `ying`.`index_xts` from index_xts_hst_sina
+INSERT INTO `ying`.`index_xts`
 	(`idi`,
 	`d`,
 	`open`,
@@ -62,15 +63,22 @@ INSERT IGNORE INTO `ying`.`index_xts`
 	`amount`,
 	`volume`)
 SELECT 
-	`hs_index_xts_EM`.`code`,
-	`hs_index_xts_EM`.`date`,
-	`hs_index_xts_EM`.`open`,
-	`hs_index_xts_EM`.`high`,
-	`hs_index_xts_EM`.`low`,
-	`hs_index_xts_EM`.`close`,
-	`hs_index_xts_EM`.`volume`,
-	`hs_index_xts_EM`.`amount`
-FROM `ying`.`hs_index_xts_EM`;
+	`index_xts_hst_sina`.`idi`,
+	`index_xts_hst_sina`.`d`,
+	`index_xts_hst_sina`.`open`,
+	`index_xts_hst_sina`.`high`,
+	`index_xts_hst_sina`.`low`,
+	`index_xts_hst_sina`.`close`,
+	`index_xts_hst_sina`.`volume`,
+	`index_xts_hst_sina`.`amount`
+FROM `ying`.`index_xts_hst_sina`
+ON DUPLICATE KEY UPDATE
+	`open` = `index_xts_hst_sina`.`open`,
+	`high` = `index_xts_hst_sina`.`high`,
+	`low` = `index_xts_hst_sina`.`low`,
+	`close` = `index_xts_hst_sina`.`close`,
+	`amount` = `index_xts_hst_sina`.`volume`,
+	`volume` = `index_xts_hst_sina`.`amount`;
 
 
 
@@ -101,4 +109,27 @@ DELIMITER ;
 CALL index_xts('[标签:idi]', '[标签:d]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]');
 
 -- history
-CALL hs_index_xts_EM('[标签:code]', '[标签:d]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]', '[标签:time]') 
+CALL hs_index_xts_EM('[标签:code]', '[标签:d]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]', '[标签:time]');
+
+-- history
+
+-- in `hs_index_xts_EM`, volume and amount are mis-named
+-- INSERT IGNORE INTO `ying`.`index_xts`
+-- 	(`idi`,
+-- 	`d`,
+-- 	`open`,
+-- 	`high`,
+-- 	`low`,
+-- 	`close`,
+-- 	`amount`,
+-- 	`volume`)
+-- SELECT 
+-- 	`hs_index_xts_EM`.`code`,
+-- 	`hs_index_xts_EM`.`date`,
+-- 	`hs_index_xts_EM`.`open`,
+-- 	`hs_index_xts_EM`.`high`,
+-- 	`hs_index_xts_EM`.`low`,
+-- 	`hs_index_xts_EM`.`close`,
+-- 	`hs_index_xts_EM`.`volume`,
+-- 	`hs_index_xts_EM`.`amount`
+-- FROM `ying`.`hs_index_xts_EM`;

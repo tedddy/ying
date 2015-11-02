@@ -32,7 +32,7 @@ del "Y:\url_ying\index_xts_hst_sina_2015.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', info.idi, '/type/S.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'index_xts_hst_sina_2015' FROM (SELECT MIN(`idi`) AS idi FROM `ying`.`index_info` GROUP BY `name_i`) as info join year_quarter as dt  where dt.year = 2015 and dt.quarter <= 3;" > "Y:\url_ying\index_xts_hst_sina_2015_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', info.idi, '/type/S.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'index_xts_hst_sina_2015' FROM (SELECT MIN(`idi`) AS idi FROM `ying`.`index_info` GROUP BY `name_i`) as info join year_quarter as dt  where dt.year = 2015;" > "Y:\url_ying\index_xts_hst_sina_2015_%today%.txt"
 
 REM PAUSE
 

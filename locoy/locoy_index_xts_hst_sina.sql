@@ -1,5 +1,8 @@
 SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', info.idi, '/type/S.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'index_xts_hst_sina_cur_quarter' FROM (SELECT MIN(`idi`) AS idi FROM `ying`.`index_info` GROUP BY `name_i`) as info join year_quarter as dt  where dt.year = year(curdate()) and dt.quarter = quarter(curdate());
 
+-- 2015
+SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', info.idi, '/type/S.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'index_xts_hst_sina_2015' FROM (SELECT MIN(`idi`) AS idi FROM `ying`.`index_info` GROUP BY `name_i`) as info join year_quarter as dt  where dt.year = 2015;
+
 -- url_index_xts_hst_sina_2012_2015
 SELECT DISTINCT CONCAT('http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/', info.idi, '/type/S.phtml?year=', dt.year,'&jidu=', dt.quarter) AS 'index_xts_hst_sina_2012_2015' FROM (SELECT MIN(`idi`) AS idi FROM `ying`.`index_info` GROUP BY `name_i`) as info join year_quarter as dt  where year >= 2012 and year <= 2015;
 
@@ -8,14 +11,15 @@ SELECT * FROM `ying`.`index_xts_hst_sina`;
 CREATE TABLE `index_xts_hst_sina` (
   `idi` varchar(6) NOT NULL COMMENT 'index id',
   `d` date NOT NULL COMMENT 'date',
-  `open` decimal(8,3) unsigned DEFAULT NULL COMMENT 'open',
-  `high` decimal(8,3) unsigned DEFAULT NULL COMMENT 'high',
-  `low` decimal(8,3) unsigned DEFAULT NULL COMMENT 'low',
-  `close` decimal(8,3) unsigned DEFAULT NULL COMMENT 'close',
-  `volume` int(10) unsigned DEFAULT NULL COMMENT 'volume',
-  `amount` int(10) unsigned DEFAULT NULL COMMENT 'amount',
+  `open` decimal(7,2) unsigned DEFAULT NULL COMMENT 'open',
+  `high` decimal(7,2) unsigned DEFAULT NULL COMMENT 'high',
+  `low` decimal(7,2) unsigned DEFAULT NULL COMMENT 'low',
+  `close` decimal(7,2) unsigned DEFAULT NULL COMMENT 'close',
+  `volume` int(9) unsigned DEFAULT NULL COMMENT 'volume',
+  `amount` int(9) unsigned DEFAULT NULL COMMENT 'amount',
   PRIMARY KEY (`idi`,`d`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 
 -- DROP PROCEDURE `ying`.`index_xts_hst_sina`;
 DELIMITER $$
@@ -23,10 +27,10 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `index_xts_hst_sina`(IN idi VARCHAR(18), d VA
 BEGIN
 SET `idi` = IF(idi = '', NULL, idi);
 SET `d` = IF(d = '', NULL, d);
-SET `open` = IF(open = '', NULL, open);
-SET `high` = IF(high = '', NULL, high);
-SET `low` = IF(low = '', NULL, low);
-SET `close` = IF(close = '', NULL, close);
+SET `open` = IF(open = '', NULL, round(open,2));
+SET `high` = IF(high = '', NULL, round(high,2));
+SET `low` = IF(low = '', NULL, round(low,2));
+SET `close` = IF(close = '', NULL, round(close,2));
 SET `volume` = IF(volume = '', NULL, round(volume * 0.0001));
 SET `amount` = IF(amount = '', NULL, round(amount * 0.0001));
 
