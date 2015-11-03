@@ -59,7 +59,13 @@ start: 13:29 2015-11-02	`s_xts_adj_sma` `close5` d1	end: 	update d1 of field clo
 	`s_xts_adj_sma` `amount20` d1
 	`s_xts_adj_sma` `amount30` d1
 
-start: 10:00 2015-10-26		task: 		end: 
+start: 11:06 2015-11-03		end: 11:30 2015-11-03
+tasks: 		
+	`s_xts_adj_sma` `close60` d1
+	`s_xts_adj_sma` `close120` d1
+	
+	`s_xts_adj_sma` `amount60` d1
+	`s_xts_adj_sma` `amount120` d1
 
 
 start: 10:00 2015-10-26		task: 		end: 
