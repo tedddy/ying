@@ -39,6 +39,25 @@ start: 9:51 2015-10-30		task: `ying_calc`.`index_cons_stat_zd` 	end:
 	
 start: 10:25 2015-10-30		task: locoy_s_rt, revise proc to insert records into two tables 		end: 
 
+start: 13:29 2015-11-02	`s_xts_adj_sma` `close5` d1	end: 	update d1 of field close5 for table `s_xts_adj_sma`
+
+	going to replace `tableTMPL` with `s_xts_adj_sma`, `idTMPL` with `ids`, `dtTMPL` with `d`, `fieldTMPL` with `close5`
+	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql as proc_s_xts_adj_sma_ids_d_close5_d1.sql
+	replace
+		tableTMPL	with	`ying_calc`.`s_xts_adj_sma`	7 replaced
+		idTMPL		with	ids		7 replaced
+		dtTMPL		with	d		7 replaced
+		fieldTMPL	with	close5		13 replaced
+	execute file proc_s_xts_adj_sma_ids_d_close5.sql & test all procedures
+	
+	`s_xts_adj_sma` `close10` d1
+	`s_xts_adj_sma` `close20` d1
+	`s_xts_adj_sma` `close30` d1
+	
+	`s_xts_adj_sma` `amount5` d1
+	`s_xts_adj_sma` `amount10` d1
+	`s_xts_adj_sma` `amount20` d1
+	`s_xts_adj_sma` `amount30` d1
 
 start: 10:00 2015-10-26		task: 		end: 
 
