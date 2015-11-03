@@ -2,6 +2,8 @@
 
 SELECT * FROM `ying_calc`.`index_cons_stat_zd` order by dt desc;
 
+-- DELETE FROM `ying_calc`.`index_cons_stat_zd` where date(dt) = curdate() order by dt desc;
+
 
 SELECT summary.idi AS '指数', info.name_i  AS '指数名称', ROUND(rate5,2) AS '五分钟涨速', z - d AS '涨跌数差', ROUND(zW - dW,2) AS '涨跌数差加权', zfg - dfg AS '涨跌超3.82', ROUND(zfgW - dfgW,2) AS '涨跌超3.82加权', zg - dg AS '涨跌超6.18', ROUND(zgW - dgW,2) AS '涨跌超6.18加权', zt - d10 AS '涨跌停差', ROUND(ztW - d10W,2) AS '涨跌停差加权', dt FROM `ying`.`index_cons_stat_zd` summary JOIN index_info info ON (summary.idi = info.idi)  UNION SELECT * from `ying_calc`.`index_cons_stat_zd` ORDER BY dt DESC;
 
