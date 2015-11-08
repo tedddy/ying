@@ -27,9 +27,9 @@ UPDATE `ying_calc`.`s_xts_adj_sma` t
         INNER JOIN
     (SELECT 
         `d`,
-            `ids`,
-            (cast(amount5 as signed) - cast(@amount5_lag as signed)) AS `amount5_d1`,
-            @amount5_lag:=amount5 `curr_amount5`
+	`ids`,
+	(cast(amount5 as signed) - cast(@amount5_lag as signed)) AS `amount5_d1`,
+	@amount5_lag:=amount5 `cur_amount5`
     FROM
         `ying_calc`.`s_xts_adj_sma` t
     ORDER BY `ids` , `d`) d1 ON (t.ids = d1.ids
@@ -40,7 +40,7 @@ END$$
 DELIMITER ;
 
 CALL `ying_calc`.`s_xts_adj_sma_ids_d_amount5_d1`;
--- Error Code: 1690. BIGINT UNSIGNED value is out of range in '(`ying_calc`.`t`.`amount5` - (@`amount5_lag`))'
+-- Error Code: 1690. BIGINT UNSIGNED value is out of range in '(`ying_calc`.`t`.`amount5` - (@`amount5_lag`))' troubleshooting: mysql - BIGINT UNSIGNED value is out of range - Stack Overflow
 
 SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, d DESC;
 
