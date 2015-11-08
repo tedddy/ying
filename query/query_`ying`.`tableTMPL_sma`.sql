@@ -1,0 +1,1 @@
+SELECT * FROM `ying`.`tableTMPL_sma` order by idTMPL, dtTMPL;

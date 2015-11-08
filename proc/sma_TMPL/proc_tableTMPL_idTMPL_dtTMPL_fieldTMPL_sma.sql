@@ -56,7 +56,7 @@ BEGIN
 -- 	DECLARE variables
         DECLARE cursor_fetch_tmp DECIMAL(6,2); -- variable for cursor fetch into
 		DECLARE sum DECIMAL(12,2); 	-- variable for total of periods
-									-- If "DECLARE sum DECIMAL(6,2);" and in_smaPeriods is big, get this message: 0 row(s) affected, 1 warning(s): 1264 Out of range value for column 'sum' at row 1
+						-- If "DECLARE sum DECIMAL(6,2);" and in_smaPeriods is big, get this message: 0 row(s) affected, 1 warning(s): 1264 Out of range value for column 'sum' at row 1
 		DECLARE loop_cnt SMALLINT; -- variable for loop counter
 		DECLARE limit_number_for_cursor SMALLINT;         
 		DECLARE record_fetch_end TINYINT DEFAULT 0; -- 	DECLARE variable for error handler
@@ -96,7 +96,8 @@ BEGIN
 		
 			END LOOP CURSOR1_LOOP1;
 	  
-	  SET out_sma = ROUND((sum / in_smaPeriods),2); -- now calculate the n-period sma
+	  	  -- SET out_sma = ROUND((sum/ in_smaPeriods),2); -- now calculate the n-period sma
+                  SET out_sma = ROUND(((sum + cursor_fetch_tmp * (in_smaPeriods + 1 - loop_cnt))/ in_smaPeriods),2); -- now calculate the n-period sma, fix the rusults in the first several periods.
 	  
 	CLOSE cursor1;
 	-- output result on screen
@@ -105,7 +106,7 @@ END $$
 DELIMITER ;
 
 -- Test the proc
-	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`('2019-09-09', '601318', 10, @out_sma);
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma`('2015-09-08 15:05:00', '000001', 10, @out_sma);
 	SELECT @out_sma;    
 
 
@@ -220,7 +221,9 @@ END$$
 DELIMITER ;
 
 --  test query in the proc    
-	CALL tableTMPL_import_data_from_s_rt;
+	-- CALL tableTMPL_import_data_from_s_rt;
+	CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`('2015-08-12 15:05:00' , '2015-09-12 15:05:00', 5, 10, 20, 30, 60, 120);     
+
         CALL `tableTMPL_idTMPL_dtTMPL_fieldTMPL_sma_multiPeriods_loop_dt_ids`(DATE_SUB(CURRENT_TIMESTAMP(), INTERVAL 3 DAY) , '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
 -- 	SELECT * FROM `tableTMPL_sma` WHERE `dtTMPL` >= '2005-10-13 13:05:00' AND `dtTMPL` <= '2019-10-15 15:05:00' ORDER BY `dtTMPL` DESC;
 -- 	select `dtTMPL` FROM `tableTMPL`;

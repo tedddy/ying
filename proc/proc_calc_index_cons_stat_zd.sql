@@ -186,7 +186,7 @@ INSERT ignore INTO `ying_calc`.`index_cons_stat_zd`
     `ying_calc`.`s_rt_hst`.`dt` AS `dt`
 FROM
     (`ying_calc`.`s_rt_hst`
-    LEFT JOIN `index_stock_info` ON ((`ying_calc`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) and date(`ying_calc`.`s_rt_hst`.dt) = curdate())
+    LEFT JOIN `index_stock_info` ON ((`ying_calc`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) and date(`ying_calc`.`s_rt_hst`.dt) = DATE_SUB(curdate(), interval 1 day))
     JOIN index_info ON (`index_stock_info`.`idi` = `index_info`.`idi`))
 WHERE
     (`index_stock_info`.`idi` IS NOT NULL)

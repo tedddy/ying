@@ -69,8 +69,14 @@ tasks:
 
 
 start: 10:00 2015-10-26		task: 		end: 
-
-
+tasks: 		
+	`s_xts_adj_sma` `close5_d1` sma (compute sma of field `close5_d1` in table `s_xts_adj_sma`)
+	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql as proc_`s_xts_adj_sma`_ids_d_`close5_d1`_sma.sql
+	replace
+		tableTMPL	with	s_xts_adj_sma	7 replaced
+		idTMPL		with	ids		7 replaced
+		dtTMPL		with	d		7 replaced
+		fieldTMPL	with	close5_d1		13 replaced
 start: 10:00 2015-10-26		task: 		end: 
 
 

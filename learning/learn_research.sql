@@ -1,5 +1,7 @@
 -- start: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
 
+select amount5 FROM ying_calc.`s_xts_adj_sma` where ids = '000001' order by d desc limit 1; 
+
 select cast(concat(date_sub(curdate(), interval 1 DAY), ' ', '00:00:01') as datetime);
 
 select curdate()-1;
