@@ -22,25 +22,55 @@ DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_ids_d_amount60_d1`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_ids_d_amount60_d1`()
 BEGIN
-SET @amount60_lag:=0;
-UPDATE `ying_calc`.`s_xts_adj_sma` t
-        INNER JOIN
-    (SELECT 
-        `d`,
-            `ids`,
-            (cast(amount60 as signed) - cast(@amount60_lag as signed)) AS `amount60_d1`,
-            @amount60_lag:=amount60 `curr_amount60`
-    FROM
-        `ying_calc`.`s_xts_adj_sma` t
-    ORDER BY `ids` , `d`) d1 ON (t.ids = d1.ids
-        AND t.d = d1.d) 
-SET 
-    t.amount60_d1 = d1.amount60_d1;
+     DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
+     DECLARE cursor_fetch_tmp_ids VARCHAR(6);
+        DECLARE d_latest DATE; -- variable for the latest date
+        DECLARE amount60_earlest MEDIUMINT(8); -- variable for the earlest amount60
+     DECLARE cursor1 CURSOR FOR
+     SELECT DISTINCT `ids` FROM `s_xts_adj_sma` ORDER BY `ids`;
+     DECLARE CONTINUE HANDLER FOR NOT FOUND
+     SET no_more_rows := TRUE;
+
+     OPEN cursor1;
+     LOOP1: LOOP
+       
+          FETCH cursor1 INTO cursor_fetch_tmp_ids;
+               
+               SELECT
+                   amount60
+               INTO amount60_earlest FROM
+                   `s_xts_adj_sma`
+               WHERE
+                   `ids` = cursor_fetch_tmp_ids
+               ORDER BY d
+               LIMIT 1;
+                               
+               SET @amount60_lag := amount60_earlest;
+               UPDATE `ying_calc`.`s_xts_adj_sma` t
+                    INNER JOIN
+                   (SELECT
+                    `d`,
+                        `ids`,
+                        ROUND(100 * (cast(amount60 as signed) - cast(@amount60_lag as signed)) / @amount60_lag, 2) AS `amount60_d1`,
+                        @amount60_lag:=amount60
+                   FROM
+                    `ying_calc`.`s_xts_adj_sma`
+                   WHERE
+                    `ids` = cursor_fetch_tmp_ids
+                   ORDER BY `d`) d1 ON (t.ids = d1.ids AND t.d = d1.d)
+               SET
+                   t.amount60_d1 = d1.amount60_d1; 
+   
+          IF no_more_rows THEN
+               CLOSE cursor1;
+               LEAVE LOOP1;
+          END IF;
+     END LOOP LOOP1;
 END$$
 DELIMITER ;
 
 CALL `ying_calc`.`s_xts_adj_sma_ids_d_amount60_d1`;
--- Error Code: 1690. BIGINT UNSIGNED value is out of range in '(`ying_calc`.`t`.`amount60` - (@`amount60_lag`))'
+-- Error Code: 1690. BIGINT UNSIGNED value is out of range in '(`ying_calc`.`t`.`amount60` - (@`amount60_lag`))' troubleshooting: mysql - BIGINT UNSIGNED value is out of range - Stack Overflow
 
 SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, d DESC;
 
