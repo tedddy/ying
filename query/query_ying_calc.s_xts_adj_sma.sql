@@ -1,4 +1,4 @@
-
+SELECT * FROM ying_calc.s_xts_adj_sma order by ids, d;
 
 SELECT * FROM ying_calc.s_xts_adj_sma order by ids, d desc;
 

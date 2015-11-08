@@ -36,6 +36,7 @@ BEGIN
 	LOOP1: LOOP
         
 		FETCH cursor1 INTO cursor_fetch_tmp_ids;
+                
 			SELECT 
 			    amount5
 			INTO amount5_latest FROM
@@ -45,34 +46,35 @@ BEGIN
 			ORDER BY d DESC
 			LIMIT 1;
                         
-		SELECT 
-		    amount5
-		INTO amount5_latest_2nd FROM
-		    `s_xts_adj_sma`
-		WHERE
-		    ids = cursor_fetch_tmp_ids
-		ORDER BY d DESC
-		LIMIT 1 , 1;
+			SELECT 
+			    amount5
+			INTO amount5_latest_2nd FROM
+			    `s_xts_adj_sma`
+			WHERE
+			    ids = cursor_fetch_tmp_ids
+			ORDER BY d DESC
+			LIMIT 1 , 1;
 
-		SELECT 
-		    `d`
-		INTO d_latest FROM
-		    `s_xts_adj_sma`
-		WHERE
-		    ids = cursor_fetch_tmp_ids
-		ORDER BY d DESC
-		LIMIT 1;
+			SELECT 
+			    `d`
+			INTO d_latest FROM
+			    `s_xts_adj_sma`
+			WHERE
+			    ids = cursor_fetch_tmp_ids
+			ORDER BY d DESC
+			LIMIT 1;
 
-		UPDATE `ying_calc`.`s_xts_adj_sma` 
-		SET 
-		    `amount5_d1` = amount5_latest - amount5_latest_2nd
-		WHERE
-		    `d` = d_latest
-			AND ids = cursor_fetch_tmp_ids;
-				IF no_more_rows THEN
-					CLOSE cursor1;
-					LEAVE LOOP1;
-				END IF;
+			UPDATE `ying_calc`.`s_xts_adj_sma` 
+			SET 
+			    `amount5_d1` = amount5_latest - amount5_latest_2nd
+			WHERE
+			    `d` = d_latest
+				AND ids = cursor_fetch_tmp_ids;
+                                
+		IF no_more_rows THEN
+			CLOSE cursor1;
+			LEAVE LOOP1;
+		END IF;
 	END LOOP LOOP1;
 END$$
 DELIMITER ;

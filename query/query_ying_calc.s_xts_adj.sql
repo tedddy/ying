@@ -11,3 +11,5 @@ SELECT count(*) FROM `ying_calc`.`s_xts_adj`;
 SELECT max(amount) FROM `ying_calc`.`s_xts_adj`;
 
 SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY d desc, ids;
+
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE close <= 0.00 order by d desc limit 10000; 
