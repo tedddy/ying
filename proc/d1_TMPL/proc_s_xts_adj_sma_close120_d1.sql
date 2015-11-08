@@ -1,3 +1,7 @@
+CALL `ying_calc`.`s_xts_adj_sma_ids_d_close120_d1`;
+
+SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, d DESC;
+
 -- start: 13:29 2015-11-02	`s_xts_adj_sma` `close120` d1	end: 	update d1 of field close120 for table `s_xts_adj_sma`
 -- 
 -- 	going to replace `tableTMPL` with `s_xts_adj_sma`, `idTMPL` with `ids`, `dtTMPL` with `d`, `fieldTMPL` with `close120`
@@ -19,23 +23,25 @@ DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_ids_d_close120_d1`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_ids_d_close120_d1`()
 BEGIN
+SET @close120_lag:=0.00;
 UPDATE `ying_calc`.`s_xts_adj_sma` t
         INNER JOIN
     (SELECT 
         `d`,
-            `ids`,
-            round((close120 - @close120_lag), 2) AS `close120_d1`,
-            @close120_lag:=close120 `curr_close120`
+	`ids`,
+	ROUND(100 * (close120 - @close120_lag) / close120, 2) AS `close120_d1`,
+	@close120_lag:=close120
     FROM
-        `ying_calc`.`s_xts_adj_sma` t, (SELECT @close120_lag:=0) r
-    ORDER BY `ids` , `d`) d1 ON (t.ids = d1.ids
-        AND t.d = d1.d) 
+        `ying_calc`.`s_xts_adj_sma`
+    ORDER BY `ids` , `d`) d1 ON (t.ids = d1.ids AND t.d = d1.d) 
 SET 
     t.close120_d1 = d1.close120_d1;
 END$$
 DELIMITER ;
 
 CALL `ying_calc`.`s_xts_adj_sma_ids_d_close120_d1`;
+
+-- 2017996 row(s) affected, 10 warning(s): 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1 1264 Out of range value for column 'close120_d1' at row 1
 
 SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, d DESC;
 
