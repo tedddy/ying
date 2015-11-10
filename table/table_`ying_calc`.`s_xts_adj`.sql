@@ -1,5 +1,23 @@
 -- 前复权表
 
+-- current
+
+CREATE TABLE `s_xts_adj` (
+  `ids` varchar(6) NOT NULL COMMENT 'stock id 股票代码',
+  `d` date NOT NULL DEFAULT '0000-00-00' COMMENT 'trade date 交易日期',
+  `open` decimal(6,2) unsigned NOT NULL COMMENT 'open 开盘价',
+  `high` decimal(6,2) unsigned NOT NULL COMMENT 'high 最高价',
+  `low` decimal(6,2) unsigned NOT NULL COMMENT 'low 最低价',
+  `close` decimal(6,2) unsigned NOT NULL COMMENT 'close 收盘价',
+  `volume` int(9) unsigned NOT NULL COMMENT 'volume 成交量 手',
+  `amount` mediumint(8) unsigned NOT NULL COMMENT 'amount 股票成交额 万',
+  `cjezb` decimal(6,2) unsigned NOT NULL COMMENT '10000*amount_stock / amount_all_stock 成交额占比',
+  PRIMARY KEY (`ids`,`d`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- history
+
 SELECT * FROM `s_xts_adj` ORDER BY d DESC, ids;
 
 CREATE TABLE `s_xts_adj` (
