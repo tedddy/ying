@@ -1,5 +1,5 @@
 
-SELECT * FROM index_rt WHERE DATE(dt) = CURDATE();
+SELECT * FROM index_rt WHERE DATE(dt) = CURDATE() ORDER BY dt DESC, idi;
 
 -- DELETE FROM index_rt where date(dt) = curdate();
 

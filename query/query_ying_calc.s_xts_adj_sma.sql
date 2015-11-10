@@ -1,6 +1,9 @@
-SELECT * FROM ying_calc.s_xts_adj_sma order by ids, d;
 
 SELECT * FROM ying_calc.s_xts_adj_sma order by ids, d desc;
+
+SELECT * FROM ying_calc.s_xts_adj_sma order by ids, d;
+
+SELECT * FROM ying_calc.s_xts_adj_sma where `ids` = '300059' order by d desc;
 
 SELECT min(close10_d1) FROM ying_calc.s_xts_adj_sma order by amount5 desc;
 

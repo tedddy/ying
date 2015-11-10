@@ -6,6 +6,9 @@ SELECT * FROM ying_calc.s_rt_hst where dt = '2015-11-06 14:15:00' order by dt de
 
 SELECT * FROM ying_calc.s_rt_hst where chgrate = 0.00 and volume > 0.00 and dt = '2015-11-06 14:15:00' order by dt desc, ids;
 
+SELECT * FROM ying_calc.s_rt_hst WHERE `cjezb` <= '0.00';
+
+-- DELETE FROM ying_calc.s_rt_hst WHERE `dt` = '2015-11-09 15:05:00';
 
 	SELECT 
     `index_stock_info`.`idi` AS `idi`,

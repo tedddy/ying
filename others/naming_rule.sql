@@ -2280,7 +2280,7 @@ telcom-----telecommunication      通讯
 　　31 INV (invoice)发票
 
 
-　　32 PCT (percent)百分比
+　　32 PCT (percent)百分比 tedd
 
 
 　　33 REF (reference)参考、的查价
