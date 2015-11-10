@@ -1,5 +1,5 @@
 -- start: 13:29 2015-11-02	`s_xts_adj_sma` `amount5` d1	end: 	update d1 of field amount5 for table `s_xts_adj_sma`
--- 
+-- E:\user_tony\Documents\GitHub\ying\proc\d1_TMPL\proc_s_xts_adj_sma_amount5_d1.sql
 -- 	going to replace `tableTMPL` with `s_xts_adj_sma`, `idTMPL` with `ids`, `dtTMPL` with `d`, `fieldTMPL` with `amount5`
 -- 	save file proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql as proc_s_xts_adj_sma_ids_d_amount5_d1.sql
 -- 	replace

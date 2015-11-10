@@ -23,17 +23,16 @@ DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_ids_d_close5_d1`;
 DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_ids_d_close5_d1`()
 BEGIN
-     DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
-     DECLARE cursor_fetch_tmp_ids VARCHAR(6);
-        DECLARE d_latest DATE; -- variable for the latest date
+	DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
+	DECLARE cursor_fetch_tmp_ids VARCHAR(6);
         DECLARE close5_earlest DECIMAL(6,2); -- variable for the earlest close5
-     DECLARE cursor1 CURSOR FOR
-     SELECT DISTINCT `ids` FROM `s_xts_adj_sma` ORDER BY `ids`;
-     DECLARE CONTINUE HANDLER FOR NOT FOUND
-     SET no_more_rows := TRUE;
+	DECLARE cursor1 CURSOR FOR
+	SELECT DISTINCT `ids` FROM `s_xts_adj_sma` ORDER BY `ids`;
+	DECLARE CONTINUE HANDLER FOR NOT FOUND
+	SET no_more_rows := TRUE;
 
-     OPEN cursor1;
-     LOOP1: LOOP
+	OPEN cursor1;
+	LOOP1: LOOP
        
           FETCH cursor1 INTO cursor_fetch_tmp_ids;
                
