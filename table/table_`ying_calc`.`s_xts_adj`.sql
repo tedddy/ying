@@ -18,6 +18,10 @@ ALTER TABLE `ying`.`s_xts_adj`
 CHANGE COLUMN `volume` `volume` INT(9) UNSIGNED NOT NULL COMMENT 'volume 成交量' ,
 CHANGE COLUMN `amount` `amount` MEDIUMINT(8) UNSIGNED NOT NULL COMMENT 'amount 股票成交额' ;
 
+-- 151110
+ALTER TABLE `ying_calc`.`s_xts_adj`
+ADD COLUMN `cjezb` DECIMAL(6,2) UNSIGNED NOT NULL COMMENT '10000*amount_stock / amount_all_stock 成交额占比' ;
+
 -- insert data into `s_xts_adj` from `s_xts`
 
 INSERT IGNORE INTO `ying_calc`.`s_xts_adj`

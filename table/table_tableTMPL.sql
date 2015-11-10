@@ -1,5 +1,4 @@
 -- DROP TABLE `tableTMPL`;
--- 
 
 CREATE TABLE `tableTMPL` (
   `idTMPL` varchar(6) NOT NULL COMMENT 'stock id',
