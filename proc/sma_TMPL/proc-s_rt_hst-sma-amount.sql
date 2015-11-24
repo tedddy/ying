@@ -14,10 +14,10 @@ ADD COLUMN  `amount30` MEDIUMINT(8) DEFAULT NULL COMMENT 'amount 30 periods均�
 ADD COLUMN  `amount60` MEDIUMINT(8) DEFAULT NULL COMMENT 'amount 60 periods均线',
 ADD COLUMN  `amount120` MEDIUMINT(8) DEFAULT NULL COMMENT 'amount 120 periods均线';
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_rt_hst-sma-amount`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_rt_hst_sma_amount`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given datetime (`dt`).
 DELIMITER $$ 
-CREATE PROCEDURE `ying_calc`.`s_rt_hst-sma-amount`(
+CREATE PROCEDURE `ying_calc`.`s_rt_hst_sma_amount`(
 	IN 	
 		in_dt DATETIME, -- variable: datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt_hst. 
 		in_ids VARCHAR(25), -- variable: stock id
@@ -38,7 +38,7 @@ BEGIN
    
 -- 	DECLARE coursors 
 		DECLARE cursor1 CURSOR FOR -- variable for the first cursor. 
-			SELECT `amount` FROM `ying_calc`.`s_rt_hst` WHERE `ids` = in_ids and `dt` <= in_dt ORDER BY `dt` DESC limit limit_number_for_cursor;
+			SELECT `amount` FROM `ying_calc`.`s_rt_hst` WHERE `ids` = in_ids and `dt` <= in_dt and time(`dt`) = time(in_dt) ORDER BY `dt` DESC limit limit_number_for_cursor;
 
 -- 	DECLARE error handler for "NOT FOUND"
 		DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1;
@@ -82,16 +82,16 @@ DELIMITER ;
 --  test query in the proc    
 SELECT date_sub(current_timestamp(), INTERVAL 3 MINUTE );
 
-CALL `ying_calc`.`s_rt_hst-sma-amount-loop`(date_sub(current_timestamp(), INTERVAL 3 MINUTE ), '2018-08-08 15:05:00');
+CALL `ying_calc`.`s_rt_hst_sma_amount_loop`(date_sub(current_timestamp(), INTERVAL 3 MINUTE ), '2018-08-08 15:05:00');
 
--- 	CALL `ying_calc`.`s_rt_hst-sma-amount-loop`('2015-11-10 13:35:00', '2018-08-08 15:05:00');     
+-- 	CALL `ying_calc`.`s_rt_hst_sma_amount_loop`('2015-11-10 13:35:00', '2018-08-08 15:05:00');     
 --     
 -- 	SELECT * FROM `ying_calc`.`s_rt_hst_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
 --  
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_rt_hst-sma-amount-loop`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_rt_hst_sma_amount_loop`;
 -- 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_rt_hst-sma-amount-loop`(
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_rt_hst_sma_amount_loop`(
 
 	IN 	in_dt_low DATETIME, -- variable for the lowest datetime in the selection of the cursor. 
 		in_dt_high DATETIME -- variable for the highest datetime in the selection of the cursor.ids VARCHAR(6)
@@ -135,17 +135,18 @@ BEGIN
             		
 		-- 	actions	
 			--  sma_1
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_1, @out_sma_1);
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_1, @out_sma_1);
 			--  sma_2
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_2, @out_sma_2);	
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_2, @out_sma_2);	
 			--  sma_3
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_3, @out_sma_3);
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_3, @out_sma_3);
 			--  sma_4
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_4, @out_sma_4);
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_4, @out_sma_4);
 			--  sma_5
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_5, @out_sma_5);	
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_5, @out_sma_5);	
 			--  sma_6
-				CALL `s_rt_hst-sma-amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_6, @out_sma_6);	
+				CALL `s_rt_hst_sma_amount`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_6, @out_sma_6);	
+                                
 			IF cursor_fetch_tmp_dt IS NOT NULL THEN
 				INSERT INTO `ying_calc`.`s_rt_hst_sma` (`dt`,`ids`,`amount5`,`amount10`,`amount20`,`amount30`,`amount60`,`amount120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `amount5` =  @out_sma_1, `amount10` =  @out_sma_2, `amount20` =  @out_sma_3, `amount30` =  @out_sma_4, `amount60` =  @out_sma_5, `amount120` =  @out_sma_6;
                         END IF;
@@ -167,14 +168,14 @@ DELIMITER ;
 -- Test the proc
 -- 	SELECT * FROM `ying_calc`.`s_rt_hst` WHERE `ids`='601318' ORDER BY dt DESC;
 --     
--- 	CALL `s_rt_hst-sma-amount_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+-- 	CALL `s_rt_hst_sma_amount_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 -- 
--- DROP PROCEDURE IF EXISTS `s_rt_hst-sma-amount_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_rt_hst_sma_amount_multiPeriods`;
 -- 
 
 
--- instructions for PROCEDURE `s_rt_hst-sma-amount`
+-- instructions for PROCEDURE `s_rt_hst_sma_amount`
 	-- replace dt and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace s_rt_hst with table name;
@@ -185,13 +186,13 @@ DELIMITER ;
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 -- Test the proc
--- 	CALL `s_rt_hst-sma-amount`('2019-09-09', '601318', 10, @out_sma);
+-- 	CALL `s_rt_hst_sma_amount`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
 
--- DROP PROCEDURE IF EXISTS `s_rt_hst-sma-amount_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_rt_hst_sma_amount_multiPeriods`;
 
 -- DELIMITER $$
--- CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_hst-sma-amount_multiPeriods`
+-- CREATE DEFINER=`gxh`@`%` PROCEDURE `s_rt_hst_sma_amount_multiPeriods`
 	-- (
 	-- IN 	
 		-- in_dt DATETIME, -- variable datetime. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest datetime in table s_rt_hst.  
@@ -214,27 +215,27 @@ DELIMITER ;
 -- BEGIN
 
 -- --  sma_1
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
 	-- SET out_sma_1 = @out_sma_1;
     
 -- --  sma_2
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
 	-- SET out_sma_2 = @out_sma_2;
 
 -- --  sma_3
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
 	-- SET out_sma_3 = @out_sma_3;
 
 -- --  sma_4
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
 	-- SET out_sma_4 = @out_sma_4;
 
 -- --  sma_5
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
 	-- SET out_sma_5 = @out_sma_5;
 
 -- --  sma_6
-	-- CALL `s_rt_hst-sma-amount`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
+	-- CALL `s_rt_hst_sma_amount`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
 	-- SET out_sma_6 = @out_sma_6;          
 
 -- END$$

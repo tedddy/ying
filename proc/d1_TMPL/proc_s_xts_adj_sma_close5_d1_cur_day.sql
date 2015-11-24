@@ -1,13 +1,13 @@
 -- UPDATE the value of `close5_d1` on current day in table `s_xts_adj_sma`
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_ids_d_close5_d1_cur_day`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_close5_d1_cur_day`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_ids_d_close5_d1_cur_day`()
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_close5_d1_cur_day`()
 BEGIN
 	DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
 	DECLARE cursor_fetch_tmp_ids VARCHAR(6);
-        DECLARE d_latest DATE; -- variable for the latest date
+        DECLARE dt_latest DATE; -- variable for the latest date
         DECLARE close5_latest DECIMAL(6,2); -- variable for the latest close5
         DECLARE close5_latest_2nd DECIMAL(6,2); -- variable for the 2nd latest close5
 	DECLARE cursor1 CURSOR FOR
@@ -26,7 +26,7 @@ BEGIN
 			    `s_xts_adj_sma`
 			WHERE
 			    ids = cursor_fetch_tmp_ids
-			ORDER BY d DESC
+			ORDER BY dt DESC
 			LIMIT 1;
                         
 			SELECT 
@@ -35,22 +35,22 @@ BEGIN
 			    `s_xts_adj_sma`
 			WHERE
 			    ids = cursor_fetch_tmp_ids
-			ORDER BY d DESC
+			ORDER BY dt DESC
 			LIMIT 1 , 1;
 
 			SELECT 
-			    `d`
-			INTO d_latest FROM
+			    `dt`
+			INTO dt_latest FROM
 			    `s_xts_adj_sma`
 			WHERE
 			    ids = cursor_fetch_tmp_ids
-			ORDER BY d DESC
+			ORDER BY dt DESC
 			LIMIT 1;
 
 			UPDATE `ying_calc`.`s_xts_adj_sma` 
 			SET `close5_d1` = IF(close5_latest_2nd > 0.00, ROUND(100 * (close5_latest - close5_latest_2nd) / close5_latest_2nd, 2), 0.00)
 			WHERE
-			    `d` = d_latest
+			    `dt` = dt_latest
 				AND ids = cursor_fetch_tmp_ids;
                                 
 		IF no_more_rows THEN
@@ -61,7 +61,7 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL `ying_calc`.`s_xts_adj_sma_ids_d_close5_d1_cur_day`;
+CALL `ying_calc`.`s_xts_adj_sma_close5_d1_cur_day`;
 
-SELECT `ids`, `d`, `close5`, `close5_d1` FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, d DESC;
+SELECT `ids`, `dt`, `close5`, `close5_d1` FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, dt DESC;
 

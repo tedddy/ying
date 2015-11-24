@@ -14,10 +14,10 @@ ADD COLUMN  `bMargin30` MEDIUMINT(8) DEFAULT NULL COMMENT 'bMargin 30 periods均
 ADD COLUMN  `bMargin60` MEDIUMINT(8) DEFAULT NULL COMMENT 'bMargin 60 periods均线',
 ADD COLUMN  `bMargin120` MEDIUMINT(8) DEFAULT NULL COMMENT 'bMargin 120 periods均线';
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_loan-sma-bMargin`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_loan_sma_bMargin`;
 -- This procedure compute sma (simple moving average) for stock (ids) at given date (`dt`).
 DELIMITER $$ 
-CREATE PROCEDURE `ying_calc`.`s_loan-sma-bMargin`(
+CREATE PROCEDURE `ying_calc`.`s_loan_sma_bMargin`(
 	IN 	
 		in_dt DATE, -- variable: date. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest date in table s_loan. 
 		in_ids VARCHAR(25), -- variable: stock id
@@ -80,14 +80,14 @@ END $$
 DELIMITER ;
 
 --  test query in the proc    
-CALL `ying_calc`.`s_loan-sma-bMargin`('2018-08-08', '000001', 5,  @out_sma_1);
+CALL `ying_calc`.`s_loan_sma_bMargin`('2018-08-08', '000001', 5,  @out_sma_1);
 SELECT @out_sma_1;
 
   
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_loan-sma-bMargin-loop`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_loan_sma_bMargin_loop`;
 -- 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_loan-sma-bMargin-loop`(
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_loan_sma_bMargin_loop`(
 
 	IN 	in_dt_low DATE, -- variable for the lowest date in the selection of the cursor. 
 		in_dt_high DATE -- variable for the highest date in the selection of the cursor.ids VARCHAR(6)
@@ -131,17 +131,17 @@ BEGIN
             		
 		-- 	actions	
 			--  sma_1
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_1, @out_sma_1);
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_1, @out_sma_1);
 			--  sma_2
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_2, @out_sma_2);	
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_2, @out_sma_2);	
 			--  sma_3
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_3, @out_sma_3);
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_3, @out_sma_3);
 			--  sma_4
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_4, @out_sma_4);
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_4, @out_sma_4);
 			--  sma_5
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_5, @out_sma_5);	
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_5, @out_sma_5);	
 			--  sma_6
-				CALL `s_loan-sma-bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_6, @out_sma_6);	
+				CALL `s_loan_sma_bMargin`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_6, @out_sma_6);	
 			IF cursor_fetch_tmp_dt IS NOT NULL THEN
 				INSERT INTO `ying_calc`.`s_loan_sma` (`dt`,`ids`,`bMargin5`,`bMargin10`,`bMargin20`,`bMargin30`,`bMargin60`,`bMargin120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `bMargin5` =  @out_sma_1, `bMargin10` =  @out_sma_2, `bMargin20` =  @out_sma_3, `bMargin30` =  @out_sma_4, `bMargin60` =  @out_sma_5, `bMargin120` =  @out_sma_6;
                         END IF;
@@ -159,9 +159,15 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL `ying_calc`.`s_loan-sma-bMargin-loop`(date_sub(current_timestamp(), INTERVAL 2 DAY ), '2018-08-08 15:05:00');
+-- CALL `ying_calc`.`s_loan_sma_bMargin_loop`(date_sub(current_timestamp(), INTERVAL 2 DAY ), '2018-08-08');
+-- 
+-- CALL `ying_calc`.`s_loan_sma_bMargin_loop`('2015-11-10', '2018-08-08');
+-- 
+-- CALL `ying_calc`.`s_loan_sma_bMargin_loop`(2015-11-10, 2018-08-08); tedd! 日期必须要加单引号
 
--- 	CALL `ying_calc`.`s_loan-sma-bMargin-loop`('2015-11-10 13:35:00', '2018-08-08 15:05:00');     
+
+
+-- 	CALL `ying_calc`.`s_loan_sma_bMargin_loop`('2015-11-10 13:35:00', '2018-08-08 15:05:00');     
 --     
 -- 	SELECT * FROM `ying_calc`.`s_loan_sma` WHERE dt >= '2005-10-13 13:05:00' AND dt <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
 
@@ -169,14 +175,14 @@ CALL `ying_calc`.`s_loan-sma-bMargin-loop`(date_sub(current_timestamp(), INTERVA
 -- Test the proc
 -- 	SELECT * FROM `ying_calc`.`s_loan` WHERE `ids`='601318' ORDER BY dt DESC;
 --     
--- 	CALL `s_loan-sma-bMargin_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+-- 	CALL `s_loan_sma_bMargin_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 -- 
--- DROP PROCEDURE IF EXISTS `s_loan-sma-bMargin_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_loan_sma_bMargin_multiPeriods`;
 -- 
 
 
--- instructions for PROCEDURE `s_loan-sma-bMargin`
+-- instructions for PROCEDURE `s_loan_sma_bMargin`
 	-- replace dt and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace s_loan with table name;
@@ -187,13 +193,13 @@ CALL `ying_calc`.`s_loan-sma-bMargin-loop`(date_sub(current_timestamp(), INTERVA
         -- NOTE: set round option in SET out_sma = "SET out_sma = ROUND((sum / in_smaPeriods),2);"
 
 -- Test the proc
--- 	CALL `s_loan-sma-bMargin`('2019-09-09', '601318', 10, @out_sma);
+-- 	CALL `s_loan_sma_bMargin`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
 
--- DROP PROCEDURE IF EXISTS `s_loan-sma-bMargin_multiPeriods`;
+-- DROP PROCEDURE IF EXISTS `s_loan_sma_bMargin_multiPeriods`;
 
 -- DELIMITER $$
--- CREATE DEFINER=`gxh`@`%` PROCEDURE `s_loan-sma-bMargin_multiPeriods`
+-- CREATE DEFINER=`gxh`@`%` PROCEDURE `s_loan_sma_bMargin_multiPeriods`
 	-- (
 	-- IN 	
 		-- in_dt DATE, -- variable date. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest date in table s_loan.  
@@ -216,27 +222,27 @@ CALL `ying_calc`.`s_loan-sma-bMargin-loop`(date_sub(current_timestamp(), INTERVA
 -- BEGIN
 
 -- --  sma_1
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_1, @out_sma_1);		
 	-- SET out_sma_1 = @out_sma_1;
     
 -- --  sma_2
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_2, @out_sma_2);		
 	-- SET out_sma_2 = @out_sma_2;
 
 -- --  sma_3
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_3, @out_sma_3);		
 	-- SET out_sma_3 = @out_sma_3;
 
 -- --  sma_4
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_4, @out_sma_4);		
 	-- SET out_sma_4 = @out_sma_4;
 
 -- --  sma_5
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_5, @out_sma_5);		
 	-- SET out_sma_5 = @out_sma_5;
 
 -- --  sma_6
-	-- CALL `s_loan-sma-bMargin`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
+	-- CALL `s_loan_sma_bMargin`(in_dt, ids, in_smaPeriods_6, @out_sma_6);		
 	-- SET out_sma_6 = @out_sma_6;          
 
 -- END$$

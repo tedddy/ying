@@ -5,29 +5,29 @@ ALTER TABLE `ying`.`s_xts_sma` ADD COLUMN `close5_d1` DECIMAL(6,2) NULL COMMENT 
 
 -- UPDATE value of d1 into s_xts_sma
 
-DROP PROCEDURE IF EXISTS `s_xts_sma_ids_d_close5_d1`;
+DROP PROCEDURE IF EXISTS `s_xts_sma_close5_d1`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts_sma_ids_d_close5_d1`()
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts_sma_close5_d1`()
 BEGIN
 UPDATE s_xts_sma t
         INNER JOIN
     (SELECT 
-        `d`,
+        `dt`,
             `ids`,
             round((close5 - @close5_lag), 2) AS `close5_d1`,
             @close5_lag:=close5 AS `curr_close5`
     FROM
         `ying`.`s_xts_sma` t, (SELECT @close5_lag:=0) r
-    ORDER BY `ids` , `d`) d1 ON (t.ids = d1.ids
-        AND t.d = d1.d) 
+    ORDER BY `ids` , `dt`) d1 ON (t.ids = d1.ids
+        AND t.dt = d1.dt) 
 SET 
     t.close5_d1 = d1.close5_d1;
 END$$
 DELIMITER ;
 
-call `s_xts_sma_ids_d_close5_d1`;
+call `s_xts_sma_close5_d1`;
 
-SELECT * from s_xts_sma order by ids, d desc;
+SELECT * from s_xts_sma order by ids, dt desc;
 
 
 
