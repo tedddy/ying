@@ -1,9 +1,9 @@
-SELECT * FROM ying.w_MM ORDER BY d DESC;
+SELECT * FROM ying.w_MM ORDER BY `dt` DESC;
 
 SELECT COUNT(*) FROM ying.w_MM;
 
     SELECT 
-        `w_MM`.`d` AS `d`,
+        `w_MM`.`dt` AS `dt`,
         `info`.`uCode` AS `uCode`,
         `info`.`nature` AS `nature`,
         SUM(`w_MM`.`buy_MM`) AS `sum_buy_MM`,
@@ -13,8 +13,8 @@ SELECT COUNT(*) FROM ying.w_MM;
         JOIN `hk_w` `info` ON ((`w_MM`.`idw` = `info`.`code`)))
     WHERE
         (`info`.`uCode` IS NOT NULL)
-    GROUP BY `info`.`uCode` , `w_MM`.`d` , `info`.`nature`
-    ORDER BY `w_MM`.`d` DESC , `info`.`uCode`;
+    GROUP BY `info`.`uCode` , `w_MM`.`dt` , `info`.`nature`
+    ORDER BY `w_MM`.`dt` DESC , `info`.`uCode`;
 
 -- UPDATE ying.w_MM SET buy_MM = buy_MM * 100;
 

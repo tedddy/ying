@@ -1,0 +1,1 @@
+SELECT * FROM ying_calc.index_rt_hst order by `dt` desc;

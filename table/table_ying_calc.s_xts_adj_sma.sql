@@ -1,7 +1,7 @@
 -- `ying_calc`.`s_xts_adj_sma` 
 
 CREATE TABLE `s_xts_adj_sma` (
-  `d` date NOT NULL,
+  `dt` date NOT NULL,
   `ids` varchar(6) NOT NULL COMMENT 'ids',
   `close5` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 5 periods均线',
   `close10` decimal(6,2) unsigned DEFAULT NULL COMMENT 'close 10 periods均线',
@@ -15,5 +15,5 @@ CREATE TABLE `s_xts_adj_sma` (
   `amount30` mediumint(8) unsigned DEFAULT NULL COMMENT 'amount 30 periods均线',
   `amount60` mediumint(8) unsigned DEFAULT NULL COMMENT 'amount 60 periods均线',
   `amount120` mediumint(8) unsigned DEFAULT NULL COMMENT 'amount 120 periods均线',
-  PRIMARY KEY (`ids`,`d`)
+  PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;

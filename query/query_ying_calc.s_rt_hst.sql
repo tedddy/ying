@@ -1,10 +1,16 @@
-SELECT * FROM ying_calc.s_rt_hst;
+SELECT * FROM ying_calc.s_rt_hst ORDER BY `dt`;
 
-SELECT * FROM ying_calc.s_rt_hst order by dt desc, ids;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000007' ORDER BY `dt` DESC;
 
-SELECT * FROM ying_calc.s_rt_hst where dt = '2015-11-06 14:15:00' order by dt desc, ids;
+SELECT * FROM ying_calc.s_rt_hst ORDER BY `dt` DESC, ids;
 
-SELECT * FROM ying_calc.s_rt_hst where chgrate = 0.00 and volume > 0.00 and dt = '2015-11-06 14:15:00' order by dt desc, ids;
+SELECT * FROM ying_calc.s_rt_hst WHERE `dt` = '2015-11-06 14:15:00' ORDER BY `dt` DESC, ids;
+
+SELECT * FROM ying_calc.s_rt_hst WHERE time(`dt`) = '15:05:00' ORDER BY `dt` DESC, ids;
+
+SELECT * FROM ying_calc.s_rt_hst WHERE `dt` = '2015-11-19 10:35:00' ORDER BY `dt` DESC, ids;
+
+SELECT * FROM ying_calc.s_rt_hst WHERE chgrate = 0.00 AND volume > 0.00 AND `dt` = '2015-11-06 14:15:00' ORDER BY `dt` DESC, ids;
 
 SELECT * FROM ying_calc.s_rt_hst WHERE `cjezb` <= '0.00';
 
@@ -76,7 +82,7 @@ SELECT * FROM ying_calc.s_rt_hst WHERE `cjezb` <= '0.00';
     `ying_calc`.`s_rt_hst`.`dt` AS `dt`
 FROM
     (`ying_calc`.`s_rt_hst`
-    LEFT JOIN `index_stock_info` ON ((`ying_calc`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) and date(`ying_calc`.`s_rt_hst`.dt) = DATE_SUB(curdate(), interval 1 day))
+    LEFT JOIN `index_stock_info` ON ((`ying_calc`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) AND DATE(`ying_calc`.`s_rt_hst`.`dt`) = DATE_SUB(CURDATE(), INTERVAL 1 DAY))
     JOIN index_info ON (`index_stock_info`.`idi` = `index_info`.`idi`))
 WHERE
     (`index_stock_info`.`idi` IS NOT NULL)

@@ -3,10 +3,10 @@ ALTER TABLE `ying_calc`.`tableTMPL` ADD COLUMN `fieldTMPL_d1` DECIMAL(6,2) NULL 
 
 -- UPDATE value of d1 into tableTMPL
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`tableTMPL_fieldTMPL_d1`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`()
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`tableTMPL_fieldTMPL_d1`()
 BEGIN
 	DECLARE no_more_rows BOOLEAN DEFAULT FALSE;
 	DECLARE cursor_fetch_tmp_idTMPL VARCHAR(6);
@@ -54,9 +54,9 @@ BEGIN
 END$$
 DELIMITER ;
 
-CALL `ying_calc`.`tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1`;
+CALL `ying_calc`.`tableTMPL_fieldTMPL_d1`;
 
 SELECT * FROM tableTMPL ORDER BY idTMPL, dtTMPL DESC;
 
--- Reference: file E:\bYun\securities\ying\learning\learning.sql; search key words: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_idTMPL_dtTMPL_fieldTMPL_d1.sql 
+-- Reference: file E:\bYun\securities\ying\learning\learning.sql; search key words: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_tableTMPL_fieldTMPL_d1.sql 
 

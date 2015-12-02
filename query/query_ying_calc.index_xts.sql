@@ -1,0 +1,1 @@
+SELECT * FROM ying_calc.index_xts ORDER BY `dt` DESC;

@@ -1,12 +1,14 @@
 DROP PROCEDURE `ying`.`calc_s_rt_index_rt`;
 
+SELECT * FROM `ying`.`s_rt`;
 CALL `ying`.`calc_s_rt_index_rt`;
 
-DROP PROCEDURE `ying`.`calc_s_rt_index_rt`;
+-- DROP PROCEDURE `ying`.`calc_s_rt_index_rt`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `calc_s_rt_index_rt`()
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying`.`calc_s_rt_index_rt`()
 BEGIN
-	INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
+	DECLARE dt_latest DATETIME;
+        INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
 		(
 		`idi`,
 		`name_i`,
@@ -117,15 +119,17 @@ BEGIN
 	    `ying`.index_rt i ON (i.idi = '000902' AND i.dt = s.dt);
 	-- select 
 	SELECT 
-    *
-FROM
-    `ying_calc`.`index_cons_stat_zd`
-ORDER BY dt DESC , idi;
+	    *
+	FROM
+	    `ying_calc`.`index_cons_stat_zd`
+	ORDER BY dt DESC , idi;
 	-- TRUNCATE table `ying`.`s_rt`, to make the query above much faster.
 	TRUNCATE `ying`.`s_rt`;
+        -- Update sma
+        SELECT max(dt) INTO dt_latest FROM `ying_calc`.`s_rt_hst`;
+        CALL `ying_calc`.`s_rt_hst-sma-amount-loop`(date_sub(dt_latest, INTERVAL 1 MINUTE ), '2018-08-08 15:05:00');
 END$$
 DELIMITER ;
-
 
 -- research: update table with records from `ying_calc`.`s_rt_hst` instead of `ying`.`s_rt`
 

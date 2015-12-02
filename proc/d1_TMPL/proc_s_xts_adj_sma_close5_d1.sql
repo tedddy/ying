@@ -1,6 +1,6 @@
 -- CALL `ying_calc`.`s_xts_adj_sma_close5_d1`;
 
-SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, dt DESC;
+SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, `dt` DESC;
 
 -- start: 13:29 2015-11-02     `s_xts_adj_sma` `close5` d1     end:      update d1 of field close5 for table `s_xts_adj_sma`
 --
@@ -9,7 +9,7 @@ SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, dt DESC;
 --      replace
 --           tableTMPL     with     `ying_calc`.`s_xts_adj_sma`     7 replaced
 --           idTMPL          with     ids          7 replaced
---           dtTMPL          with     dt          7 replaced
+--           dtTMPL          with     `dt`          7 replaced
 --           fieldTMPL     with     close5          13 replaced
 --      execute file proc_s_xts_adj_sma_close5.sql & test all procedures
 
@@ -42,7 +42,7 @@ BEGIN
                    `s_xts_adj_sma`
                WHERE
                    `ids` = cursor_fetch_tmp_ids
-               ORDER BY dt
+               ORDER BY `dt`
                LIMIT 1;
                                
                SET @close5_lag := close5_earlest;
@@ -57,7 +57,7 @@ BEGIN
                     `ying_calc`.`s_xts_adj_sma`
                    WHERE
                     `ids` = cursor_fetch_tmp_ids
-                   ORDER BY `dt`) d1 ON (t.ids = d1.ids AND t.dt = d1.dt)
+                   ORDER BY `dt`) d1 ON (t.ids = d1.ids AND t.`dt` = d1.`dt`)
                SET
                    t.close5_d1 = d1.close5_d1; 
    
@@ -74,6 +74,6 @@ CALL `ying_calc`.`s_xts_adj_sma_close5_d1`;
 -- 2017996 row(s) affected, 10 warning(s): 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1 1264 Out of range value for column 'close5_d1' at row 1
 
 
-SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, dt DESC;
+SELECT * FROM `ying_calc`.`s_xts_adj_sma` ORDER BY ids, `dt` DESC;
 
 -- Reference: file E:\bYun\securities\ying\learning\learning.sql; search key words: learning and researching E:\bYun\securities\ying\proc\d1_TMPL\proc_s_xts_adj_sma_close5_d1.sql
