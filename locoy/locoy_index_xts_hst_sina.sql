@@ -10,23 +10,23 @@ SELECT * FROM `ying`.`index_xts_hst_sina`;
 -- DROP TABLE `ying`.`index_xts_hst_sina`;
 CREATE TABLE `index_xts_hst_sina` (
   `idi` varchar(6) NOT NULL COMMENT 'index id',
-  `d` date NOT NULL COMMENT 'date',
+  `dt` date NOT NULL COMMENT 'date',
   `open` decimal(7,2) unsigned DEFAULT NULL COMMENT 'open',
   `high` decimal(7,2) unsigned DEFAULT NULL COMMENT 'high',
   `low` decimal(7,2) unsigned DEFAULT NULL COMMENT 'low',
   `close` decimal(7,2) unsigned DEFAULT NULL COMMENT 'close',
   `volume` int(9) unsigned DEFAULT NULL COMMENT 'volume',
   `amount` int(9) unsigned DEFAULT NULL COMMENT 'amount',
-  PRIMARY KEY (`idi`,`d`)
+  PRIMARY KEY (`idi`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 
 -- DROP PROCEDURE `ying`.`index_xts_hst_sina`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `index_xts_hst_sina`(IN idi VARCHAR(18), d VARCHAR(18), open VARCHAR(18), high VARCHAR(18), low VARCHAR(18), close VARCHAR(18), volume bigint(15), amount bigint(15))
+CREATE DEFINER=`gxh`@`%` PROCEDURE `index_xts_hst_sina`(IN idi VARCHAR(18), `dt` VARCHAR(18), open VARCHAR(18), high VARCHAR(18), low VARCHAR(18), close VARCHAR(18), volume bigint(15), amount bigint(15))
 BEGIN
 SET `idi` = IF(idi = '', NULL, idi);
-SET `d` = IF(d = '', NULL, d);
+SET `dt` = IF(`dt` = '', NULL, `dt`);
 SET `open` = IF(open = '', NULL, round(open,2));
 SET `high` = IF(high = '', NULL, round(high,2));
 SET `low` = IF(low = '', NULL, round(low,2));
@@ -34,7 +34,7 @@ SET `close` = IF(close = '', NULL, round(close,2));
 SET `volume` = IF(volume = '', NULL, round(volume * 0.0001));
 SET `amount` = IF(amount = '', NULL, round(amount * 0.0001));
 
-INSERT INTO `index_xts_hst_sina` (`idi`, `d`, `open`, `high`, `low`, `close`, `volume`, `amount`) VALUES (idi, d, open, high, low, close, volume, amount) 
+INSERT INTO `index_xts_hst_sina` (`idi`, `dt`, `open`, `high`, `low`, `close`, `volume`, `amount`) VALUES (idi, `dt`, open, high, low, close, volume, amount) 
 ON DUPLICATE KEY UPDate
 	`open` = open,
 	`high` = high,
@@ -46,7 +46,7 @@ END$$
 DELIMITER ;
 
 
-CALL index_xts_hst_sina('[标签:idi]','[标签:d]','[标签:open]','[标签:high]','[标签:low]','[标签:close]','[标签:volume]','[标签:amount]');
+CALL index_xts_hst_sina('[标签:idi]','[标签:`dt`]','[标签:open]','[标签:high]','[标签:low]','[标签:close]','[标签:volume]','[标签:amount]');
 
 /*
 ying locoy project index_xts_hst_sina

@@ -1,6 +1,6 @@
 
--- instructions for PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma`
-	-- replace `d` and ids with acorrding fields names
+-- instructions for PROCEDURE `ying_calc`.`s_xts_adj_sma_close`
+	-- replace `dt` and ids with acorrding fields names
 		-- NOTE: remember to change data types accordingly.
 	-- replace `ying_calc`.`s_xts_adj` with table name;
     -- replace close wiht the field name of the sma calc;
@@ -11,15 +11,15 @@
 
 		
 -- Test the proc
--- 	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`('2019-09-09', '601318', 10, @out_sma);
+-- 	CALL `ying_calc`.`s_xts_adj_sma_close`('2019-09-09', '601318', 10, @out_sma);
 -- 	SELECT @out_sma;    
 
--- DROP TABLE IF EXISTS `s_xts_adj_sma`;
+-- DROP TABLE IF EXISTS `s_xts_adj_sma_close`;
 
 CREATE TABLE IF NOT EXISTS `ying_calc`.`s_xts_adj_sma` (
-  `d` DATE NOT NULL,
+  `dt` DATE NOT NULL,
   `ids` VARCHAR(6) NOT NULL COMMENT 'ids',
-  PRIMARY KEY (`ids`,`d`)
+  PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 ALTER TABLE `ying_calc`.`s_xts_adj_sma`
@@ -30,12 +30,12 @@ ADD COLUMN  `close30` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 30 perio
 ADD COLUMN  `close60` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 60 periods均线',
 ADD COLUMN  `close120` DECIMAL(6,2) UNSIGNED DEFAULT NULL COMMENT 'close 120 periods均线';
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_ids_d_close_sma`;
--- This procedure compute sma (simple moving average) for stock (ids) at given DATE (`d`).
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_close`;
+-- This procedure compute sma (simple moving average) for stock (ids) at given DATE (`dt`).
 DELIMITER $$ 
-CREATE PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma`(
+CREATE PROCEDURE `ying_calc`.`s_xts_adj_sma_close`(
 	IN 	
-		in_d DATE, -- variable: DATE. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest DATE in table `ying_calc`.`s_xts_adj`. 
+		in_dt DATE, -- variable: DATE. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest DATE in table `ying_calc`.`s_xts_adj`. 
 		in_ids VARCHAR(25), -- variable: stock id
 		in_smaPeriods MEDIUMINT, -- variable: Periods of the sma 
     
@@ -54,7 +54,7 @@ BEGIN
    
 -- 	DECLARE coursors 
 		DECLARE cursor1 CURSOR FOR -- variable for the first cursor. 
-			SELECT `close` FROM `ying_calc`.`s_xts_adj` WHERE `ids` = in_ids AND `d` <= in_d ORDER BY `d` DESC LIMIT LIMIT_NUMBER_FOR_CURSOR;
+			SELECT `close` FROM `ying_calc`.`s_xts_adj` WHERE `ids` = in_ids AND `dt` <= in_dt ORDER BY `dt` DESC LIMIT LIMIT_NUMBER_FOR_CURSOR;
 
 -- 	DECLARE error handler for "NOT FOUND"
 		DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1;
@@ -98,18 +98,18 @@ DELIMITER ;
 
 
 -- Test the proc
--- 	SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids`='601318' ORDER BY d DESC;
+-- 	SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids`='601318' ORDER BY dt DESC;
 --     
--- 	CALL `s_xts_adj_ids_d_close_sma_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
+-- 	CALL `s_xts_adj_sma_close_multiPeriods`('2019-09-09 00:00:00', '601318', 5, 10, 20, 30, 60, 120, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6);
 -- 	SELECT @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6;
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods`;
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_close_multiPeriods`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods`
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_close_multiPeriods`
 	(
 	IN 	
-		in_d DATE, -- variable DATE. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest DATE in table `ying_calc`.`s_xts_adj`.  
+		in_dt DATE, -- variable DATE. If the value of this variable is large (such as '2019-09-09'), then the sma we get from this proc is for the latest DATE in table `ying_calc`.`s_xts_adj`.  
 		in_ids VARCHAR(6),
 		in_smaPeriods_1 MEDIUMINT, 
 		in_smaPeriods_2 MEDIUMINT, 
@@ -129,44 +129,44 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma_multiP
 BEGIN
 
 --  sma_1
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_1, @out_sma_1);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_1, @out_sma_1);		
 	SET out_sma_1 = @out_sma_1;
     
 --  sma_2
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_2, @out_sma_2);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_2, @out_sma_2);		
 	SET out_sma_2 = @out_sma_2;
 
 --  sma_3
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_3, @out_sma_3);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_3, @out_sma_3);		
 	SET out_sma_3 = @out_sma_3;
 
 --  sma_4
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_4, @out_sma_4);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_4, @out_sma_4);		
 	SET out_sma_4 = @out_sma_4;
 
 --  sma_5
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_5, @out_sma_5);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_5, @out_sma_5);		
 	SET out_sma_5 = @out_sma_5;
 
 --  sma_6
-	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma`(in_d, in_ids, in_smaPeriods_6, @out_sma_6);		
+	CALL `ying_calc`.`s_xts_adj_sma_close`(in_dt, in_ids, in_smaPeriods_6, @out_sma_6);		
 	SET out_sma_6 = @out_sma_6;          
 
 END$$
 DELIMITER ;
 
 --  test query in the proc    
--- 	CALL `ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods_loop_dt_ids`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
--- 	SELECT * FROM `ying_calc`.`s_xts_adj_sma` WHERE `d` >= '2005-10-13 13:05:00' AND `d` <= '2019-10-15 15:05:00' ORDER BY `d` DESC;
--- 	select `d` FROM `ying_calc`.`s_xts_adj`;
--- instructions for PROCEDURE `ying_calc`.`ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods_loop_dt_ids`
+-- 	CALL `ying_calc`.`s_xts_adj_sma_close_loop`('2005-10-13 13:05:00', '2019-10-15 15:05:00', 5, 10, 20, 30, 60, 120);     
+-- 	SELECT * FROM `ying_calc`.`s_xts_adj_sma` WHERE `dt` >= '2005-10-13 13:05:00' AND `dt` <= '2019-10-15 15:05:00' ORDER BY `dt` DESC;
+-- 	select `dt` FROM `ying_calc`.`s_xts_adj`;
+-- instructions for PROCEDURE `ying_calc`.`ying_calc`.`s_xts_adj_sma_close_loop`
 	-- create table `ying_calc`.`s_xts_adj_sma` according to E:\bYun\securities\ying\table\table_s_xts_adj_sma.sql
 	-- replace fields names accordingly, to which sma's are inserted 
     
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods_loop_dt_ids`; 
+DROP PROCEDURE IF EXISTS `ying_calc`.`s_xts_adj_sma_close_loop`; 
 -- This proc loops through two fields to compute sma's
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma_multiPeriods_loop_dt_ids`
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_sma_close_loop`
 	(
 		IN 	in_dt_low DATE, -- variable for the lowest DATE in the selection of the cursor. 
 			in_dt_high DATE, -- variable for the highest DATE in the selection of the cursor.ids VARCHAR(6),
@@ -181,12 +181,12 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_xts_adj_ids_d_close_sma_multiP
 BEGIN 
  
 -- 	DECLARE cursor_fetch_tmps      
-	DECLARE cursor_fetch_tmp_dt DATE;   -- for `d`    
+	DECLARE cursor_fetch_tmp_dt DATE;   -- for `dt`    
 	DECLARE cursor_fetch_tmp_ids VARCHAR(6);   -- for ids 
 
 	DECLARE record_fetch_end TINYINT DEFAULT 0; -- DECLARE variable for error handler
         
-	DECLARE cursor1 CURSOR FOR SELECT DISTINCT `d`, `ids` FROM `ying_calc`.`s_xts_adj` WHERE `d` >= in_dt_low AND `d` <= in_dt_high ORDER BY `d` DESC, `ids`; -- DECLARE coursors  
+	DECLARE cursor1 CURSOR FOR SELECT DISTINCT `dt`, `ids` FROM `ying_calc`.`s_xts_adj` WHERE `dt` >= in_dt_low AND `dt` <= in_dt_high ORDER BY `dt` DESC, `ids`; -- DECLARE coursors  
 
 	DECLARE CONTINUE HANDLER FOR NOT FOUND SET record_fetch_end = 1; -- DECLARE error handler for "NOT FOUND"	
     
@@ -198,10 +198,26 @@ BEGIN
 			FETCH cursor1 INTO cursor_fetch_tmp_dt, cursor_fetch_tmp_ids; -- fetch result row into cursor_fetch_tmp tedd
             		
 		-- 	actions	
-			CALL `s_xts_adj_ids_d_close_sma_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
+		-- 	CALL `s_xts_adj_sma_close_multiPeriods`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids,5,10,20,30,60,120, @out_sma_1,@out_sma_2,@out_sma_3,@out_sma_4,@out_sma_5,@out_sma_6);
+                
+		-- 	actions	
+		--  sma_1
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_1, @out_sma_1);
+		--  sma_2
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_2, @out_sma_2);	
+		--  sma_3
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_3, @out_sma_3);
+		--  sma_4
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_4, @out_sma_4);
+		--  sma_5
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_5, @out_sma_5);	
+		--  sma_6
+			CALL `s_xts_adj_sma_close`(cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, in_smaPeriods_6, @out_sma_6);
 			
-			INSERT INTO `ying_calc`.`s_xts_adj_sma` (`d`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
-
+			IF cursor_fetch_tmp_dt IS NOT NULL THEN			
+				INSERT INTO `ying_calc`.`s_xts_adj_sma` (`dt`,`ids`,`close5`,`close10`,`close20`,`close30`,`close60`,`close120`) VALUES (cursor_fetch_tmp_dt, cursor_fetch_tmp_ids, @out_sma_1, @out_sma_2, @out_sma_3, @out_sma_4, @out_sma_5, @out_sma_6) ON DUPLICATE KEY UPDATE `close5` =  @out_sma_1, `close10` =  @out_sma_2, `close20` =  @out_sma_3, `close30` =  @out_sma_4, `close60` =  @out_sma_5, `close120` =  @out_sma_6;
+                        END IF;
+                        
 		-- 	break from loop if reach the end of the cursor
 			IF record_fetch_end THEN
 				LEAVE CURSOR_LOOP;
