@@ -9,7 +9,8 @@ BEGIN
 	IF (curtime() > '08:50:00' AND curtime() < '09:10:00') THEN 
 
 		BEGIN
-			CALL `ying_calc`.`s_loan_sma_bMargin_loop`(dt_lastest_s_loan, '2018-08-08'); 
+			CALL `ying_calc`.`s_loan_sma_bMargin_loop`(dt_lastest_s_loan, '2018-08-08');
+                        CALL `ying_calc`.`s_loan_d1_bMargin`;
                         CALL `ying_calc`.`s_loan_sma_d1_bMargin5`;
 			CALL `ying_calc`.`s_loan_sma_d1_bMargin10`;
 			CALL `ying_calc`.`s_loan_sma_d1_bMargin20`;
