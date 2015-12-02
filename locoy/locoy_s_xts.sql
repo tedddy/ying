@@ -41,6 +41,8 @@ DELIMITER $$
 CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), dt DATE, open DECIMAL(7,3), high DECIMAL(7,3), low DECIMAL(7,3), close DECIMAL(7,3), volume INT(9) UNSIGNED, amount MEDIUMINT(12) UNSIGNED)
 
 BEGIN
+	DECLARE amount_total INT(9);
+	DECLARE cjezb DECIMAL(15,2);        
 	SET `ids` = IF(ids = '', NULL, ids);
 	SET `dt` = IF(dt = '', NULL, dt);
 	SET `open` = IF(open = '', NULL, open);
@@ -49,6 +51,17 @@ BEGIN
 	SET `close` = IF(close = '', NULL, close);
 	SET `volume` = IF(volume = '', NULL, volume);
 	SET `amount` = IF(amount = '', NULL, amount);
+	SELECT 
+	    i.amount
+	INTO amount_total FROM
+	    `ying_calc`.`index_xts` i
+	WHERE
+	    `idi` = '000902' AND i.`dt` = `dt`;
+            
+	SET `cjezb` = 
+		    IF(amount_total > 0,
+			ROUND(10000 * amount / amount_total, 2),
+			0);
 
 	IF volume > 0 AND volume IS NOT NULL THEN
 		INSERT INTO `s_xts` (`ids`, `dt`, `open`, `high`, `low`, `close`, `volume`, `amount`) VALUES (ids, dt, open, high, low, close, volume, amount) 
@@ -59,14 +72,15 @@ BEGIN
 			`close` = close,
 			`volume` = volume,
 			`amount` = amount;
-		INSERT INTO `ying_calc`.`s_xts_adj` (`ids`, `dt`, `open`, `high`, `low`, `close`, `volume`, `amount`) VALUES (ids, dt, open, high, low, close, volume, amount) 
+		INSERT INTO `ying_calc`.`s_xts_adj` (`ids`, `dt`, `open`, `high`, `low`, `close`, `volume`, `amount`, `cjezb`) VALUES (ids, dt, open, high, low, close, volume, amount, cjezb) 
 		ON DUPLICATE KEY UPDATE
 			`open` = open,
 			`high` =high,
 			`low` = low,
 			`close` = close,
 			`volume` = volume,
-			`amount` = amount;
+			`amount` = amount,
+			`cjezb` = cjezb;
 	END IF;
 END$$
 DELIMITER ;
