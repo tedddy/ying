@@ -88,6 +88,17 @@ DELIMITER ;
 
 CALL s_xts('[标签:ids]', '[标签:dt]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]');
 
+-- update cjezb
+
+	-- UPDATE `ying_calc`.`s_xts_adj` s
+	--         JOIN
+	--     `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+	-- SET 
+	--     `cjezb` = IF(i.amount > 0,
+	--         ROUND(10000 * s.amount / i.amount, 2),
+	--         0);
+
+
 INSERT INTO `s_xts`
 	(`ids`,
 	`dt`,
