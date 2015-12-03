@@ -1,4 +1,8 @@
 SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY `dt` DESC, `cjezb` DESC LIMIT 10000; 
+SELECT * FROM `ying_calc`.`s_xts_adj` where `ids` = '000002' ORDER BY `dt` DESC, `cjezb` DESC LIMIT 10000; 
+SELECT * FROM `ying_calc`.`s_xts_adj` where `ids` = '002161' ORDER BY `dt` DESC, `cjezb` DESC LIMIT 10000; 
+SELECT * FROM `ying_calc`.`s_xts_adj` where `ids` = '300251' ORDER BY `dt` DESC, `cjezb` DESC LIMIT 10000; 
+
 
 -- add a column for value of d1
 ALTER TABLE `ying_calc`.`s_xts_adj` ADD COLUMN `close_d1` DECIMAL(5,2) NULL COMMENT '' AFTER `close`;

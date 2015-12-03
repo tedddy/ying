@@ -1,4 +1,5 @@
 SELECT * FROM `ying_calc`.`s_loan` where ids = '600318' order by `dt` desc;
+SELECT * FROM `ying_calc`.`s_loan` where ids = '600804' order by `dt` desc;
 
 SELECT * FROM ying_calc.s_loan_sma ORDER BY `ids`, `dt` DESC;
 
