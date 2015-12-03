@@ -1,3 +1,23 @@
+	SELECT 
+	    i.amount
+	INTO amount_total FROM
+	    `ying_calc`.`index_xts` i
+	WHERE
+	    `idi` = '000902' AND i.`dt` = `dt`;
+            
+	SET `cjezb` = 
+		    IF(amount_total > 0,
+			ROUND(10000 * amount / amount_total, 2),
+			0);
+
+UPDATE `ying_calc`.`s_xts_adj` s
+        JOIN
+    `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+SET 
+    `cjezb` = IF(i.amount > 0,
+        ROUND(10000 * s.amount / i.amount, 2),
+        0);
+
 SELECT 
     `amount`
 FROM
