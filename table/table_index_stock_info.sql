@@ -7,13 +7,17 @@
  
 -- DROP TABLE IF EXISTS `index_stock_info`;
 CREATE TABLE IF NOT EXISTS `index_stock_info` (
-  `idi` char(6) NOT NULL COMMENT 'index id',
-  `ids` varchar(6) NOT NULL COMMENT 'stock id',
-  `weight` decimal(6,3) DEFAULT NULL COMMENT 'weight of stock',
-  `flag` varchar(6) DEFAULT NULL COMMENT '`hs_s` flag',
-  `DateSys` date DEFAULT NULL,
+  `idi` CHAR(6) NOT NULL COMMENT 'index id',
+  `ids` VARCHAR(6) NOT NULL COMMENT 'stock id',
+  `weight` DECIMAL(6,3) DEFAULT NULL COMMENT 'weight of stock',
+  `flag` VARCHAR(6) DEFAULT NULL COMMENT '`hs_s` flag',
+  `DateSys` DATE DEFAULT NULL,
   PRIMARY KEY (`idi`,`ids`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=INNODB DEFAULT CHARSET=UTF8;
+
+INSERT INTO `ying`.`hs_index_gp_info_EM` (code_index, code) SELECT code_index, code FROM ying.hs_index_cons WHERE code_index = '399807' AND date_end = '0000-00-00';
+
+INSERT INTO `ying`.`index_stock_info` (`idi`, `ids`) SELECT code_index, code FROM ying.hs_index_cons WHERE code_index = '399807' AND date_end = '0000-00-00';
 
 -- insert data into `index_stock_info` from `hs_index_gp_info_EM`
 

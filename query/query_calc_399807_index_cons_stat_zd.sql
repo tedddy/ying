@@ -1,0 +1,1 @@
+SELECT * FROM `ying_calc`.`index_cons_stat_zd` where idi = '399807' order by `dt` desc;

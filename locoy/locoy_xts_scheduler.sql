@@ -21,10 +21,12 @@ BEGIN
 	END IF;
 
 -- sma and d1 for `ying_calc`.`s_xts_adj_sma`
-IF (curtime() > '15:00:00' AND curtime() < '15:10:00')  THEN
+IF (curtime() > '15:00:00' AND curtime() < '15:15:00')  THEN
 
 	BEGIN
-		CALL `ying_calc`.`s_xts_adj_sma_amount_loop`(curdate(), '2018-08-08', 5, 10, 20, 30, 60, 120);
+		CALL `ying_calc`.`s_xts_adj_close_d1`;
+                -- sma for `s_xts_adj`
+                CALL `ying_calc`.`s_xts_adj_sma_amount_loop`(curdate(), '2018-08-08', 5, 10, 20, 30, 60, 120);
 		CALL `ying_calc`.`s_xts_adj_sma_close_loop`(curdate(), '2018-08-08', 5, 10, 20, 30, 60, 120);
 		-- d1
 		CALL `ying_calc`.`s_xts_adj_sma_amount5_d1`;

@@ -9,6 +9,8 @@ SELECT * FROM `ying_calc`.`s_loan` where ids = '300251' order by `dt` desc;
 SELECT * FROM `ying_calc`.`s_loan` where ids = '300058' order by `dt` desc;
 SELECT * FROM `ying_calc`.`s_loan` where ids = '002161' order by `dt` desc;
 SELECT * FROM `ying_calc`.`s_loan` where ids = '600701' order by `dt` desc;
+SELECT * FROM `ying_calc`.`s_loan` where ids = '000778' order by `dt` desc;
+
 
 SELECT * FROM `ying_calc`.`s_loan` where ids = '600088' order by `dt` desc;
 
