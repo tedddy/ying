@@ -18,6 +18,17 @@ CREATE TABLE `ying_calc`.`s_rt_hst` (
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+-- update cjezb
+
+-- UPDATE `ying_calc`.`s_rt_hst` s
+--         JOIN
+--     `ying_calc`.`index_rt_hst` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+-- SET 
+--     `cjezb` = IF(i.amount > 0,
+--         ROUND(10000 * s.amount / i.amount, 2),
+--         0);
+-- 
+
 -- Archive s_rt: move data from s_rt to s_rt_hst
 
 INSERT INTO `ying_calc`.`s_rt_hst`

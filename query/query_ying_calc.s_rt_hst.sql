@@ -4,6 +4,12 @@ SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000007' ORDER BY `dt` DESC;
 
 SELECT * FROM ying_calc.s_rt_hst ORDER BY `dt` DESC, ids;
 
+
+
+SELECT * FROM ying_calc.s_rt_hst where `ids` in ('600030','600837','601211','601688') ORDER BY ids, `dt` DESC;
+
+SELECT * FROM ying_calc.s_rt_hst where `ids` IN ('600036','601166','601288','601328') ORDER BY ids, `dt` DESC;
+
 SELECT * FROM ying_calc.s_rt_hst WHERE `dt` = '2015-11-06 14:15:00' ORDER BY `dt` DESC, ids;
 
 SELECT * FROM ying_calc.s_rt_hst WHERE time(`dt`) = '15:05:00' ORDER BY `dt` DESC, ids;

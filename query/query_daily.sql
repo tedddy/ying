@@ -1,7 +1,7 @@
 SELECT * FROM `ying_calc`.`index_cons_stat_zd` order by `dt` desc;
 
 
-SELECT * FROM `ying_calc`.`s_loan` where ids IN ('600036','601166','601288','601328') order by `dt` desc;
+SELECT * FROM `ying_calc`.`s_loan` where `ids` IN ('600036','601166','601288','601328') order by `dt` desc;
 
 SELECT * FROM `ying_calc`.`s_loan` where ids = '002273' order by `dt` desc;
 SELECT * FROM `ying_calc`.`s_loan` where ids = '600705' order by `dt` desc;
