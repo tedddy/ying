@@ -48,7 +48,7 @@ ON DUPLICATE KEY UPDATE
 `amount` = amount,
 `volume` = volume;
 
-INSERT IGNORE INTO `ying_calc`.`index_rt_hst` (`idi`, `close`, `amount`, `volume`, `dt`) VALUES (idi, close, amount, volume, dt);
+-- INSERT IGNORE INTO `ying_calc`.`index_rt_hst` (`idi`, `close`, `amount`, `volume`, `dt`) VALUES (idi, close, amount, volume, dt);
 END$$
 DELIMITER ;
 

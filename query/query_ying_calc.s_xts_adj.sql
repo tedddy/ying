@@ -6,6 +6,16 @@ SELECT GROUP_CONCAT(DISTINCT ids) FROM `ying_calc`.`s_xts_adj` WHERE volume = 16
 
 SELECT * FROM `ying_calc`.`s_xts_adj` WHERE volume = 16777215 ORDER BY volume DESC LIMIT 10000;
 
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '000039' ORDER BY `dt` DESC LIMIT 10000;
+
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '601777' ORDER BY `dt` DESC LIMIT 10000;
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '300251' ORDER BY `dt` DESC LIMIT 10000;
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '002161' ORDER BY `dt` DESC LIMIT 10000;
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '002515' ORDER BY `dt` DESC LIMIT 10000;
+SELECT * FROM `ying_calc`.`s_xts_adj` WHERE `ids` = '000778' ORDER BY `dt` DESC LIMIT 10000;
+
+
+
 SELECT * FROM `ying_calc`.`s_xts_adj`;
 
 SELECT COUNT(*) FROM `ying_calc`.`s_xts_adj`;

@@ -10,6 +10,14 @@ CREATE TABLE `ying_calc`.`index_rt_hst` (
   PRIMARY KEY (`idi`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
+UPDATE `ying_calc`.`index_rt_hst` a
+        JOIN
+    `ying_calc`.`index_rt_hst` b ON (a.`dt` = b.`dt` AND b.`idi` = '000902') 
+SET 
+    a.`cjezb` = 100 * a.`volume` / b.`volume`
+WHERE
+    a.`dt` > '2015-12-07 14:20:00';
+
 INSERT IGNORE INTO `ying_calc`.`index_rt_hst`
 (`idi`,
 `close`,

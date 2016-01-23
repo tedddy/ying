@@ -1,12 +1,12 @@
 -- DROP PROCEDURE `ying_calc`.`xts_scheduler`;
 
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`xts_scheduler`(IN char_null char(1))
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`xts_scheduler`(IN char_null CHAR(1))
 BEGIN
 -- sma for s_loan
 	DECLARE dt_lastest_s_loan DATE;
 	SELECT MAX(`dt`) INTO dt_lastest_s_loan FROM `ying_calc`.`s_loan`;
-	IF (curtime() > '08:50:00' AND curtime() < '09:10:00') THEN 
+	IF (CURTIME() > '08:50:00' AND CURTIME() < '09:10:00') THEN 
 
 		BEGIN
 			CALL `ying_calc`.`s_loan_sma_bMargin_loop`(dt_lastest_s_loan, '2018-08-08');
@@ -21,26 +21,40 @@ BEGIN
 	END IF;
 
 -- sma and d1 for `ying_calc`.`s_xts_adj_sma`
-IF (curtime() > '15:00:00' AND curtime() < '15:15:00')  THEN
+IF (CURTIME() > '15:00:00' AND CURTIME() < '15:20:00')  THEN
 
 	BEGIN
 		CALL `ying_calc`.`s_xts_adj_close_d1`;
-                -- sma for `s_xts_adj`
-                CALL `ying_calc`.`s_xts_adj_sma_amount_loop`(curdate(), '2018-08-08', 5, 10, 20, 30, 60, 120);
-		CALL `ying_calc`.`s_xts_adj_sma_close_loop`(curdate(), '2018-08-08', 5, 10, 20, 30, 60, 120);
-		-- d1
+	-- sma for `s_xts_adj`
+                CALL `ying_calc`.`s_xts_adj_sma_amount_loop`(CURDATE(), '2018-08-08', 5, 10, 20, 30, 60, 120);
+		CALL `ying_calc`.`s_xts_adj_sma_close_loop`(CURDATE(), '2018-08-08', 5, 10, 20, 30, 60, 120);
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb_loop`(CURDATE(), '2018-08-08', 5, 10, 20, 30, 60, 120);
+	-- d1 amount
 		CALL `ying_calc`.`s_xts_adj_sma_amount5_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_amount10_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_amount20_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_amount30_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_amount60_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_amount120_d1`;
+        -- d1 close
 		CALL `ying_calc`.`s_xts_adj_sma_close5_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_close10_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_close20_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_close30_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_close60_d1`;
 		CALL `ying_calc`.`s_xts_adj_sma_close120_d1`;
+        -- d1 cjezb
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb5_d1`;
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb10_d1`;
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb20_d1`;
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb30_d1`;
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb60_d1`;
+		CALL `ying_calc`.`s_xts_adj_sma_cjezb120_d1`;        
+	-- update `cjezb` of table `ying_calc`.`s_xts_adj`
+		UPDATE `ying_calc`.`s_xts_adj` s
+		JOIN `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+		SET s.`cjezb` = IF(i.amount > 0, ROUND(10000 * s.amount / i.amount, 2),0) 
+		WHERE i.`dt` = CURDATE();
 	END;
 END IF;
 END$$

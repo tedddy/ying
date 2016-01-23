@@ -1,3 +1,4 @@
+url_hs_s_MoneyFlow_Daily
 http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_qsfx_lscjfb?daima=sz000001&page=1&num=1&sort=opendate&asc=0
 http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_qsfx_lscjfb?daima=sz000002&page=1&num=1&sort=opendate&asc=0
 http://vip.stock.finance.sina.com.cn/quotes_service/api/json_v2.php/MoneyFlow.ssl_qsfx_lscjfb?daima=sz000004&page=1&num=1&sort=opendate&asc=0

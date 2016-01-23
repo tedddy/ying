@@ -1,6 +1,34 @@
 SELECT * FROM ying_calc.s_rt_hst ORDER BY `dt`;
 
-SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000007' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000839' ORDER BY `dt` DESC;
+
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600100' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600895' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000039' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600804' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600638' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '300058' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '300251' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '002739' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600895' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600100' ORDER BY `dt` DESC;
+
+
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '600030' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '601186' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '601766' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '601777' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000919' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '002161' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE TIME(`dt`) = '14:00:00' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.index_rt_hst WHERE TIME(`dt`) = '14:00:00' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '000917' ORDER BY `dt` DESC;
+SELECT * FROM ying_calc.s_rt_hst WHERE `ids` = '002515' ORDER BY `dt` DESC;
+
+
+SELECT * FROM `ying_calc`.index_rt_hst WHERE `dt` = '2015-12-08 13:15:00';
+
+
 
 SELECT * FROM ying_calc.s_rt_hst ORDER BY `dt` DESC, ids;
 

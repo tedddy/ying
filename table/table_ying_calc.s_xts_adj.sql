@@ -1,5 +1,7 @@
 -- 前复权表
 
+SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY `dt` DESC LIMIT 10000; 
+
 -- current
 
 CREATE TABLE `s_xts_adj` (
@@ -20,14 +22,13 @@ CREATE TABLE `s_xts_adj` (
 
 -- update cjezb
 
-	-- UPDATE `ying_calc`.`s_xts_adj` s
-	--         JOIN
-	--     `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
-	-- SET 
-	--     `cjezb` = IF(i.amount > 0,
-	--         ROUND(10000 * s.amount / i.amount, 2),
-	--         0);
-
+	UPDATE `ying_calc`.`s_xts_adj` s
+		JOIN
+	    `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+	SET 
+	    s.`cjezb` = IF(i.amount > 0,
+		ROUND(10000 * s.amount / i.amount, 2),
+		0) where i.`dt` = curdate();
 
 -- history
 ALTER TABLE `ying_calc`.`s_xts_adj` 
