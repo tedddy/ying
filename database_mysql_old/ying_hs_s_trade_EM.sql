@@ -1,0 +1,1 @@
+SELECT * FROM ying.hs_s_trade_EM;
