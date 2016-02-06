@@ -18,11 +18,18 @@ SELECT * FROM `aoshu`.`question` order by id;
 SELECT * FROM `aoshu`.`question` order by id desc;
 SELECT * FROM `aoshu`.`question` order by id desc limit 1;
 
+select * from `aoshu`.`question` where `namecat` = '数论问题';
+
+select * from `aoshu`.`question` where `namecat2` = '余数问题';
+
 
 SELECT * FROM `aoshu`.`question` where namecat = '' order by id desc;
 
-
-update `aoshu`.`question` join `aoshu`.`cat2` on `aoshu`.`question`.`namecat2` = `aoshu`.`cat2`.`name` set `aoshu`.`question`.`namecat` = `aoshu`.`cat2`.`namecat`;
+UPDATE `aoshu`.`question`
+        JOIN
+    `aoshu`.`cat2` ON `aoshu`.`question`.`namecat2` = `aoshu`.`cat2`.`idcat2` -- and `aoshu`.`question`.`id` = 165 
+SET 
+    `aoshu`.`question`.`namecat2` = `aoshu`.`cat2`.`name`;
 
 UPDATE `aoshu`.`question` q
         JOIN
@@ -48,6 +55,23 @@ select namecat, namecat2, count(id) from `aoshu`.`question` group by namecat, na
         -- insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat`,`namecat2`,`tag1`,`tag2`,`tag3`) values ('20a',1,2,'计算问题','数学计算公式','tag1','','') ON DUPLICATE KEY UPDATE `tag1` = 'tag1' ;
         update `aoshu`.`question` set `tag1` = NULL where `tag1` = '';
         INSERT INTO `aoshu`.`hbs_repeat` (`jie`,`idquestion1`, `idquestion2`) VALUES (20,'5', '20');
+
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',1,0,'','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',2,0,'','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',3,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',4,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',5,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',6,0,'','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',7,0,'','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',8,0,'','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',9,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',10,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',11,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',12,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',13,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',14,0,'','','','','','5','6') ;
+
+
 
 insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5116',1,0,'73','','','','','3','6') ;
 insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5116',2,0,'20','24','','','','3','6') ;
