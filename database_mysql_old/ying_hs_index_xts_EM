@@ -1,0 +1,96 @@
+SELECT `hs_index_xts_EM`.`id`,
+    `hs_index_xts_EM`.`code`,
+    `hs_index_xts_EM`.`date`,
+    `hs_index_xts_EM`.`open`,
+    `hs_index_xts_EM`.`high`,
+    `hs_index_xts_EM`.`low`,
+    `hs_index_xts_EM`.`close`,
+    `hs_index_xts_EM`.`volume`,
+    `hs_index_xts_EM`.`amount`,
+    `hs_index_xts_EM`.`time`,
+    `hs_index_xts_EM`.`adjusted`,
+    `hs_index_xts_EM`.`fSH`,
+    `hs_index_xts_EM`.`fR`
+FROM `ying`.`hs_index_xts_EM` order by id desc;
+
+
+SELECT `hs_index_xts_EM`.`id`,
+    `hs_index_xts_EM`.`code`,
+    `hs_index_xts_EM`.`date`,
+    `hs_index_xts_EM`.`open`,
+    `hs_index_xts_EM`.`high`,
+    `hs_index_xts_EM`.`low`,
+    `hs_index_xts_EM`.`close`,
+    `hs_index_xts_EM`.`volume`,
+    `hs_index_xts_EM`.`amount`,
+    `hs_index_xts_EM`.`time`,
+    `hs_index_xts_EM`.`adjusted`,
+    `hs_index_xts_EM`.`fSH`,
+    `hs_index_xts_EM`.`fR`
+FROM `ying`.`hs_index_xts_EM`;
+
+
+SELECT 
+    `hs_index_xts_eastmoney`.`id`,
+    `hs_index_xts_eastmoney`.`code`,
+    `hs_index_xts_eastmoney`.`date`,
+    `hs_index_xts_eastmoney`.`open`,
+    `hs_index_xts_eastmoney`.`high`,
+    `hs_index_xts_eastmoney`.`low`,
+    `hs_index_xts_eastmoney`.`close`,
+    `hs_index_xts_eastmoney`.`volume`,
+    `hs_index_xts_eastmoney`.`amount`,
+    `hs_index_xts_eastmoney`.`time`,
+    `hs_index_xts_eastmoney`.`adjusted`,
+    `hs_index_xts_eastmoney`.`fR`
+FROM
+    `ying`.`hs_index_xts_EM`
+WHERE
+    code = 399974;
+
+
+
+CREATE TABLE `hs_index_xts_eastmoney` (
+  `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
+  `code` varchar(6) NOT NULL COMMENT '代码id; code id in table hk_s and in table hk_s',
+  `date` date DEFAULT NULL COMMENT '交易日期; trade date',
+  `open` decimal(9,2) unsigned DEFAULT NULL COMMENT '开盘价',
+  `high` decimal(9,2) unsigned DEFAULT NULL COMMENT '最高价',
+  `low` decimal(9,2) unsigned DEFAULT NULL COMMENT '最低价',
+  `close` decimal(9,2) unsigned DEFAULT NULL COMMENT '收盘价',
+  `volume` int(11) unsigned DEFAULT NULL COMMENT '成交量',
+  `amount` bigint(12) unsigned DEFAULT NULL COMMENT '股票成交额',
+  `time` time DEFAULT NULL,
+  `adjusted` decimal(9,2) unsigned DEFAULT NULL COMMENT '调整收盘价',
+  `fR` tinyint(1) NOT NULL DEFAULT '1' COMMENT 'Result of data collection\n0: fail; 1: success',
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `code_date_time` (`code`,`date`,`time`)
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
+
+DELIMITER $$
+CREATE DEFINER=`gxh`@`%` PROCEDURE `hs_index_xts_eastmoney`(IN code VARCHAR(6), date DATE, open DECIMAL(9,2), high DECIMAL(9,2), low DECIMAL(9,2), close DECIMAL(9,2), volume BIGINT(11) UNSIGNED, amount BIGINT(12) UNSIGNED, time VARCHAR(9))
+BEGIN
+SET code = IF(code = '', NULL, code);
+SET date = IF(date = '', NULL, Date);
+SET open = IF(open = '', NULL, open);
+SET high = IF(high = '', NULL, high);
+SET low = IF(low = '', NULL, low);
+SET close = IF(close = '', NULL, close);
+SET volume = IF(volume = '', NULL, volume);
+SET amount = IF(amount = '', NULL, amount);
+SET time = IF(time = '', NULL, time);
+
+INSERT INTO `hs_index_xts_eastmoney` (`code`, `date`, `open`, `high`, `low`, `close`, `volume`, `amount`, `time`) VALUES (code, date, open, high, low, close, volume, amount, time) 
+ON DUPLICATE KEY UPDate
+	`open` = IF(open IS NULL, `open`, open),
+	`high` = IF(high IS NULL, `high`, high),
+	`low` = IF(low IS NULL, `low`, low),
+	`close` = IF(close IS NULL, `close`, close),
+	`volume` = IF(volume IS NULL, `volume`, volume),
+	`amount` = IF(amount IS NULL, `amount`, amount),
+	`time` = IF(time IS NULL, `time`, time);
+
+END$$
+DELIMITER ;
+
+CALL hs_index_xts_eastmoney('[标签:code]', '[标签:date]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]', '[标签:time]') 
