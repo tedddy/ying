@@ -25,7 +25,7 @@ UPDATE `ying`.`hs_index_gp_info_EM` i
         LEFT JOIN
     `ying`.`hs_s_index_nmc_view` n ON i.code_index = n.code_index
         LEFT JOIN
-    hs_s s ON i.code = s.code 
+    `ying`.`hs_s` s ON i.code = s.code 
 SET 
     i.weight = ROUND(100 * s.nmc / n.nmc_index, 3)
 WHERE

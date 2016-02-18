@@ -1,3 +1,4 @@
+SELECT * FROM ying.hk_w ORDER BY pDate DESC;
 
 SELECT * FROM ying.hk_w WHERE code = '01441' ORDER BY pDate DESC;
 
@@ -61,7 +62,10 @@ WHERE eDate > CURRENT_DATE() AND PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM CURDATE()),
 GROUP BY DATE_FORMAT(pDate, '%Y-%m') DESC;
 
 SET group_concat_max_len=200000;
+
+-- 下面的语句正确，报错是bug
 SHOW VARIABLES LIKE "group_concat_max_len";  
+
 INSERT INTO test_group_concat
 SELECT
     GROUP_CONCAT(CONCAT('rt_hk',code))

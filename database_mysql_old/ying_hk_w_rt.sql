@@ -1,4 +1,4 @@
-SELECT * FROM ying.hk_w_rt;
+SELECT * FROM ying.hk_w_rt_lag order by id desc;
 
 SELECT count(*) FROM ying.hk_w_rt;
 

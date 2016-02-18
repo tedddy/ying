@@ -18,12 +18,24 @@ SELECT * FROM `aoshu`.`question` order by id;
 SELECT * FROM `aoshu`.`question` order by id desc;
 SELECT * FROM `aoshu`.`question` order by id desc limit 1;
 
+select * from `aoshu`.`question` where `nametest` = '20b';
+
 select * from `aoshu`.`question` where `namecat` = '数论问题';
 
-select * from `aoshu`.`question` where `namecat2` = '余数问题';
+select * from `aoshu`.`question` where `namecat2` = '工程问题';
+
+select * from `aoshu`.`question` where `namecat2` = '余数问题' or `namecat22` = '抽屉原理' or `tag1` = '抽屉原理' or `tag2` = '抽屉原理' or `tag3` = '抽屉原理';
+
+select * from `aoshu`.`question` where `namecat2` = '余数问题' or `namecat22` = '抽屉原理' or `tag1` = '抽屉原理' or `tag2` = '抽屉原理' or `tag3` = '抽屉原理';
+
+
 
 
 SELECT * FROM `aoshu`.`question` where namecat = '' order by id desc;
+
+SELECT * FROM `aoshu`.`question` where nametest = 'c5120' order by id desc;
+
+SELECT * FROM `aoshu`.`question` where nametest like '20%' order by id desc;
 
 UPDATE `aoshu`.`question`
         JOIN
@@ -47,29 +59,76 @@ SELECT * FROM `aoshu`.`question` where namecat = '数论' order by id;
 
 select namecat2, count(id) from `aoshu`.`question` group by namecat2;
 
-select namecat, count(id) from `aoshu`.`question` group by namecat order by count(id) desc;
+select namecat, count(id) from `aoshu`.`question` where nametest like '20%' group by namecat order by count(id) desc;
 
-select namecat, namecat2, count(id) from `aoshu`.`question` group by namecat, namecat2 order by count(id) desc;
+select namecat, namecat2, count(id) from `aoshu`.`question` where nametest like '20%' group by namecat, namecat2 order by namecat, count(id) desc;
 
 -- templat
         -- insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat`,`namecat2`,`tag1`,`tag2`,`tag3`) values ('20a',1,2,'计算问题','数学计算公式','tag1','','') ON DUPLICATE KEY UPDATE `tag1` = 'tag1' ;
         update `aoshu`.`question` set `tag1` = NULL where `tag1` = '';
         INSERT INTO `aoshu`.`hbs_repeat` (`jie`,`idquestion1`, `idquestion2`) VALUES (20,'5', '20');
 
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',1,0,'','','','','','3','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',2,0,'','','','','','3','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',3,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',4,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',5,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',6,0,'','','','','','3','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',7,0,'','','','','','3','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',8,0,'','','','','','3','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',9,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',10,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',11,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',12,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',13,0,'','','','','','5','6') ;
-insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',14,0,'','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',1,0,'极值','位值','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',2,0,'极值','不定方程','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',3,0,'极值','不定方程','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',4,0,'76','18','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',5,0,'24','73','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',6,0,'18','36','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',7,0,'60','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',8,0,'94','99','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',9,0,'77','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',10,0,'60','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',11,0,'植树问题','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',12,0,'极值','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',13,0,'77','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5120',14,0,'30','','','','','5','6') ;
+
+
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',1,0,'99','27','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',2,0,'99','27','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',3,0,'99','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',4,0,'99','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',5,0,'31','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',6,0,'18','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',7,0,'48','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',8,0,'48','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',9,0,'24','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',10,0,'58','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',11,0,'77','70','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',12,0,'71','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',13,0,'48','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5119',14,0,'60','','','','','5','6') ;
+
+
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',1,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',2,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',3,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',4,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',5,0,'70','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',6,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',7,0,'70','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',8,0,'99','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',9,0,'17','37','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',10,0,'23','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',11,0,'99','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',12,0,'37','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',13,0,'73','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5118',14,0,'18','','','','','5','6') ;
+
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',1,0,'93','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',2,0,'63','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',3,0,'77','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',4,0,'46','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',5,0,'60','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',6,0,'60','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',7,0,'73','','','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',8,0,'95','','比例','','','3','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',9,0,'26','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',10,0,'76','77','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',11,0,'50','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',12,0,'38','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',13,0,'33','','','','','5','6') ;
+insert into `aoshu`.`question` (`nametest`,`seq`,`rank`,`namecat2`,`namecat22`,`tag1`,`tag2`,`tag3`,`ft`,`fp`) values ('c5117',14,0,'73','','','','','5','6') ;
 
 
 

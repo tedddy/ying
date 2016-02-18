@@ -1,4 +1,18 @@
+-- by hour at half
+SELECT `dt`, `idi`, avg(`close`) as `close` FROM `ying_calc`.`index_rt_hst` where datediff(curdate(), dt) < 7 group by idi,FLOOR((UNIX_TIMESTAMP(`dt`) - 1800) / 3600)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date);   
+
+-- by an hour at 00
+SELECT `dt`, `idi`, avg(`close`) as `close`  FROM `ying_calc`.`index_rt_hst` where datediff(curdate(), dt) < 30 group by idi,FLOOR((UNIX_TIMESTAMP(`dt`) + 3600) / 3600)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date); 
+
+-- by half an hour
+SELECT `dt`, `idi`, avg(`close`) as `close`  FROM `ying_calc`.`index_rt_hst` where datediff(curdate(), dt) < 30 group by idi,FLOOR((UNIX_TIMESTAMP(`dt`) + 1800) / 1800)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date);  
+
+SELECT `dt`, `idi`, avg(`close`) as `close`  FROM `ying_calc`.`index_rt_hst` where datediff(curdate(), dt) < 30 group by idi,FLOOR((UNIX_TIMESTAMP(`dt`) + 1800) / 1800)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date);  
+
+
 SELECT * FROM ying_calc.index_rt_hst where `idi` = '399807' ORDER BY `dt` DESC;
+
+SELECT distinct(dt) FROM ying_calc.index_rt_hst where `idi` = '399807' ORDER BY `dt` DESC;
 
 SELECT * FROM ying_calc.index_rt_hst where `idi` = '000902' and TIME(`dt`) = '10:00:00' ORDER BY `dt` DESC;
 

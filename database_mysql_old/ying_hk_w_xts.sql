@@ -16,8 +16,6 @@ ORDER BY id DESC;
 call hk_w_xts_fR;
 
 
-
-
 -- 筛选出某只股票对应的权证 version 150505. This is too slow because of IN subquery. tedd
 SELECT 
     xts.code,
@@ -35,7 +33,7 @@ WHERE
         AND xts.code IN (SELECT 
             info.code
         FROM
-            hk_w
+            ying.hk_w
         WHERE
             info.uCode = '03888')
 ORDER BY xts.date DESC , xts.turnover DESC;
