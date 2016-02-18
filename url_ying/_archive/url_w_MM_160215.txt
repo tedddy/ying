@@ -1,3 +1,4 @@
+url_w_MM
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=11005&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=11006&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=11010&b=00000000&max=1
@@ -1503,6 +1504,7 @@ http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21607&b=00000
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21608&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21610&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21612&b=00000000&max=1
+http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21615&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21616&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21618&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21621&b=00000000&max=1
@@ -1565,6 +1567,7 @@ http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21790&b=00000
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21792&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21795&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21796&b=00000000&max=1
+http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21797&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21798&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21802&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=21804&b=00000000&max=1
@@ -2584,6 +2587,7 @@ http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24619&b=00000
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24624&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24625&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24626&b=00000000&max=1
+http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24627&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24629&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24632&b=00000000&max=1
 http://stock.finance.qq.com/hk/hklist/view/daily_trading.php?p=1&c=24633&b=00000000&max=1
