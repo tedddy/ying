@@ -32,7 +32,9 @@ del "Y:\url_ying\url_hk_w_watch.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT CONCAT('http://hq.sinajs.cn/list=hk', code) AS 'url_hk_w_watch' FROM `hk_w` WHERE `fW` = '5';" > "Y:\url_ying\url_hk_w_watch_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT CONCAT('http://hq.sinajs.cn/list=hk', code) AS 'url_hk_w_watch' FROM `ying_calc`.`hk_w_sg`;" > "Y:\url_ying\url_hk_w_watch_%today%.txt"
+
+REM "C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT CONCAT('http://hq.sinajs.cn/list=hk', code) AS 'url_hk_w_watch' FROM `hk_w` WHERE `fW` = '5';" > "Y:\url_ying\url_hk_w_watch_%today%.txt"
 
 REM PAUSE
 

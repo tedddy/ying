@@ -32,7 +32,7 @@ del "Y:\url_ying\url_hk_w_hs.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `uCode`,'&') AS 'hk_w_hs_hs' FROM `ying`.`hk_w_hs` where `uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI', 'HSI', '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from `ying`.`hk_w_hs`) or `uCode` IN (select distinct code from `ying`.`hk_s_hgt_info`) ORDER BY `uCode`;" > "Y:\url_ying\url_hk_w_hs_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `uCode`,'&') AS 'hk_w_hs' FROM `ying`.`hk_w` where `uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI', 'HSI', '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from `ying`.`hk_w`) or `uCode` IN (select distinct code from `ying`.`hk_s_hgt_info`) ORDER BY `uCode`;" > "Y:\url_ying\url_hk_w_hs_%today%.txt"
 
 REM PAUSE
 

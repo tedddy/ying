@@ -1,14 +1,28 @@
 SELECT * FROM ying_calc.lhb_s_trader;
 
 SELECT 
-    (CASE WHEN `lhb_s_trader`.`type` = '7' THEN '涨7' WHEN `lhb_s_trader`.`type` = '-7' THEN '跌7' WHEN `lhb_s_trader`.`type` = '-7' THEN '跌7' WHEN `lhb_s_trader`.`type` = '20' THEN '涨20' WHEN `lhb_s_trader`.`type` = '-20' THEN '跌20' WHEN `lhb_s_trader`.`type` = 't20' THEN '换20' WHEN `lhb_s_trader`.`type` = 'r15' THEN '震15' WHEN `lhb_s_trader`.`type` = 's15' THEN 'S跌15'END)  as '类型',
-    `lhb_s_trader`.`dt` as '日期',
-    `lhb_s_trader`.`amount_sell` as '卖出成交额',
-    `lhb_s_trader`.`ids` as '股票代码',
-    `lhb_s_trader`.`amount_buy` as '买入额',
-    `lhb_s_trader`.`name_s` as '股票名称',
-    `lhb_trader`.`name_trader` as '营业部'
-FROM `ying_calc`.`lhb_s_trader` join `ying_calc`.`lhb_trader` on (`lhb_s_trader`.`id_trader` = `lhb_trader`.`id_trader`);
+    (CASE
+        WHEN `lhb_s_trader`.`type` = '7' THEN '涨7'
+        WHEN `lhb_s_trader`.`type` = '-7' THEN '跌7'
+        WHEN `lhb_s_trader`.`type` = '-7' THEN '跌7'
+        WHEN `lhb_s_trader`.`type` = '20' THEN '涨20'
+        WHEN `lhb_s_trader`.`type` = '-20' THEN '跌20'
+        WHEN `lhb_s_trader`.`type` = 't20' THEN '换20'
+        WHEN `lhb_s_trader`.`type` = 'r15' THEN '震15'
+        WHEN `lhb_s_trader`.`type` = 's15' THEN 'S跌15'
+    END) AS '类型',
+    `lhb_s_trader`.`dt` AS '日期',
+    `lhb_s_trader`.`amount_sell` AS '卖出成交额',
+    `lhb_s_trader`.`ids` AS '股票代码',
+    `lhb_s_trader`.`amount_buy` AS '买入额',
+    `lhb_s_trader`.`name_s` AS '股票名称',
+	`lhb_trader`.`id_trader` AS '营业部代码',
+    `lhb_trader`.`name_trader` AS '营业部'
+FROM
+    `ying_calc`.`lhb_s_trader`
+        JOIN
+    `ying_calc`.`lhb_trader` ON (`lhb_s_trader`.`id_trader` = `lhb_trader`.`id_trader`)
+ORDER BY dt DESC;
 
 -- 连续三个交易日内收盘价格涨幅偏离值累计20% -> 20
 -- 当日涨幅偏离值达7%的证券 -> 7

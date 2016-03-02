@@ -1,5 +1,11 @@
 SELECT * FROM ying.hk_w ORDER BY pDate DESC;
 
+SELECT * FROM ying.hk_w ORDER BY `dateSys` DESC;
+
+
+SELECT count(*) FROM ying.hk_w ORDER BY pDate DESC;
+
+
 SELECT * FROM ying.hk_w WHERE code = '01441' ORDER BY pDate DESC;
 
 -- 筛选重要的权证
@@ -60,12 +66,6 @@ FROM
     `ying`.`hk_w`
 WHERE eDate > CURRENT_DATE() AND PERIOD_DIFF(EXTRACT(YEAR_MONTH FROM CURDATE()), EXTRACT(YEAR_MONTH FROM `hk_w`.`pDate`)) < 50
 GROUP BY DATE_FORMAT(pDate, '%Y-%m') DESC;
-
-SELECT
-    GROUP_CONCAT(CONCAT('rt_hk',a.code))
-FROM
-    (select code from `ying`.`hk_w` limit 3) a;
-    
 
 SET group_concat_max_len=200000;
 

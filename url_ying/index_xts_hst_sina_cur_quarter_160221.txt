@@ -1,3 +1,4 @@
+index_xts_hst_sina_cur_quarter
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/399631/type/S.phtml?year=2016&jidu=1
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/399388/type/S.phtml?year=2016&jidu=1
 http://vip.stock.finance.sina.com.cn/corp/go.php/vMS_MarketHistory/stockid/399390/type/S.phtml?year=2016&jidu=1

@@ -27,16 +27,16 @@ REM PAUSE
 
 ECHO.
 
-move "Y:\url_ying\url_hk_w_*.txt" "Y:\url_ying\_archive"
-del "Y:\url_ying\url_hk_w.txt"
+move "Y:\url_ying\hk_w_rt_qq_*.txt" "Y:\url_ying\_archive"
+del "Y:\url_ying\hk_w_rt_qq.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT concat('http://hq.sinajs.cn/list=rt_hk',code) AS 'url_hk_w' FROM `ying_calc`.`hk_w_sg` where eDate > curdate();" > "Y:\url_ying\url_hk_w_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying_calc -e "SELECT concat('http://push2.gtimg.cn/q=', CONCAT('hk',code), '&m=push') as hk_w_rt_qq FROM `ying_calc`.`hk_w_sg` where `Turnover($K)` > 0" > "Y:\url_ying\hk_w_rt_qq_%today%.txt"
 
 REM PAUSE
 
-MORE /E +1 "Y:\url_ying\url_hk_w_%today%.txt" > "Y:\url_ying\url_hk_w.txt"
+MORE /E +1 "Y:\url_ying\hk_w_rt_qq_%today%.txt" > "Y:\url_ying\hk_w_rt_qq.txt"
 
 REM PAUSE
 

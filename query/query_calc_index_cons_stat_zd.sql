@@ -5,7 +5,7 @@ SELECT * FROM `ying_calc`.`index_cons_stat_zd` order by `dt` desc;
 -- DELETE FROM `ying_calc`.`index_cons_stat_zd` where date(`dt`) = curdate() order by `dt` desc;
 
 
-SELECT summary.idi AS '指数', info.name_i  AS '指数名称', ROUND(rate5,2) AS '五分钟涨速', z - `dt` AS '涨跌数差', ROUND(zW - dW,2) AS '涨跌数差加权', zfg - dfg AS '涨跌超3.82', ROUND(zfgW - dfgW,2) AS '涨跌超3.82加权', zg - dg AS '涨跌超6.18', ROUND(zgW - dgW,2) AS '涨跌超6.18加权', zt - d10 AS '涨跌停差', ROUND(ztW - d10W,2) AS '涨跌停差加权', `dt` FROM `ying`.`index_cons_stat_zd` summary JOIN index_info info ON (summary.idi = info.idi)  UNION SELECT * from `ying_calc`.`index_cons_stat_zd` ORDER BY `dt` DESC;
+SELECT summary.idi AS '指数', summary.name_i  AS '指数名称', ROUND(rate5,2) AS '五分钟涨速', `zd` AS '涨跌数差', zdW AS '涨跌数差加权', zd382 AS '涨跌超3.82', zd382W AS '涨跌超3.82加权', zd618 AS '涨跌超6.18', zd618W AS '涨跌超6.18加权', zd1000 AS '涨跌停差', zd1000W AS '涨跌停差加权', `dt` FROM `ying_calc`.`index_cons_stat_zd` summary JOIN index_info info ON (summary.idi = info.idi) ORDER BY summary.`dt` DESC;
 
 -- 沪深300
 SELECT `dt`, info.name_i  AS '指数名称', rate5 AS '五分钟涨速', z - `dt` AS '涨跌数差', zW - dW AS '涨跌数差加权', zfg - dfg AS '涨跌超3.82', zfgW - dfgW AS '涨跌超3.82加权', zg - dg AS '涨跌超6.18', zgW - dgW AS '涨跌超6.18加权', zt - d10 AS '涨跌停差', ztW - d10W AS '涨跌停差加权', summary.idi AS '指数' FROM `ying`.`index_cons_stat_zd` summary JOIN index_info info ON (summary.idi = info.idi) WHERE info.idi IN ('000300') ORDER BY summary.`dt` DESC, summary.idi; -- date(`dt`) = curdate() - 1 or or date(`dt`) >= '2015-09-29'

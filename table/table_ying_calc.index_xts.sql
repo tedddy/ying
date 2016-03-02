@@ -49,6 +49,32 @@ INSERT INTO `ying_calc`.`index_xts`
 `close`,
 `volume`,
 `amount`)
+SELECT `index_xts_hst_sina`.`idi`,
+    `index_xts_hst_sina`.`d`,
+    `index_xts_hst_sina`.`open`,
+    `index_xts_hst_sina`.`high`,
+    `index_xts_hst_sina`.`low`,
+    `index_xts_hst_sina`.`close`,
+    `index_xts_hst_sina`.`volume`,
+    `index_xts_hst_sina`.`amount`
+FROM `ying`.`index_xts_hst_sina`
+ on DUPLICATE KEY UPDATE 
+`open` = `index_xts_hst_sina`.`open`,
+`high` = `index_xts_hst_sina`.`high`,
+`low` = `index_xts_hst_sina`.`low`,
+`close` = `index_xts_hst_sina`.`close`,
+`volume`  = `index_xts_hst_sina`.`volume`,
+`amount`  = `index_xts_hst_sina`.`amount`;
+
+INSERT INTO `ying_calc`.`index_xts`
+(`idi`,
+`dt`,
+`open`,
+`high`,
+`low`,
+`close`,
+`volume`,
+`amount`)
 SELECT `index_xts`.`idi`,
     `index_xts`.`dt`,
     `index_xts`.`open`,

@@ -26,6 +26,16 @@ Steps:
 "[参数],[参数],[参数],[参数],[参数],[参数]";
 */
 
+-- http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=LHB&sty=YYHSIU&code=80154611&p=1&ps=50&js=var%20CNyxpdfD={%22data%22:[%28x%29],%22pages%22:%22%28pc%29%22,%22update%22:%22%28ud%29%22}&
+
+SELECT DISTINCT concat('http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=LHB&sty=YYHSIU&code=', `id_trader`,'&p=1&ps=50&js=var%20CNyxpdfD={%22data%22:[%28x%29],%22pages%22:%22%28pc%29%22,%22update%22:%22%28ud%29%22}&') AS 'lhb_s_trader' FROM `ying_calc`.`lhb_trader`;
+
+select id_trader from `ying_calc`.`lhb_trader`;
+
+drop table `ying`.`lhb_trader`;
+
+SELECT count(*) FROM `ying_calc`.`lhb_s_trader`;	
+
 SELECT * FROM `ying_calc`.`lhb_s_trader`;		
 -- DROP TABLE `ying_calc`.`lhb_s_trader`;
 CREATE TABLE `ying_calc`.`lhb_s_trader` (

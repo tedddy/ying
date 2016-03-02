@@ -27,16 +27,16 @@ REM PAUSE
 
 ECHO.
 
-move "Y:\url_ying\url_hk_w_*.txt" "Y:\url_ying\_archive"
-del "Y:\url_ying\url_hk_w.txt"
+move "Y:\url_ying\lhb_s_trader_*.txt" "Y:\url_ying\_archive"
+del "Y:\url_ying\lhb_s_trader.txt"
 
 REM PAUSE
 
-"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT concat('http://hq.sinajs.cn/list=rt_hk',code) AS 'url_hk_w' FROM `ying_calc`.`hk_w_sg` where eDate > curdate();" > "Y:\url_ying\url_hk_w_%today%.txt"
+"C:\Program Files\MySQL\MySQL Server 5.6\bin\mysql"  -u gxh -plocoy -h 192.168.137.172 ying -e "SELECT DISTINCT concat('http://datainterface.eastmoney.com/EM_DataCenter/JS.aspx?type=LHB&sty=YYHSIU&code=', `id_trader`,'&p=1&ps=50&js=var%20CNyxpdfD={%22data%22:[%28x%29],%22pages%22:%22%28pc%29%22,%22update%22:%22%28ud%29%22}&') AS 'lhb_s_trader' FROM `ying_calc`.`lhb_trader`;" > "Y:\url_ying\lhb_s_trader_%today%.txt"
 
 REM PAUSE
 
-MORE /E +1 "Y:\url_ying\url_hk_w_%today%.txt" > "Y:\url_ying\url_hk_w.txt"
+MORE /E +1 "Y:\url_ying\lhb_s_trader_%today%.txt" > "Y:\url_ying\lhb_s_trader.txt"
 
 REM PAUSE
 

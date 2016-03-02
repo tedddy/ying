@@ -5,7 +5,12 @@
 -- 简化网址：http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=0493&
 
 
-SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `uCode`,'&') AS 'hk_w_hs' FROM `hk_w` where `uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI','HSI' '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from hk_s_hgt_info);
+-- SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `uCode`,'&') AS 'hk_w_hs' FROM `hk_w` where `uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI','HSI' '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from hk_s_hgt_info);
+
+-- SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `code`,'&') AS 'hk_w_hs' FROM `hk_s`;
+
+SELECT DISTINCT concat('http://bank.hangseng.com/1/PA_1_1_P1/ComSvlet_MiniSite_schi_gif?app=EinvcWarrantTechSearRes&Sortby=&Sortdir=&Start=&End=&WarrCode=&Searchby=2&UStockCode=', `uCode`,'&') AS 'hk_w_hs' FROM `ying`.`hk_w` where `uCode` IN ('03800' , '02823', '02822', '06837', 'HSCEI', 'HSI', '00998', '01788', '02727', '03333', '02357', '01066', '01068', '00268', '01833', '00861') or `uCode` IN (select distinct code from `ying`.`hk_w`) or `uCode` IN (select distinct code from `ying`.`hk_s_hgt_info`) ORDER BY `uCode`;
+
 
 -- 数据：
 -- 参考：

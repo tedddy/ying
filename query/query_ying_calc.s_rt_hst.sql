@@ -1,3 +1,11 @@
+SELECT * from `ying_calc`.`s_rt_hst` where time(dt)='09:30:00' ORDER BY dt desc;
+
+SELECT * from `ying_calc`.`s_rt_hst` where time(dt)='09:35:00' ORDER BY dt desc;
+
+SELECT * from `ying_calc`.`s_rt_hst` where time(dt)='09:40:00' ORDER BY dt desc;
+
+
+
 -- by hour at half
 SELECT `dt`,ids,avg(close) FROM ying_calc.s_rt_hst where datediff(curdate(), dt) < 7 group by ids,FLOOR((UNIX_TIMESTAMP(`dt`) - 1800) / 3600)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date);   
 
@@ -7,7 +15,9 @@ SELECT `dt`,ids,avg(close) FROM ying_calc.s_rt_hst where datediff(curdate(), dt)
 -- by half an hour
 SELECT `dt`,ids,avg(close) FROM ying_calc.s_rt_hst where datediff(curdate(), dt) < 7 group by ids,FLOOR((UNIX_TIMESTAMP(`dt`) - 1800) / 1800)  ORDER BY `dt` desc; -- FLOOR((UNIX_TIMESTAMP(date) - 1800) / 3600) select date,AVG(AE) from mytable group by date(date),HOUR(date);  
 
-select FLOOR((UNIX_TIMESTAMP(curdate()) - 1800) / 3600), FLOOR((UNIX_TIMESTAMP('2016-02-17 10:35:00') - 1800) / 3600);
+select a.`dt`, a.`close`, a.`volume`, a.`amount` from (SELECT `dt`, `close`, `volume`, `amount` FROM `ying_calc`.`s_rt_hst` where ids = '600016' order by `dt` desc limit 98) as a order by a.`dt`;
+
+select FLOOR(UNIX_TIMESTAMP(curdate())/3600), FLOOR((UNIX_TIMESTAMP(curdate()) - 180) / 3600), FLOOR((UNIX_TIMESTAMP(curdate()) - 1800) / 3600), FLOOR((UNIX_TIMESTAMP('2016-02-17 10:35:00') - 1800) / 3600);
 
 SELECT dt as date, close, volume, amount FROM ying_calc.index_rt_hst where `idi` = '000300' ORDER BY `dt` DESC LIMIT 500;
 

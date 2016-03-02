@@ -1,3 +1,5 @@
+SELECT * FROM ying.hk_w_xts WHERE code = '18466';
+
 SELECT 
     `hk_w_xts`.`id`,
     `hk_w_xts`.`code`,
@@ -11,6 +13,24 @@ SELECT
 FROM
     `ying`.`hk_w_xts`
 ORDER BY id DESC;
+
+SELECT 
+    sum(`hk_w_xts`.`turnover`)
+FROM
+    `ying`.`hk_w_xts` 
+where date = curdate() ORDER BY id DESC;
+
+SELECT 
+    `hk_w_xts`.`date`,
+    `hk_w_xts`.`open`,
+    `hk_w_xts`.`high`,
+    `hk_w_xts`.`low`,
+    `hk_w_xts`.`close`,
+    `hk_w_xts`.`volume`,
+    `hk_w_xts`.`turnover`
+FROM
+    `ying`.`hk_w_xts` 
+where date = curdate() ORDER BY id DESC;
 
 
 call hk_w_xts_fR;
@@ -29,7 +49,7 @@ FROM
         LEFT JOIN
     ying.hk_w AS info ON xts.code = info.code
 WHERE
-    xts.date > '2015-08-03'
+    xts.date > '2015-11-03'
         AND xts.code IN (SELECT 
             info.code
         FROM
@@ -173,7 +193,8 @@ FROM
         JOIN
     hk_w AS info ON hk_w_xts.code = info.code
 WHERE
-    date IN ('2015-04-14', '2015-04-13', '2015-04-10', '2015-04-09', '2015-04-08')
+--    date IN ('2015-04-14', '2015-04-13', '2015-04-10', '2015-04-09', '2015-04-08')
+	date > '2016-01-01'
         AND info.uCode IS NOT NULL
         AND info.uCode IN ('00998', '06818', '01988', '00939', '01288', '06837', 'HSCEI')
 GROUP BY info.uCode, date;
@@ -183,7 +204,7 @@ SELECT
     FROM
         ying.hk_w_xts
     WHERE
-        date = '2015-04-10' AND 
+        date = '2016-02-22' AND 
             code IN (SELECT 
                 code
             FROM
