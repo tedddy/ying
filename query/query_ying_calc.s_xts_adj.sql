@@ -1,4 +1,4 @@
-SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY `dt` DESC LIMIT 10000; 
+SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY `dt` DESC LIMIT 10000;  
 
 SELECT * FROM `ying_calc`.`s_xts_adj` ORDER BY `dt` DESC, `cjezb` DESC LIMIT 10000; 
 

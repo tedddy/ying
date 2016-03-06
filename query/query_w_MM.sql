@@ -4,7 +4,7 @@ SELECT COUNT(*) FROM ying.w_MM;
 
     SELECT 
         `w_MM`.`dt` AS `dt`,
-        `info`.`uCode` AS `uCode`,
+        right(`info`.`uCode`,4) AS `uCode`,
         `info`.`nature` AS `nature`,
         SUM(`w_MM`.`buy_MM`) AS `sum_buy_MM`,
         SUM(`w_MM`.`sell_MM`) AS `sum_sell_MM`
