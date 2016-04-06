@@ -1,8 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
-<root UseCache="">
-  <PageCache UrlMust="http://p.3.cn/prices/" ContentMust="p" CacheTime="30" />
-  <PageCache UrlMust="http://club.jd.com/review/" ContentMust="京东" CacheTime="900" />
-  <PageCache UrlMust="http://www.boxz.com/products/" ContentMust="京东" CacheTime="900" />
-  <PageCache UrlMust="http://item.jd.com/" ContentMust="京东" CacheTime="6000" />
-  <PageCache UrlMust="http://list.jd.com/" ContentMust="京东" CacheTime="120" />
-</root>
