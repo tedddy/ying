@@ -1,7 +1,7 @@
 SELECT 
     *
 FROM
-    ying.hs_s_xts
+    ying.s_xts
 WHERE
     code = 002424;  
 

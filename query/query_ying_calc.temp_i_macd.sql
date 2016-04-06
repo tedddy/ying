@@ -1,0 +1,1 @@
+SELECT * FROM ying_calc.temp_i_macd order by dt desc;

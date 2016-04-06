@@ -2,34 +2,62 @@
 -- E:\user_tony\Documents\GitHub\ying\view\view_s_xts_adj_hst_sina_faL.sql: L means latest
 -- too slow!
 
-DROP VIEW `s_xts_adj_hst_sina_faL_LeftJoin_slow`;
+-- DROP VIEW `s_xts_adj_hst_sina_faL_LeftJoin_slow`;
 CREATE VIEW `s_xts_adj_hst_sina_faL_LeftJoin_slow` AS
 SELECT 
-    a.ids, a.d, a.fa
+    a.ids, a.dtt, a.fa
 FROM
     s_xts_adj_hst_sina a
         LEFT JOIN
-    s_xts_adj_hst_sina b ON a.ids = b.ids AND a.d < b.d
+    s_xts_adj_hst_sina b ON a.ids = b.ids AND a.dtt < b.dtt
 WHERE
-    ISNULL(b.d);
+    ISNULL(b.dtt);
+    
+SELECT * FROM `s_xts_adj_hst_sina_faL_LeftJoin_slow` order by dt desc;
 
 SELECT * FROM s_xts_adj_hst_sina_faL;
 
 -- much faster than the query above, although "Error Code: 1349. View's SELECT contains a subquery in the FROM clause"
-SELECT a.ids, a.d, a.fa
+SELECT a.ids, a.dt, a.fa
 FROM s_xts_adj_hst_sina a
 INNER JOIN (
-    SELECT ids, MAX(d) d
+    SELECT ids, MAX(dt) dt
     FROM s_xts_adj_hst_sina
     GROUP BY ids
-) b ON a.ids = b.ids AND a.d = b.d;
--- learning: DATEDIFF(a.d, CURDATE()) < 5   
-	SELECT a.ids, a.d, a.fa
+) b ON a.ids = b.ids AND a.dt = b.dt;
+
+-- Revise last query to make it a view by dropping subquery. It takes too much time.
+SELECT 
+    a.ids, a.dt, a.fa
+FROM
+    s_xts_adj_hst_sina a
+        LEFT JOIN
+    s_xts_adj_hst_sina b ON (a.ids = b.ids AND a.dt < b.dt)
+WHERE
+    ISNULL(b.ids);
+    
+SELECT 
+    DISTINCT a.ids
+FROM
+    s_xts_adj_hst_sina a;
+    
+-- Revise last query to make it a view by dropping subquery. 
+SELECT 
+    a.ids, a.dt, a.fa
+FROM
+    s_xts_adj_hst_sina a
+ORDER BY dt DESC
+LIMIT 2769;
+    
+
+
+-- learning: DATEDIFF(a.dt, CURDATE()) < 5   
+	SELECT a.ids, a.dt, a.fa
 	FROM s_xts_adj_hst_sina a
 	INNER JOIN (
 		SELECT ids, MAX(d) d
 		FROM s_xts_adj_hst_sina
 		GROUP BY ids
-	) b ON a.ids = b.ids AND a.d = b.d
+	) b ON a.ids = b.ids AND a.dt = b.dt
 	WHERE
-		DATEDIFF(a.d, CURDATE()) < 5;
+		DATEDIFF(a.dt, CURDATE()) < 5;

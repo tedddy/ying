@@ -36,7 +36,7 @@ CREATE
     ALGORITHM = UNDEFINED 
     DEFINER = `gxh`@`%` 
     SQL SECURITY DEFINER
-VIEW `index_rt_hst` AS;
+VIEW `index_rt_hst` AS
     SELECT 
         `a`.`dt` AS `dt`,
         `a`.`idi` AS `idi`,

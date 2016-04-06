@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <l name="code" value="60000" />
+  <l name="date" value="" />
+  <l name="open" value="" />
+  <l name="high" value="" />
+  <l name="low" value="" />
+  <l name="close" value="13" />
+  <l name="volume" value="" />
+  <l name="turnover" value="" />
+</root>

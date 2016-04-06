@@ -1,9 +1,45 @@
 -- Insert the latest fa (复权因子 factor for adjusted close) into table s_xts_adj_hst_sina_faL
 
-INSERT INTO s_xts_adj_hst_sina_faL SELECT 
+SELECT * from `ying`.`s_xts_adj_hst_sina` where dt = '0000-00-00' order by dt desc; 
+
+SELECT * from `ying`.`s_xts_adj_hst_sina` where ids = '601318' order by dt desc; 
+
+SELECT 
+    ids, MIN(`dt`) `dt`, fa
+FROM
+    `ying`.`s_xts_adj_hst_sina`
+WHERE
+    ids = '601318'
+GROUP BY ids , CASE
+    WHEN fa > 4000 THEN ROUND(fa)
+    WHEN fa > 1000 THEN ROUND(fa, 1)
+    WHEN fa > 100 THEN ROUND(fa, 2)
+    ELSE fa
+END
+ORDER BY `dt` DESC , ids;
+
+    SELECT 
+        a.ids AS ids, a.`dt` AS `dt`, a.fa AS fa
+    FROM
+        `ying`.`s_xts_adj_hst_sina` a
+    INNER JOIN (SELECT 
+        ids, MIN(`dt`) `dt`
+    FROM
+        `ying`.`s_xts_adj_hst_sina`
+    GROUP BY ids , CASE
+        WHEN fa > 4000 THEN ROUND(fa)
+        WHEN fa > 1000 THEN ROUND(fa, 1)
+        WHEN fa > 100 THEN ROUND(fa, 2)
+        ELSE fa
+    END
+    ORDER BY `dt` DESC , ids) b ON a.ids = b.ids AND a.`dt` = b.`dt`;
+
+DELETE from `ying`.`s_xts_adj_hst_sina` where dt = '0000-00-00' order by dt desc; 
+
+INSERT INTO `ying`.`s_xts_adj_hst_sina_faL` SELECT 
     a.ids, a.`dt`, a.fa
 FROM
-    s_xts_adj_hst_sina a
+    `ying`.`s_xts_adj_hst_sina` a
         INNER JOIN
     (SELECT 
         ids, MAX(`dt`) `dt`
@@ -11,11 +47,11 @@ FROM
         (SELECT 
         a.ids AS ids, a.`dt` AS `dt`, a.fa AS fa
     FROM
-        s_xts_adj_hst_sina a
+        `ying`.`s_xts_adj_hst_sina` a
     INNER JOIN (SELECT 
         ids, MIN(`dt`) `dt`
     FROM
-        s_xts_adj_hst_sina
+        `ying`.`s_xts_adj_hst_sina`
     GROUP BY ids , CASE
         WHEN fa > 4000 THEN ROUND(fa)
         WHEN fa > 1000 THEN ROUND(fa, 1)
@@ -28,7 +64,7 @@ ORDER BY fa DESC ON DUPLICATE KEY UPDATE ids = a.ids, `dt` = a.`dt`, fa = a.fa;
 
 -- Developing process 
 
--- 	-- create a table to hold the latest fa in table s_xts_adj_hst_sina
+-- 	-- create a table to hold the latest fa in table `ying`.`s_xts_adj_hst_sina`
 -- 	-- DROP TABLE `s_xts_adj_hst_sina_faL`;
 -- 	CREATE TABLE `s_xts_adj_hst_sina_faL` (
 -- 	  `ids` VARCHAR(6) NOT NULL COMMENT 'stock id 股票代码',

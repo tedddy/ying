@@ -1,13 +1,13 @@
 USE `ying_calc`;
 
-DROP TABLE `ying_calc`.`i_nmc`;
+-- DROP TABLE `ying_calc`.`i_nmc`;
 CREATE TABLE `ying_calc`.`i_nmc` (
   `idi` CHAR(6) NOT NULL COMMENT 'index code',
   `i_nmc` BIGINT(13) DEFAULT NULL COMMENT '流通市值',
   PRIMARY KEY (`idi`)
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
-TRUNCATE table `ying_calc`.`i_nmc`;
+-- TRUNCATE table `ying_calc`.`i_nmc`;
 INSERT INTO `ying_calc`.`i_nmc`
 (`idi`,
 `i_nmc`)
@@ -17,7 +17,7 @@ SELECT
 FROM
 `ying_calc`.`i_nmc_view`;
 
-TRUNCATE table `ying_calc`.`i_nmc`;
+-- TRUNCATE table `ying_calc`.`i_nmc`;
 INSERT INTO `ying_calc`.`i_nmc`
 (`idi`,
 `i_nmc`)

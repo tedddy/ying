@@ -13,10 +13,11 @@ CREATE TABLE `ying_calc`.`s_loan` (
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-update `ying_calc`.`s_loan` set `sCover` = round( (`sCover` / 100), 0 );
-update `ying_calc`.`s_loan` set `sSell` = round( (`sSell` / 100), 0 );
-update `ying_calc`.`s_loan` set `bStock` = round( (`bStock` / 100), 0 );
-
-update `ying_calc`.`s_loan` set `mCover` = round( (`mCover` / 10000), 0 );
-update `ying_calc`.`s_loan` set `mBuy` = round( (`mBuy` / 10000), 0 );
-update `ying_calc`.`s_loan` set `bMargin` = round( (`bMargin` / 10000), 0 );
+-- update `ying_calc`.`s_loan` set `sCover` = round( (`sCover` / 100), 0 );
+-- update `ying_calc`.`s_loan` set `sSell` = round( (`sSell` / 100), 0 );
+-- update `ying_calc`.`s_loan` set `bStock` = round( (`bStock` / 100), 0 );
+-- 
+-- update `ying_calc`.`s_loan` set `mCover` = round( (`mCover` / 10000), 0 );
+-- update `ying_calc`.`s_loan` set `mBuy` = round( (`mBuy` / 10000), 0 );
+-- update `ying_calc`.`s_loan` set `bMargin` = round( (`bMargin` / 10000), 0 );
+-- 

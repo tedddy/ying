@@ -9,7 +9,7 @@ CREATE DEFINER=`gxh`@`%` PROCEDURE `ying`.`calc_s_rt_index_rt`()
 BEGIN
 	DECLARE dt_latest DATETIME;
 	DECLARE amount_000902 INT(10);
-        INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
+        INSERT IGNORE INTO `ying`.`index_cons_stat_zd`
 		(
 		`idi`,
 		`name_i`,
@@ -99,8 +99,8 @@ BEGIN
 	GROUP BY `s_rt`.`dt` , `index_stock_info`.`idi`
 	ORDER BY `s_rt`.`dt` DESC , `index_stock_info`.`idi`;
 
--- Insert records into `ying_calc`.`s_rt_hst`
-	INSERT IGNORE INTO `ying_calc`.`s_rt_hst` (`ids`, `dt`, `close`, `amount`, `cjezb`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`) 	
+-- Insert records into `ying`.`s_rt_hst`
+	INSERT IGNORE INTO `ying`.`s_rt_hst` (`ids`, `dt`, `close`, `amount`, `cjezb`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`) 	
 	SELECT 
 	    s.`ids`,
 	    s.`dt`,
@@ -119,9 +119,9 @@ BEGIN
 		LEFT JOIN
 	    `ying`.index_rt i ON (i.idi = '000902' AND i.dt = s.dt);
   
-  -- Insert records into `ying_calc`.`index_rt_hst`
+  -- Insert records into `ying`.`index_rt_hst`
   
-  INSERT IGNORE INTO `ying_calc`.`index_rt_hst` (`idi`, `close`, `amount`, `cjezb`, `volume`, `dt`) SELECT 
+  INSERT IGNORE INTO `ying`.`index_rt_hst` (`idi`, `close`, `amount`, `cjezb`, `volume`, `dt`) SELECT 
 	    i.`idi`,
 	    i.`close`,
 	    i.`amount`,
@@ -139,7 +139,7 @@ BEGIN
 	SELECT 
 	    *
 	FROM
-	    `ying_calc`.`index_cons_stat_zd`
+	    `ying`.`index_cons_stat_zd`
 	ORDER BY dt DESC , idi;
 		-- TRUNCATE table `ying`.`s_rt`, to make the query above much faster.
 		TRUNCATE `ying`.`s_rt`;
@@ -149,9 +149,9 @@ BEGIN
 	SELECT 
 	    MAX(dt)
 	INTO dt_latest FROM
-	    `ying_calc`.`s_rt_hst`;
+	    `ying`.`s_rt_hst`;
             
-	CALL `ying_calc`.`s_rt_hst_sma_amount_loop`(date_sub(dt_latest, INTERVAL 1 MINUTE ), '2018-08-08 15:05:00');
+	CALL `ying`.`s_rt_hst_sma_amount_loop`(date_sub(dt_latest, INTERVAL 1 MINUTE ), '2018-08-08 15:05:00');
 END$$
 DELIMITER ;
 
@@ -161,7 +161,7 @@ DELIMITER ;
 -- CREATE DEFINER=`gxh`@`%` PROCEDURE `calc_s_rt_index_rt`()
 -- BEGIN
 -- 	DECLARE dt_latest DATETIME;
---         INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
+--         INSERT IGNORE INTO `ying`.`index_cons_stat_zd`
 -- 		(
 -- 		`idi`,
 -- 		`name_i`,
@@ -251,8 +251,8 @@ DELIMITER ;
 -- 	GROUP BY `s_rt`.`dt` , `index_stock_info`.`idi`
 -- 	ORDER BY `s_rt`.`dt` DESC , `index_stock_info`.`idi`;
 -- 
--- -- Insert records into `ying_calc`.`s_rt_hst`
--- 	INSERT IGNORE INTO `ying_calc`.`s_rt_hst` (`ids`, `dt`, `close`, `amount`, `cjezb`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`) 	
+-- -- Insert records into `ying`.`s_rt_hst`
+-- 	INSERT IGNORE INTO `ying`.`s_rt_hst` (`ids`, `dt`, `close`, `amount`, `cjezb`, `volume`, `chgrate`, `WeiBi`, `chgrate5`, `LiangBi`) 	
 -- 	SELECT 
 -- 	    s.`ids`,
 -- 	    s.`dt`,
@@ -274,22 +274,22 @@ DELIMITER ;
 -- 	SELECT 
 -- 	    *
 -- 	FROM
--- 	    `ying_calc`.`index_cons_stat_zd`
+-- 	    `ying`.`index_cons_stat_zd`
 -- 	ORDER BY dt DESC , idi;
 -- 	-- TRUNCATE table `ying`.`s_rt`, to make the query above much faster.
 -- 	TRUNCATE `ying`.`s_rt`;
 --         -- Update sma
---         -- SELECT max(dt) INTO dt_latest FROM `ying_calc`.`s_rt_hst`;
---         -- CALL `ying_calc`.`s_rt_hst-sma-amount-loop`(date_sub(dt_latest, INTERVAL 1 MINUTE ), '2018-08-08 15:05:00');
+--         -- SELECT max(dt) INTO dt_latest FROM `ying`.`s_rt_hst`;
+--         -- CALL `ying`.`s_rt_hst-sma-amount-loop`(date_sub(dt_latest, INTERVAL 1 MINUTE ), '2018-08-08 15:05:00');
 -- END$$
 -- DELIMITER ;
 
 
--- research: update table with records from `ying_calc`.`s_rt_hst` instead of `ying`.`s_rt`
+-- research: update table with records from `ying`.`s_rt_hst` instead of `ying`.`s_rt`
 
--- DELETE FROM `ying_calc`.`index_cons_stat_zd` where date(dt) = curdate() order by dt desc;
+-- DELETE FROM `ying`.`index_cons_stat_zd` where date(dt) = curdate() order by dt desc;
 
--- INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
+-- INSERT IGNORE INTO `ying`.`index_cons_stat_zd`
 -- (`idi`,
 -- `name_i`,
 -- `n`,
@@ -306,75 +306,75 @@ DELIMITER ;
 -- 	SELECT 
 --     `index_stock_info`.`idi` AS `idi`,
 --     `index_info`.`name_i`,
---     SUM(IF((`ying_calc`.`s_rt_hst`.`volume` > 0), 1, 0)) AS `n`,
---     ROUND(SUM((`ying_calc`.`s_rt_hst`.`chgrate5` * `index_stock_info`.`weight`)),2) AS `rate5`,
---     SUM(IF((`ying_calc`.`s_rt_hst`.`chgrate` > 0), 1, - 1)) AS `zd`,
---     ROUND(SUM(IF((`ying_calc`.`s_rt_hst`.`chgrate` > 0),
+--     SUM(IF((`ying`.`s_rt_hst`.`volume` > 0), 1, 0)) AS `n`,
+--     ROUND(SUM((`ying`.`s_rt_hst`.`chgrate5` * `index_stock_info`.`weight`)),2) AS `rate5`,
+--     SUM(IF((`ying`.`s_rt_hst`.`chgrate` > 0), 1, - 1)) AS `zd`,
+--     ROUND(SUM(IF((`ying`.`s_rt_hst`.`chgrate` > 0),
 --         `index_stock_info`.weight,
 --         - 1 * `index_stock_info`.weight)),2) AS `zdW`,
---     SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0382) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--     SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0382) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         1,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0382) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0382) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             - 1,
 --             0))) AS `zd382`,
---    ROUND(SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0382) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--    ROUND(SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0382) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         `index_stock_info`.weight,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0382) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0382) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             - 1 * `index_stock_info`.weight,
 --             0))),2) AS `zd382W`,
---     SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0618) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--     SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0618) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         1,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0618) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0618) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             1,
 --             0))) AS `zd618`,
---     ROUND(SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0618) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--     ROUND(SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.0618) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         `index_stock_info`.weight,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0618) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.0618) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             - 1 * `index_stock_info`.weight,
 --             0))),2) AS `zd618W`,
---     SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.1) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--     SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.1) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         1,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.1) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.1) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             - 1,
 --             0))) AS `zd1000`,
---    ROUND( SUM(IF(((`ying_calc`.`s_rt_hst`.`chgrate` > 0)
---             AND (`ying_calc`.`s_rt_hst`.`close` >= ROUND(((1 + 0.1) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--    ROUND( SUM(IF(((`ying`.`s_rt_hst`.`chgrate` > 0)
+--             AND (`ying`.`s_rt_hst`.`close` >= ROUND(((1 + 0.1) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                 2))),
 --         `index_stock_info`.weight,
---         IF(((`ying_calc`.`s_rt_hst`.`chgrate` < 0)
---                 AND (`ying_calc`.`s_rt_hst`.`close` <= ROUND(((1 - 0.1) * ((100 * `ying_calc`.`s_rt_hst`.`close`) / (100 + `ying_calc`.`s_rt_hst`.`chgrate`))),
+--         IF(((`ying`.`s_rt_hst`.`chgrate` < 0)
+--                 AND (`ying`.`s_rt_hst`.`close` <= ROUND(((1 - 0.1) * ((100 * `ying`.`s_rt_hst`.`close`) / (100 + `ying`.`s_rt_hst`.`chgrate`))),
 --                     2))),
 --             - 1 * `index_stock_info`.weight,
 --             0))),2) AS `zd1000W`,
---     `ying_calc`.`s_rt_hst`.`dt` AS `dt`
+--     `ying`.`s_rt_hst`.`dt` AS `dt`
 -- FROM
---     (`ying_calc`.`s_rt_hst`
---     LEFT JOIN `index_stock_info` ON ((`ying_calc`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) AND DATE(`ying_calc`.`s_rt_hst`.dt) = DATE_SUB(CURDATE(), INTERVAL 1 DAY))
+--     (`ying`.`s_rt_hst`
+--     LEFT JOIN `index_stock_info` ON ((`ying`.`s_rt_hst`.`ids` = `index_stock_info`.`ids`) AND DATE(`ying`.`s_rt_hst`.dt) = DATE_SUB(CURDATE(), INTERVAL 1 DAY))
 --     JOIN index_info ON (`index_stock_info`.`idi` = `index_info`.`idi`))
 -- WHERE
 --     (`index_stock_info`.`idi` IS NOT NULL)
--- GROUP BY `ying_calc`.`s_rt_hst`.`dt` , `index_stock_info`.`idi`
--- ORDER BY `ying_calc`.`s_rt_hst`.`dt` DESC , `index_stock_info`.`idi`;
+-- GROUP BY `ying`.`s_rt_hst`.`dt` , `index_stock_info`.`idi`
+-- ORDER BY `ying`.`s_rt_hst`.`dt` DESC , `index_stock_info`.`idi`;
 -- 
 -- 
 -- -- tedd improved: too many fields. z + d, zfg + dfg, zg + dz, zt + dt, 都是相等的。所以可以加列z + d，z-d, zfg-dfg, ..., zt-dt, 去掉z, d, ..., zt, dt, 
@@ -537,7 +537,7 @@ DELIMITER ;
 -- DELIMITER $$
 -- CREATE DEFINER=`gxh`@`%` PROCEDURE `calc_s_rt_index_rt`()
 -- BEGIN
--- INSERT IGNORE INTO `ying_calc`.`index_cons_stat_zd`
+-- INSERT IGNORE INTO `ying`.`index_cons_stat_zd`
 -- (`idi`,
 -- `name_i`,
 -- `rate5`,

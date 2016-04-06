@@ -20,9 +20,50 @@ CREATE TABLE `s_xts_adj` (
   PRIMARY KEY (`ids`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
--- update cjezb
+-- insert data into `s_xts_adj` from `s_xts_adj_hst_sina`
+INSERT INTO `ying_calc`.`s_xts_adj`
+	(
+	    `ids`,
+	    `dt`,
+	    `open`,
+	    `high`,
+	    `low`,
+	    `close`,
+	    `volume`,
+	    `amount`
+        )
+SELECT 
+    `ying`.`s_xts_adj_hst_sina`.`ids`,
+    `ying`.`s_xts_adj_hst_sina`.`dt`,
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`open` / faL.fa, 2),
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`high` / faL.fa, 2),
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`low` / faL.fa, 2),
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`close` / faL.fa, 2),
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`volume`, 2),
+    ROUND(`ying`.`s_xts_adj_hst_sina`.`amount`, 2)
+FROM
+    `ying`.`s_xts_adj_hst_sina`  
+        JOIN
+    `ying`.`s_xts_adj_hst_sina_faL` faL ON `ying`.`s_xts_adj_hst_sina`.`ids` = faL.ids
+ON DUPLICATE KEY UPDATE 
+    `open` = ROUND(`ying`.`s_xts_adj_hst_sina`.`open`/faL.fa,2),
+    `high` = ROUND(`ying`.`s_xts_adj_hst_sina`.`high`/faL.fa,2),
+    `low`  = ROUND(`ying`.`s_xts_adj_hst_sina`.`low`/faL.fa,2),
+    `close` = ROUND(`ying`.`s_xts_adj_hst_sina`.`close`/faL.fa,2),
+    `volume` = ROUND(`ying`.`s_xts_adj_hst_sina`.`volume`,2),
+    `amount` = ROUND(`ying`.`s_xts_adj_hst_sina`.`amount`,2) ;
 
+-- update cjezb
 	UPDATE `ying_calc`.`s_xts_adj` s
+		JOIN
+	    `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
+	SET 
+	    s.`cjezb` = IF(i.amount > 0,
+		ROUND(10000 * s.amount / i.amount, 2),
+		0);
+        
+-- update cjezb curdate()      
+		UPDATE `ying_calc`.`s_xts_adj` s
 		JOIN
 	    `ying_calc`.`index_xts` i ON (i.`idi` = '000902' AND s.`dt` = i.`dt`) 
 	SET 
@@ -95,39 +136,7 @@ SELECT
 FROM
     `s_xts` WHERE `s_xts`.`dt` = '2015-10-29'; 
 
--- insert data into `s_xts_adj` from `s_xts_adj_hst_sina`
 
-INSERT INTO `s_xts_adj`
-	(
-	    `ids`,
-	    `dt`,
-	    `open`,
-	    `high`,
-	    `low`,
-	    `close`,
-	    `volume`,
-	    `amount`
-        )
-SELECT 
-    `s_xts_adj_hst_sina`.`ids`,
-    `s_xts_adj_hst_sina`.`dt`,
-    ROUND(`s_xts_adj_hst_sina`.`open` / faL.fa, 2),
-    ROUND(`s_xts_adj_hst_sina`.`high` / faL.fa, 2),
-    ROUND(`s_xts_adj_hst_sina`.`low` / faL.fa, 2),
-    ROUND(`s_xts_adj_hst_sina`.`close` / faL.fa, 2),
-    ROUND(`s_xts_adj_hst_sina`.`volume`, 2),
-    ROUND(`s_xts_adj_hst_sina`.`amount`, 2)
-FROM
-    `s_xts_adj_hst_sina`  
-        JOIN
-    s_xts_adj_hst_sina_faL faL ON `s_xts_adj_hst_sina`.`ids` = faL.ids
-ON DUPLICATE KEY UPDATE 
-    `open` = ROUND(`s_xts_adj_hst_sina`.`open`/faL.fa,2),
-    `high` = ROUND(`s_xts_adj_hst_sina`.`high`/faL.fa,2),
-    `low`  = ROUND(`s_xts_adj_hst_sina`.`low`/faL.fa,2),
-    `close` = ROUND(`s_xts_adj_hst_sina`.`close`/faL.fa,2),
-    `volume` = ROUND(`s_xts_adj_hst_sina`.`volume`,2),
-    `amount` = ROUND(`s_xts_adj_hst_sina`.`amount`,2) ;
 
 -- insert data into `s_xts_adj` from `s_xts_adj_hst_sina` for selected stocks
 

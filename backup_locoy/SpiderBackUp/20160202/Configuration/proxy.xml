@@ -1,0 +1,27 @@
+<Proxy>
+  <ListenPort>8888</ListenPort>
+  <NetConnectName>
+  </NetConnectName>
+  <ValidateProxy2Url>http://www.baidu.com/</ValidateProxy2Url>
+  <ValidateProxy2RetrunString>&lt;title&gt;百度一下，你就知道</ValidateProxy2RetrunString>
+  <ValidateTimeOut>5</ValidateTimeOut>
+  <IsOrderOrRandomGetProxys>1</IsOrderOrRandomGetProxys>
+  <IsADSLReconnect>0</IsADSLReconnect>
+  <IsADSLReconnect_IntervalOrContainString>0</IsADSLReconnect_IntervalOrContainString>
+  <ReconnectIntervalMinute>90</ReconnectIntervalMinute>
+  <ReconnectIfContainString>
+  </ReconnectIfContainString>
+  <SampleProxySite>
+  </SampleProxySite>
+  <Level2Proxys>
+    <ProxyItem Type="0" IP="220.181.32.106" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="182.254.153.54" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="112.25.41.136" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="101.226.249.237" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="115.159.5.247" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="180.97.185.35" Port="10001" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="117.177.243.40" Port="8080" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="101.71.27.120" Port="80" UserName="" PassWord="" Domain="" IsValidate="1" />
+    <ProxyItem Type="0" IP="122.96.59.105" Port="843" UserName="" PassWord="" Domain="" IsValidate="1" />
+  </Level2Proxys>
+</Proxy>

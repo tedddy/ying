@@ -1,4 +1,4 @@
-CREATE TABLE `ying_calc`.`s_info` (
+CREATE TABLE `ying`.`s_info` (
   `ids` CHAR(6) NOT NULL COMMENT 'HK stock ids',
   `mkt` TINYINT(1) DEFAULT '1' COMMENT '1: sh; 2: sz',
   `name` VARCHAR(18) DEFAULT NULL COMMENT 'chinese name',
@@ -12,9 +12,9 @@ CREATE TABLE `ying_calc`.`s_info` (
 ) ENGINE=INNODB DEFAULT CHARSET=UTF8;
 
 
-DROP PROCEDURE IF EXISTS `ying_calc`.`s_info`;
+DROP PROCEDURE IF EXISTS `ying`.`s_info`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`s_info`(IN ids VARCHAR(18), mkt VARCHAR(18), name VARCHAR(18), mktcap VARCHAR(18), nmc VARCHAR(18))
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying`.`s_info`(IN ids VARCHAR(18), mkt VARCHAR(18), name VARCHAR(18), mktcap VARCHAR(18), nmc VARCHAR(18))
 BEGIN
 SET `ids` = IF(ids = '', NULL, ids);
 SET `mkt` = IF(mkt = '', NULL, mkt);

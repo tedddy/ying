@@ -44,9 +44,9 @@ SELECT count(*) FROM `ying_calc`.`hk_w_rt_qq`;
 SELECT * FROM `ying_calc`.`hk_w_rt_qq`;	
 SELECT sum(turnover) FROM `ying_calc`.`hk_w_rt_qq`;		
 	
--- DROP TABLE `ying_calc`.`hk_w_rt_qq`;
+-- DROP TABLE `ying`.`hk_w_rt_qq`;
 
-CREATE TABLE `ying_calc`.`hk_w_rt_qq` (
+CREATE TABLE `ying`.`hk_w_rt_qq` (
   `code` varchar(5) NOT NULL COMMENT '代码id; code id in table hk_w and in table hk_s',
   `close` decimal(7,3) unsigned DEFAULT NULL COMMENT '收盘价',
   `volume` int(11) unsigned DEFAULT NULL COMMENT '成交量',
@@ -55,9 +55,9 @@ CREATE TABLE `ying_calc`.`hk_w_rt_qq` (
   PRIMARY KEY (`code`,`dt`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-DROP PROCEDURE `ying_calc`.`hk_w_rt_qq`;
+-- DROP PROCEDURE `ying`.`hk_w_rt_qq`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `ying_calc`.`hk_w_rt_qq`(IN code varchar(8), close varchar(18), volume varchar(18), turnover varchar(18), dt varchar(18))
+CREATE DEFINER=`gxh`@`%` PROCEDURE `ying`.`hk_w_rt_qq`(IN code varchar(8), close varchar(18), volume varchar(18), turnover varchar(18), dt varchar(18))
 BEGIN
 SET code = IF(code = '', NULL, code);
 SET close = IF(close = '', NULL, close);
@@ -65,7 +65,7 @@ SET volume = IF(volume = '', NULL, volume);
 SET turnover = IF(turnover = '', NULL, turnover);
 SET dt = IF(dt = '', NULL, dt);
 
-INSERT INTO `ying_calc`.`hk_w_rt_qq` (`code`, `close`, `volume`, `turnover`, `dt`) VALUES (code, close, volume, turnover, dt) 
+INSERT INTO `ying`.`hk_w_rt_qq` (`code`, `close`, `volume`, `turnover`, `dt`) VALUES (code, close, volume, turnover, dt) 
 ON DUPLICATE KEY UPDATE 
 	`close` = close,
 	`volume` = volume,
@@ -73,4 +73,4 @@ ON DUPLICATE KEY UPDATE
 END$$
 DELIMITER ;
 
-CALL `ying_calc`.`hk_w_rt_qq`('[标签:code]', '[标签:close]', '[标签:volume]', '[标签:turnover]', '[标签:dt]');
+CALL `ying`.`hk_w_rt_qq`('[标签:code]', '[标签:close]', '[标签:volume]', '[标签:turnover]', '[标签:dt]');

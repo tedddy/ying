@@ -38,7 +38,7 @@ CREATE TABLE `s_xts` (
 
 DROP PROCEDURE `s_xts`;
 DELIMITER $$
-CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), dt DATE, open DECIMAL(7,3), high DECIMAL(7,3), low DECIMAL(7,3), close DECIMAL(7,3), volume INT(9) UNSIGNED, amount MEDIUMINT(12) UNSIGNED)
+CREATE DEFINER=`gxh`@`%` PROCEDURE `s_xts`(IN ids VARCHAR(6), dt DATE, open DECIMAL(7,3), high DECIMAL(7,3), low DECIMAL(7,3), close DECIMAL(7,3), volume INT(9) UNSIGNED, amount MEDIUMINT(12) UNSIGNED, )
 
 BEGIN
 	DECLARE amount_total INT(9);
@@ -86,7 +86,7 @@ END$$
 DELIMITER ;
 
 
-CALL s_xts('[标签:ids]', '[标签:dt]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]');
+CALL s_xts('[标签:ids]', '[标签:dt]', '[标签:open]', '[标签:high]', '[标签:low]', '[标签:close]', '[标签:volume]', '[标签:amount]', '[标签:mkt]');
 
 -- update cjezb
 

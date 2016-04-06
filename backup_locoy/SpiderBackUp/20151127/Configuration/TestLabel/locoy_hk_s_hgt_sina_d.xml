@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <l name="symbol" value="123457" />
+  <l name="name" value="test" />
+  <l name="engname" value="" />
+  <l name="tradetype" value="" />
+  <l name="lasttrade" value="" />
+  <l name="prevclose" value="" />
+  <l name="open" value="" />
+  <l name="high" value="" />
+  <l name="low" value="" />
+  <l name="volume" value="" />
+  <l name="currentvolume" value="" />
+  <l name="amount" value="" />
+  <l name="ticktime" value="" />
+  <l name="buy" value="" />
+  <l name="sell" value="" />
+  <l name="high_52week" value="" />
+  <l name="low_52week" value="" />
+  <l name="eps" value="" />
+  <l name="dividend" value="" />
+  <l name="stocks_sum" value="" />
+  <l name="pricechange" value="" />
+  <l name="changepercent" value="" />
+</root>
